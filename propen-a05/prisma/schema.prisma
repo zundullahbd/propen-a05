@@ -27,3 +27,11 @@ model Product {
   brand     Brand    @relation(fields: [brandId], references: [id])
   brandId   Int
 }
+
+model Customer {
+  id              Int      @id @default(autoincrement())
+  name            String
+  gender          String
+  year_of_birth   Int
+  address         String
+}

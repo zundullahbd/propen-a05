@@ -18,5 +18,17 @@ CREATE TABLE "Product" (
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Customer" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "gender" TEXT NOT NULL,
+    "year_of_birth" TEXT NOT NULL,
+    "address" TEXT NOT NULL,
+    
+    CONSTRAINT "Customer_pkey" PRIMARY KEY ("id")
+);
+
+
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_brandId_fkey" FOREIGN KEY ("brandId") REFERENCES "Brand"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
