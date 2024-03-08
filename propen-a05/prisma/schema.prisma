@@ -26,4 +26,7 @@ model Product {
   updatedAt DateTime @updatedAt
   brand     Brand    @relation(fields: [brandId], references: [id])
   brandId   Int
-}
+  productId String
+  category  String
+  }
+

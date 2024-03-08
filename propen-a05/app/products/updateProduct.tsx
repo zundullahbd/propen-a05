@@ -3,6 +3,12 @@ import { useState, SyntheticEvent } from "react";
 import type { Brand } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import PrimaryButton from "@/components/PrimaryButton";
+import DropdownButton from "@/components/DropdownButton";
+import TextWithIconButton from "@/components/TextWithIconButton";
+import TextButton from "@/components/TextButton";
+import SecondaryButton from "@/components/SecondaryButton";
+
 
 type Product = {
     id: number;
@@ -45,9 +51,13 @@ const UpdateProduct = ({
 
     return (
         <div>
-            <button className="btn btn-info btn-sm" onClick={handleModal}>
+            {/* <button className="p-4 bg-[#3d3fdf] rounded-md text-white" onClick={handleModal}>
                 Edit
-            </button>
+            </button> */}
+            <PrimaryButton text="Edit" onClick={handleModal}/>
+            {/* <DropdownButton text="Button"/> */}
+            {/* <TextButton text="Button" onClick={handleModal}/> */}
+            {/* <SecondaryButton text="Button" onClick={handleModal}/> */}
 
             <div className={isOpen ? "modal modal-open" : "modal"}>
                 <div className="modal-box">

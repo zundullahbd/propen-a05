@@ -2,6 +2,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import OutlineButton from "@/components/OutlineButton";
+import GrayButton from "@/components/GrayButton";
+
 
 type Product = {
     id: number;
@@ -30,14 +33,18 @@ const DeleteProduct = ({ product }: { product: Product }) => {
 
     return (
         <div>
-            <button className="btn btn-error btn-sm" onClick={handleModal}>
+            {/* <button className="btn btn-secondary btn-sm" onClick={handleModal}>
                 Delete
-            </button>
+            </button> */}
+            
+            <OutlineButton text="Delete" onClick={handleModal}/>
+            {/* <GrayButton text="Delete" onClick={handleModal}/> */}
+
 
             <div className={isOpen ? "modal modal-open" : "modal"}>
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">
-                        Are sure to delete {product.title}?
+                        Are you sure you want to delete {product.title}?
                     </h3>
 
                     <div className="modal-action">
