@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Image from "next/image";
 import { Box, Stack, Input, Button, Text } from "@chakra-ui/react";
 import AddProduct from "./products/addProduct";
@@ -46,3 +47,8 @@ export default function Home() {
 }
 
 
+=======
+export default function Home() {
+    return <h1 className='text-4xl'>Home</h1>;
+  }
+>>>>>>> a361a8c3c39b602dcdd495b25f42ce9cfb1b3f15

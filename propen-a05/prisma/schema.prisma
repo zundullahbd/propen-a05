@@ -9,13 +9,15 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DB_URL")
 }
 
 model Brand {
   id       Int       @id @default(autoincrement())
   name     String
   products Product[]
+  userId   String
+  user     User      @relation(fields: [userId], references: [id])
 }
 
 model Product {
@@ -26,6 +28,39 @@ model Product {
   updatedAt DateTime @updatedAt
   brand     Brand    @relation(fields: [brandId], references: [id])
   brandId   Int
+<<<<<<< HEAD
+=======
+  productId String
+  category  String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Ticket {
+  id             Int      @id @default(autoincrement())
+  title          String
+  customerId     Int
+  productSalesId Int
+  category       String   @default("")
+  description    String   @default("")
+  status         String   @default("")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id           String    @id @default(uuid())
+  username     String    @unique
+  email        String    @unique
+  password     String    @unique
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  tickets      Ticket[]
+  brand        Brand[]
+  productSales Product[]
+>>>>>>> a361a8c3c39b602dcdd495b25f42ce9cfb1b3f15
 }
 
 model Customer {
@@ -34,4 +69,8 @@ model Customer {
   gender          String
   year_of_birth   Int
   address         String
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a361a8c3c39b602dcdd495b25f42ce9cfb1b3f15
