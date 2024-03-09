@@ -9,7 +9,10 @@ export const POST = async (request: Request) =>{
         data:{
             title: body.title,
             price: body.price,
-            brandId: body.brandId
+            brandId: body.brandId,
+            productId: body.productId,
+            category: body.category,
+            userId: body.userId,
         }
     });
     return NextResponse.json(product, {status: 201});
