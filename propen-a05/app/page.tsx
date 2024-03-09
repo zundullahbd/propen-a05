@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Box, Stack, Input, Button, Text } from "@chakra-ui/react";
+import AddProduct from "./products/addProduct";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
                           height={57}
                           alt=""
                       />
+                      <a href="./addProduct">Product</a>
                       <Text className="font-bold">International Division</Text>
                       <Text className="">Custody Form Database</Text>
                   </Box>
@@ -40,5 +42,7 @@ export default function Home() {
               <Box className="w-1/2 bg-[url('/images/bg-auth.svg')] object-cover" />
           </Box>
       </Box>
-  );
+  )
 }
+
+
