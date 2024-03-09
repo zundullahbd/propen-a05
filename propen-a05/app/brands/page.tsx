@@ -1,8 +1,8 @@
 
 import { PrismaClient } from "@prisma/client";
-import AddProduct from "./addProduct";
-import DeleteProduct from "./deleteProduct";
-import UpdateProduct from "./updateProduct";
+import AddProduct from "@/app/products/addProduct";
+import DeleteProduct from "@/app/products/deleteProduct";
+import UpdateProduct from "@/app/products/updateProduct";
 const prisma = new PrismaClient();
 
 export const dynamic = "force-dynamic";
