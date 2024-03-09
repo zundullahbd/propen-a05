@@ -58,3 +58,11 @@ model User {
   brand        Brand[]
   productSales Product[]
 }
+
+model Customer {
+  id              Int      @id @default(autoincrement())
+  name            String
+  gender          String
+  year_of_birth   Int
+  address         String
+}
