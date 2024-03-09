@@ -2,13 +2,13 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
 }
 
-
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
+  // provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -28,10 +28,14 @@ model Product {
   brandId   Int
 }
 
-model Customer {
-  id              Int      @id @default(autoincrement())
-  name            String
-  gender          String
-  year_of_birth   Int
-  address         String
+model Ticket {
+  id             Int      @id @default(autoincrement())
+  title          String
+  customerId     Int
+  productSalesId Int
+  category       String   @default("")
+  description    String   @default("")
+  status         String   @default("")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

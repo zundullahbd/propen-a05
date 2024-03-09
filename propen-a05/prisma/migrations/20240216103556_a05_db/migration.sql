@@ -19,16 +19,18 @@ CREATE TABLE "Product" (
 );
 
 -- CreateTable
-CREATE TABLE "Customer" (
-    "id" SERIAL NOT NULL,
-    "name" TEXT NOT NULL,
-    "gender" TEXT NOT NULL,
-    "year_of_birth" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
-    
-    CONSTRAINT "Customer_pkey" PRIMARY KEY ("id")
-);
+CREATE TABLE "Ticket" (
+                          "id" SERIAL NOT NULL,
+                          "customerId" INTEGER NOT NULL,
+                          "productSalesId" INTEGER NOT NULL,
+                          "category" TEXT NOT NULL,
+                          "description" TEXT,
+                          "status" TEXT NOT NULL,
+                          "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          "updatedAt" TIMESTAMP(3) NOT NULL,
 
+                          PRIMARY KEY ("id")
+);
 
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_brandId_fkey" FOREIGN KEY ("brandId") REFERENCES "Brand"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
