@@ -13,6 +13,7 @@ export const POST = async (request: Request) =>{
             category: body.category || "", // Default to empty string if not provided
             description: body.description || "", // Default to empty string if not provided
             status: body.status || "", // Default to empty string if not provided
+            user: {} // Add an empty object for the 'user' property
         }
     });
     return NextResponse.json(tickets, {status: 201});
