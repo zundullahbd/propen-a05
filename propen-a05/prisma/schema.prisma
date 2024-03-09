@@ -7,8 +7,8 @@ generator client {
 }
 
 datasource db {
-  
   provider = "mysql"
+  // provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -26,17 +26,16 @@ model Product {
   updatedAt DateTime @updatedAt
   brand     Brand    @relation(fields: [brandId], references: [id])
   brandId   Int
-  users     User?    @relation(fields: [userId], references: [id])
-  userId    String?
 }
 
-model User {
-  id        String    @id @default(cuid())
-  username  String   @unique
-  email     String   @unique
-  password  String   @unique
-  createdAt DateTime  @default(now()) @map(name: "created_at")
-  updatedAt DateTime  @updatedAt @map(name: "updated_at")
-  products  Product[]
-  @@map(name: "users")
+model Ticket {
+  id             Int      @id @default(autoincrement())
+  title          String
+  customerId     Int
+  productSalesId Int
+  category       String   @default("")
+  description    String   @default("")
+  status         String   @default("")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
