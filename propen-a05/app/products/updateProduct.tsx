@@ -3,11 +3,11 @@ import { useState, SyntheticEvent } from "react";
 import type { Brand } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import PrimaryButton from "@/app/components/PrimaryButton";
-import DropdownButton from "@/app/components/DropdownButton";
-import TextWithIconButton from "@/app/components/TextWithIconButton";
-import TextButton from "@/app/components/TextButton";
-import SecondaryButton from "@/app/components/SecondaryButton";
+import PrimaryButton from "@/app/components/ui/PrimaryButton";
+import DropdownButton from "@/app/components/ui/DropdownButton";
+import TextWithIconButton from "@/app/components/ui/TextWithIconButton";
+import TextButton from "@/app/components/ui/TextButton";
+import SecondaryButton from "@/app/components/ui/SecondaryButton";
 
 
 type Product = {

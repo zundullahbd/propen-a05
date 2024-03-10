@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import UserNav from "./components/ui/userNav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <main className='h-screen flex flex-col justify-center items-center'>
+          <UserNav />
           {children}
         </main>
       </body>

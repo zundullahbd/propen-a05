@@ -1,11 +1,20 @@
-import MainLayout from "@/app/components/MainLayout";
+import type { Metadata } from "next";
+import MainLayout from "../components/ui/MainLayout";
 
-export const metadata = {
+
+
+export const metadata: Metadata = {
     title: "Products",
-};
+}
 
-const ProductLayout = ({ children }: { children: React.ReactNode }) => {
-    return <MainLayout><div className="py-10 px-10">{children}</div>;</MainLayout>
-};
-
-export default ProductLayout;
+export default function ProductLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+    return (
+      <MainLayout>
+        <div className="py-10 px-10">{children}</div>
+      </MainLayout>
+    ); 
+  }

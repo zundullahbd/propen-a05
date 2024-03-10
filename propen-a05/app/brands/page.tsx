@@ -1,4 +1,3 @@
-
 import { PrismaClient } from "@prisma/client";
 import AddProduct from "@/app/products/addProduct";
 import DeleteProduct from "@/app/products/deleteProduct";

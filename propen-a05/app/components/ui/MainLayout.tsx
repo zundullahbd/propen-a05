@@ -1,15 +1,15 @@
 // components/Sidebar.js
 'use client'
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import ExpandableIcon from "@/app/components/ExpandableIcon";
+import ExpandableIcon from "@/app/components/ui/ExpandableIcon";
 
-const MainLayout: React.FC = (props: any) => {
-
+const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const isAtDashboard = window.location.pathname === '/dashboard';
-  const isAtComplaintManagement = window.location.pathname === '/complaintmanagement';
+  const isAtComplaintManagement = window.location.pathname === '/tickets';
   const isAtProducts = window.location.pathname === '/products';
   const isAtProductSales = window.location.pathname === '/productsales';
   const isAtBrands = window.location.pathname === '/brands';
@@ -21,13 +21,6 @@ const MainLayout: React.FC = (props: any) => {
     <div className="h-screen w-full bg-gray-100 overflow-hidden">
 
         {/*Navbar*/}
-        <div className="flex items-center justify-between h-fit px-7 py-6 shadow-md w-full bg-white relative z-90">
-          <Image src="/logo best price.jpg" alt="Logo" width={100} height={50} />
-          <div className='flex justify-end items-center'>
-           {/* <div className='text-gray-800'> <AccountCircleOutlinedIcon fontSize='medium' /></div> */}
-           <ExpandableIcon />
-          </div>
-        </div>
 
         <div className='flex h-full w-full'>
             {/* Sidebar */}
@@ -39,7 +32,7 @@ const MainLayout: React.FC = (props: any) => {
                         <span className="ml-3">Dashboard</span>
                     </div>
                 </Link>
-                <Link href="/complaintmanagement">
+                <Link href="/tickets">
                 {/* <div className="flex items-center p-2 text-gray-800 hover:bg-indigo-100 rounded-lg"> */}
                 <div className={`flex items-center p-2 text-gray-800 hover:bg-indigo-100 rounded-lg ${isAtComplaintManagement ? 'font-bold' : ''}`} >
                 <Image src="/complaint management.svg" alt="Complaint Management" width={20} height={20}/>
@@ -91,7 +84,7 @@ const MainLayout: React.FC = (props: any) => {
             </nav>
             
             <div className="grow overflow-y-auto">
-                {props.children}
+                {children}
             </div>
         </div>
     </div>

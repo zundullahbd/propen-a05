@@ -8,15 +8,15 @@ generator client {
 
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DB_URL")
+  provider = "mysql"
+  url      = env("DATABASE")
 }
 
 model Brand {
   id       Int       @id @default(autoincrement())
   name     String
   products Product[]
-  userId   String
+  userId   Int
   user     User      @relation(fields: [userId], references: [id])
 }
 
@@ -30,7 +30,7 @@ model Product {
   brandId   Int
   productId String
   category  String
-  userId    String
+  userId    Int
   user      User     @relation(fields: [userId], references: [id])
 }
 
@@ -44,20 +44,23 @@ model Ticket {
   status         String   @default("")
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  userId         String
+  userId         Int
   user           User     @relation(fields: [userId], references: [id])
 }
 
 model User {
-  id           String    @id @default(uuid())
-  username     String    @unique
-  email        String    @unique
-  password     String    @unique
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id           Int    @id @default(autoincrement())
+  username     String     @unique
+  email        String     @unique
+  password     String     
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
   tickets      Ticket[]
   brand        Brand[]
   productSales Product[]
+  customer     Customer[]
+  roles        Roles[]
+  profile      Profile[]
 }
 
 model Customer {
@@ -66,4 +69,30 @@ model Customer {
   gender          String
   year_of_birth   Int
   address         String
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
+}
+
+model Roles {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Profile {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  EXECUTIVE
+  CUSTSERV
+  SALES
 }
