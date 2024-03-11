@@ -38,7 +38,7 @@ const User = async () => {
         </thead>
         <tbody>
           {users.map((user, index) => (
-            <tr>
+            <tr key={user.id}>
               <td>{index + 1}</td>
               <td>{user.id}</td>
               <td>{user.username}</td>
