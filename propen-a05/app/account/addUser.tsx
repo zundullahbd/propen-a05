@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 
-const addUser = () => {
+const AddUser = () => {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -93,4 +93,4 @@ const addUser = () => {
     );
 };
 
-export default addUser;
+export default AddUser;

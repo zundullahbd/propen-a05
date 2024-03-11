@@ -10,7 +10,7 @@ type User = {
   email: string;
 };
 
-const deleteUser = ({ user }: { user: User }) => {
+const DeleteUser = ({ user }: { user: User }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -62,4 +62,4 @@ const deleteUser = ({ user }: { user: User }) => {
   );
 };
 
-export default deleteUser;
+export default DeleteUser;

@@ -14,7 +14,7 @@ type User = {
   email: string;
 };
 
-const editUser = ({
+const EditUser = ({
   user,
 }: {
   user: User;
@@ -91,4 +91,4 @@ const editUser = ({
   );
 };
 
-export default editUser;
+export default EditUser;
