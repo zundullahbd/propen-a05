@@ -11,6 +11,7 @@ const Navbar = () => {
       <Image src="/logo best price.jpg" alt="Logo" width={100} height={50}/>
       </Link>
       <div className='flex justify-end items-center'>
+
         <ExpandableIcon />
       </div>
     </div>

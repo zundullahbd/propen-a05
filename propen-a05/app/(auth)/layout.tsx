@@ -1,5 +1,4 @@
 import { FC, ReactNode } from 'react';
-import MainLayout from '../components/ui/MainLayout';
 
 interface AuthLayoutProps {
   children: ReactNode;
@@ -7,8 +6,11 @@ interface AuthLayoutProps {
 
 const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
   return (
-      <div className='bg-slate-200 p-10 rounded-md'>{children}</div>
+      <div className='bg-gray-100 w-full h-screen flex items-center justify-center'>
+        <div className='w-screen'>
+        {children}
+        </div>
+      </div>
   );
 }
-
 export default AuthLayout;
