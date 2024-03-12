@@ -21,7 +21,6 @@ const getTickets = async () => {
             status: true,
             createdAt: true,
             updatedAt: true,
-            userId: true,
         },
     });
     return res;
