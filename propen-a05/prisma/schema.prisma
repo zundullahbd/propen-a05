@@ -17,7 +17,6 @@ model Brand {
   name     String
   products Product[]
   userId   Int
-  user     User      @relation(fields: [userId], references: [id])
 }
 
 model Product {
@@ -30,8 +29,6 @@ model Product {
   brandId   Int
   productId String
   category  String
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Ticket {
@@ -44,8 +41,6 @@ model Ticket {
   status         String   @default("")
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  userId         Int
-  user           User     @relation(fields: [userId], references: [id])
 }
 
 model User {
@@ -55,12 +50,6 @@ model User {
   password     String     
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
-  tickets      Ticket[]
-  brand        Brand[]
-  productSales Product[]
-  customer     Customer[]
-  roles        Roles[]
-  profile      Profile[]
 }
 
 model Customer {
@@ -69,8 +58,6 @@ model Customer {
   gender          String
   year_of_birth   Int
   address         String
-  userId          Int
-  user            User     @relation(fields: [userId], references: [id])
 }
 
 model Roles {
@@ -78,16 +65,12 @@ model Roles {
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Profile {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
 }
 
 enum Role {
