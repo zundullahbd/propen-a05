@@ -12,7 +12,6 @@ export const POST = async (request: Request) =>{
             brandId: body.brandId,
             productId: body.productId,
             category: body.category,
-            userId: body.userId,
         }
     });
     return NextResponse.json(product, {status: 201});

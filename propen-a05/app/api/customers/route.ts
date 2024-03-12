@@ -10,8 +10,7 @@ export const POST = async (request: Request) =>{
             name: body.name,
             gender: body.gender,
             year_of_birth: body.year_of_birth,
-            address: body.address,
-            user: {} // Add an empty object for the 'user' property
+            address: body.address
         }
     });
     return NextResponse.json(customer, {status: 201});
