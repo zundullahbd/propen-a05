@@ -8,10 +8,9 @@ generator client {
 
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DB_URL")
+  provider = "mysql"
+  url      = env("DATABASE")
 }
-
 model Brand {
   id       Int       @id @default(autoincrement())
   name     String

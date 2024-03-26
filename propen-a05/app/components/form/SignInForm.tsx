@@ -6,7 +6,7 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
@@ -17,6 +17,7 @@ const FormSchema = z.object({
 
 const SignInForm = () => {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -33,7 +34,10 @@ const SignInForm = () => {
     });
 
     if (!signInData?.error) {
-      router.push('/dashboard');
+      // Check if the session is updated, then navigate
+      if (status === "authenticated") {
+        router.push('/dashboard');
+      }
     } else {
       console.log('error', signInData.error);
     }

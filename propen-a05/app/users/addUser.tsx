@@ -17,7 +17,7 @@ const AddUser = () => {
         e.preventDefault();
         setIsLoading(true);
 
-        await axios.post("/api/account", {
+        await axios.post("/api/users", {
             username,
             email,
             password
