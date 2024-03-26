@@ -10,7 +10,6 @@ type User = {
   id: number;
   username: string;
   email: string;
-  password: string;
 };
 
 const UpdateUser = ({user}: {user: User}) => {
