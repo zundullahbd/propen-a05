@@ -25,7 +25,7 @@ const ExpandableIcon: React.FC = () => {
   // Add the logout function
   const handleLogout = async () => {
     await signOut({ redirect: false });
-    router.push('/'); // Redirect to the landing page after logout
+    window.location.href = '/'; // Redirect to the home page
   };
 
   return (

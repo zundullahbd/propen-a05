@@ -16,8 +16,11 @@ const FormSchema = z.object({
 });
 
 const SignInForm = () => {
+  const { data: session } = useSession();
   const router = useRouter();
-  const { data: session, status } = useSession();
+  if (session?.user) {
+    router.push('/dashboard');
+  }
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -27,16 +30,18 @@ const SignInForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    console.log('values', values);
     const signInData = await signIn('credentials', {
       email: values.email,
       password: values.password,
       redirect: false,
     });
-
+    console.log('signInData', signInData);
     if (!signInData?.error) {
+
       // Check if the session is updated, then navigate
-      if (status === "authenticated") {
-        router.push('/dashboard');
+      if (signInData?.ok){
+        window.location.href = '/dashboard';
       }
     } else {
       console.log('error', signInData.error);
