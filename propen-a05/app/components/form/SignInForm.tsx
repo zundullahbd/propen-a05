@@ -9,6 +9,7 @@ import { Button } from '../ui/button';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useState } from 'react';
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -18,6 +19,7 @@ const FormSchema = z.object({
 const SignInForm = () => {
   const { data: session } = useSession();
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState('');
   if (session?.user) {
     router.push('/dashboard');
   }
@@ -38,13 +40,12 @@ const SignInForm = () => {
     });
     console.log('signInData', signInData);
     if (!signInData?.error) {
-
-      // Check if the session is updated, then navigate
       if (signInData?.ok){
         window.location.href = '/dashboard';
       }
     } else {
-      console.log('error', signInData.error);
+      setErrorMessage('Invalid credentials. Please try again.'); // Set error message
+
     }
   };
 
@@ -73,6 +74,11 @@ const SignInForm = () => {
         )} />
         <a href="#" className='flex justify-end text-sm text-blue-500'>Forgot password?</a>
         <Button type='submit'>Login</Button>
+        {errorMessage && ( // Conditionally render the error message
+          <div className='flex justify-center items-center'>
+            <p className='text-red-500'>{errorMessage}</p>
+          </div>
+        )}
       </form>
     </Form>
   );
