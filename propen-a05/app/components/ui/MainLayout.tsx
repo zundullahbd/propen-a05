@@ -1,19 +1,24 @@
 // components/Sidebar.js
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const pathName = usePathname();
+    console.log(pathName);
     const [activePage, setActivePage] = useState('/dashboard'); // Set initial active page
     const router = useRouter(); // Use useRouter hook
   
     const handlePageClick = (path: string, e: React.MouseEvent) => {
       e.preventDefault(); // Prevent default link action
-      setActivePage(path);
       router.push(path); // Programmatically navigate
     };
+
+    useEffect(() => {
+        setActivePage(pathName);
+    }, [pathName]);
   return (
     <div className="h-screen w-full bg-gray-100 overflow-hidden">
         {/*Navbar*/}
