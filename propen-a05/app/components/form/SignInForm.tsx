@@ -7,9 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { signIn, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
+
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -18,10 +19,9 @@ const FormSchema = z.object({
 
 const SignInForm = () => {
   const { data: session } = useSession();
-  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState('');
   if (session?.user) {
-    router.push('/dashboard');
+    window.location.href = '/dashboard';
   }
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -44,7 +44,41 @@ const SignInForm = () => {
         window.location.href = '/dashboard';
       }
     } else {
-      setErrorMessage('Invalid credentials. Please try again.'); // Set error message
+      toast.custom((t) => (
+        <div
+          className={`${
+            t.visible ? 'animate-enter' : 'animate-leave'
+          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-red-600 ring-opacity-100`}
+        >
+          <div className="flex-1 w-0 p-4">
+            <div className="flex items-start">
+              <div className="flex-shrink-0 pt-0.5">
+                <img
+                  className="h-10 w-10 rounded-full"
+                  src="close.png"
+                  alt=""
+                />
+              </div>
+              <div className="ml-3 flex-1">
+                <p className="text-sm font-medium text-slate-600">
+                  Error!
+                </p>
+                <p className="mt-1 text-sm text-slate-600">
+                  Invalid Email or Password!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="flex border-l">
+          <button
+        onClick={() => toast.dismiss(t.id)}
+        className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500"
+      >
+        Close
+      </button>
+          </div>
+        </div>
+      ))
 
     }
   };
@@ -58,27 +92,23 @@ const SignInForm = () => {
           <FormItem>
             <FormLabel>Email</FormLabel>
             <FormControl>
-              <Input placeholder='Email' {...field} />
+              <Input placeholder='johndoe@mail.com' {...field} />
             </FormControl>
-            <FormMessage />
+            <FormMessage className="text-gray-400 p-1"/>
           </FormItem>
         )} />
         <FormField control={form.control} name='password' render={({ field }) => (
           <FormItem>
             <FormLabel>Password</FormLabel>
             <FormControl>
-              <Input type='password' placeholder='Password' {...field} />
+              <Input type='password' placeholder='password' {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
         )} />
         <a href="#" className='flex justify-end text-sm text-blue-500'>Forgot password?</a>
-        <Button type='submit'>Login</Button>
-        {errorMessage && ( // Conditionally render the error message
-          <div className='flex justify-center items-center'>
-            <p className='text-red-500'>{errorMessage}</p>
-          </div>
-        )}
+          <Button type='submit' className="btn btn-primary">Login</Button>
+          {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
       </form>
     </Form>
   );

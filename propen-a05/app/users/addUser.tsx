@@ -2,6 +2,13 @@
 import { useState, SyntheticEvent } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import TextWithIconButton from "@/app/components/ui/TextWithIconButton"
+
+const PlusIcon = () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 5V19M5 12H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  );
 
 
 const AddUser = () => {
@@ -34,9 +41,7 @@ const AddUser = () => {
 
     return (
         <div>
-            <button className="btn" onClick={handleModal}>
-                Add New User
-            </button>
+            <TextWithIconButton text="Add New" icon={<PlusIcon />} onClick={handleModal} />
 
             <div className={isOpen ? "modal modal-open" : "modal"}>
                 <div className="modal-box">

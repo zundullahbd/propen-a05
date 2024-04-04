@@ -25,20 +25,20 @@ const ExpandableIcon: React.FC = () => {
   // Add the logout function
   const handleLogout = async () => {
     await signOut({ redirect: false });
-    window.location.href = '/'; // Redirect to the home page
+    window.location.href = '/sign-in'; // Redirect to the home page
   };
 
   return (
     <div className="relative" ref={ref}>
       <button onClick={() => setIsExpanded(!isExpanded)} className="flex items-center justify-center p-2 rounded-full hover:bg-indigo-100 focus:outline-none focus:ring">
-        <div className='text-gray-800'> <AccountCircleOutlinedIcon fontSize='medium'/></div>
+        <div className='text-white-800'> <AccountCircleOutlinedIcon fontSize='medium'/></div>
       </button>
       {isExpanded && (
         <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
             <a href="/profile" className="block px-4 py-2 text-sm text-gray-800 hover:bg-indigo-100" role="menuitem">Profile</a>
             {/* Update the Log Out link to call handleLogout on click */}
-            <button onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-800 hover:bg-indigo-100" role="menuitem">Log Out</button>
+            <a onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-800 hover:bg-indigo-100 cursor-pointer" role="menuitem">Log Out</a>
           </div>
         </div>
       )}

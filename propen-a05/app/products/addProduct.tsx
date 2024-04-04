@@ -3,7 +3,6 @@ import { useState, SyntheticEvent } from "react";
 import type { Brand } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import PrimaryButton from "@/app/components/ui/PrimaryButton";
 import TextWithIconButton from "@/app/components/ui/TextWithIconButton";
 
 const PlusIcon = () => (
