@@ -28,8 +28,6 @@ model Product {
   updatedAt DateTime @updatedAt
   brand     Brand    @relation(fields: [brandId], references: [id])
   brandId   Int
-<<<<<<< HEAD
-=======
   productId String
   category  String
   userId    String
@@ -60,7 +58,6 @@ model User {
   tickets      Ticket[]
   brand        Brand[]
   productSales Product[]
->>>>>>> a361a8c3c39b602dcdd495b25f42ce9cfb1b3f15
 }
 
 model Customer {
@@ -69,8 +66,4 @@ model Customer {
   gender          String
   year_of_birth   Int
   address         String
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a361a8c3c39b602dcdd495b25f42ce9cfb1b3f15
