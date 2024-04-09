@@ -10,6 +10,7 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE")
+  relationMode = "prisma"
 }
 model Brand {
   id       Int       @id @default(autoincrement())
@@ -28,6 +29,8 @@ model Product {
   brandId   Int
   productId String
   category  String
+
+  @@index([brandId])
 }
 
 model Ticket {
@@ -47,6 +50,7 @@ model User {
   username     String     @unique
   email        String     @unique
   password     String     
+  role         String     
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 }
@@ -59,22 +63,9 @@ model Customer {
   address         String
 }
 
-model Roles {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
 
 model Profile {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-enum Role {
-  ADMIN
-  EXECUTIVE
-  CUSTSERV
-  SALES
 }

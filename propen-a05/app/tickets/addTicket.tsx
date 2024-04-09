@@ -39,7 +39,7 @@ const AddTicket = () => {
         setTitle("");
         setCustomerId("");
         setProductSalesId("");
-        setCategory("");
+        setCategory("");    
         setDescription("");
         setStatus("");
         router.refresh();
