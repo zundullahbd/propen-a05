@@ -28,7 +28,6 @@ const getTickets = async () => {
 };
 
 const TicketDetailPage = () => {
-    const tickets = async () => await getTickets();
     const router = useRouter();
     const params = useParams();
     const appURL = "http://localhost:3000";
