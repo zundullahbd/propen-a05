@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import OutlineButton from "@/app/components/OutlineButton";
-import GrayButton from "@/app/components/GrayButton";
+import OutlineButton from "@/app/components/ui/OutlineButton";
+import GrayButton from "@/app/components/ui/GrayButton";
 
 
 type Product = {

@@ -1,9 +1,8 @@
 "use client";
 import { useState, SyntheticEvent } from "react";
-import type { Brand } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import TextWithIconButton from "@/app/components/ui/TextWithIconButton";
+import TextWithIconButton from "@/app/components/ui/TextWithIconButton"
 
 const PlusIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -11,27 +10,27 @@ const PlusIcon = () => (
     </svg>
   );
 
-const AddProduct = ({ brands }: { brands: Brand[] }) => {
-    const [title, setTitle] = useState("");
-    const [price, setPrice] = useState("");
-    const [brand, setBrand] = useState("");
-    const [isOpen, setIsOpen] = useState(false);
+
+const AddUser = () => {
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const router = useRouter();
 
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        await axios.post("/api/products", {
-            title: title,
-            price: Number(price),
-            brandId: Number(brand),
+
+        await axios.post("/api/users", {
+            username,
+            email,
+            password
         });
+
         setIsLoading(false);
-        setTitle("");
-        setPrice("");
-        setBrand("");
         router.refresh();
         setIsOpen(false);
     };
@@ -42,49 +41,41 @@ const AddProduct = ({ brands }: { brands: Brand[] }) => {
 
     return (
         <div>
-            <TextWithIconButton text="Add New" icon={<PlusIcon />} onClick={handleModal}/>
-
+            <TextWithIconButton text="Add New" icon={<PlusIcon />} onClick={handleModal} />
 
             <div className={isOpen ? "modal modal-open" : "modal"}>
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">Add New Product</h3>
+                    <h3 className="font-bold text-lg">Add New User</h3>
                     <form onSubmit={handleSubmit}>
                         <div className="form-control w-full">
-                            <label className="label font-bold">Product Name</label>
+                            <label className="label font-bold">Username</label>
                             <input
                                 type="text"
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
                                 className="input input-bordered"
-                                placeholder="Product Name"
+                                placeholder="Username"
                             />
                         </div>
                         <div className="form-control w-full">
-                            <label className="label font-bold">Price</label>
+                            <label className="label font-bold">Email</label>
                             <input
-                                type="text"
-                                value={price}
-                                onChange={(e) => setPrice(e.target.value)}
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 className="input input-bordered"
-                                placeholder="Price"
+                                placeholder="Email"
                             />
                         </div>
                         <div className="form-control w-full">
-                            <label className="label font-bold">Brand</label>
-                            <select
-                                value={brand}
-                                onChange={(e) => setBrand(e.target.value)}
-                                className="select select-bordered"
-                            >
-                                <option value="" disabled>
-                                    Select a Brand
-                                </option>
-                                {brands.map((brand) => (
-                                    <option value={brand.id} key={brand.id}>
-                                        {brand.name}
-                                    </option>
-                                ))}
-                            </select>
+                            <label className="label font-bold">Password</label>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="input input-bordered"
+                                placeholder="Password"
+                            />
                         </div>
                         <div className="modal-action">
                             <button type="button" className="btn" onClick={handleModal}>
@@ -107,4 +98,4 @@ const AddProduct = ({ brands }: { brands: Brand[] }) => {
     );
 };
 
-export default AddProduct;
+export default AddUser;

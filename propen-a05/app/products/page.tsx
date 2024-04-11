@@ -52,11 +52,9 @@ const Product = async () => {
                 {products.map((product, index) => (
                     <tr key={product.id}>
                         <td>{index + 1}</td>
-                        <td>{product.productId}</td>
                         <td>{product.title}</td>
                         <td>{product.price}</td>
                         <td>{product.brand.name}</td>
-                        <td>{product.babi}</td>
                         <td className="flex justify-center space-x-1">
                             <UpdateProduct brands={brands} product={product} />
                             <DeleteProduct product={product} />

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "./styles/globals.css";
+import UserNav from "./components/ui/userNav";
+import { Toaster } from "react-hot-toast";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,9 +20,12 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <main className='h-screen flex flex-col justify-center items-center'>
+        <main className='w-full'>
+          <UserNav />
           {children}
         </main>
+        <div><Toaster position="bottom-right"
+          reverseOrder={false} /></div>
       </body>
     </html>
   );

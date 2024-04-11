@@ -1,33 +1,28 @@
+// SignInForm.tsx
 'use client';
-
 import { useForm } from 'react-hook-form';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import Link from 'next/link';
-import GoogleSignInButton from '../GoogleSignInButton';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+
 
 const FormSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
-  password: z
-    .string()
-    .min(1, 'Password is required')
-    .min(8, 'Password must have than 8 characters'),
+  password: z.string().min(1, 'Password is required').min(8, 'Password must have more than 8 characters'),
 });
 
 const SignInForm = () => {
-  const router = useRouter();
+  const { data: session } = useSession();
+  const [errorMessage, setErrorMessage] = useState('');
+  if (session?.user) {
+    window.location.href = '/dashboard';
+  }
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -37,69 +32,84 @@ const SignInForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    console.log('values', values);
     const signInData = await signIn('credentials', {
       email: values.email,
       password: values.password,
       redirect: false,
     });
+    console.log('signInData', signInData);
     if (!signInData?.error) {
-      console.log(signInData?.error);
-    }
-    else {
-      router.push('/admin');
-    }
+      if (signInData?.ok){
+        window.location.href = '/dashboard';
+      }
+    } else {
+      toast.custom((t) => (
+        <div
+          className={`${
+            t.visible ? 'animate-enter' : 'animate-leave'
+          } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-red-600 ring-opacity-100`}
+        >
+          <div className="flex-1 w-0 p-4">
+            <div className="flex items-start">
+              <div className="flex-shrink-0 pt-0.5">
+                <img
+                  className="h-10 w-10 rounded-full"
+                  src="close.png"
+                  alt=""
+                />
+              </div>
+              <div className="ml-3 flex-1">
+                <p className="text-sm font-medium text-slate-600">
+                  Error!
+                </p>
+                <p className="mt-1 text-sm text-slate-600">
+                  Invalid Email or Password!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="flex border-l">
+          <button
+        onClick={() => toast.dismiss(t.id)}
+        className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500"
+      >
+        Close
+      </button>
+          </div>
+        </div>
+      ))
 
+    }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='w-full'>
-        <div className='space-y-2'>
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder='mail@example.com' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input
-                    type='password'
-                    placeholder='Enter your password'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <Button className='w-full mt-6' type='submit'>
-          Sign in
-        </Button>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col justify-center items-center h-full space-y-4'>
+        <Image src="/logo best price.jpg" alt="Login" width={100} height={50} />
+        <h1 className="text-xl font-bold text-gray-800">Welcome to Best Price CSM!</h1>
+        <FormField control={form.control} name='email' render={({ field }) => (
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input placeholder='johndoe@mail.com' {...field} />
+            </FormControl>
+            <FormMessage className="text-gray-400 p-1"/>
+          </FormItem>
+        )} />
+        <FormField control={form.control} name='password' render={({ field }) => (
+          <FormItem>
+            <FormLabel>Password</FormLabel>
+            <FormControl>
+              <Input type='password' placeholder='password' {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )} />
+        <a href="#" className='flex justify-end text-sm text-blue-500'>Forgot password?</a>
+          <Button type='submit' className="btn btn-primary">Login</Button>
+          {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
       </form>
-      <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
-        or
-      </div>
-      <GoogleSignInButton>Sign in with Google</GoogleSignInButton>
-      <p className='text-center text-sm text-gray-600 mt-2'>
-        If you don&apos;t have an account, please&nbsp;
-        <Link className='text-blue-500 hover:underline' href='/sign-up'>
-          Sign up
-        </Link>
-      </p>
     </Form>
   );
 };

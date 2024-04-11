@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import type { Ticket } from "@prisma/client";
 const prisma = new PrismaClient();
 
+
 export const PATCH = async (request: Request, {params}: {params: {id: string}}) =>{
     const body: Ticket = await request.json();
     const ticket = await prisma.ticket.update({

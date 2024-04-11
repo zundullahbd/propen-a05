@@ -3,6 +3,9 @@ import {PrismaClient} from "@prisma/client";
 import AddTicket from "./addTicket";
 import DeleteTickets from "./deleteTickets";
 import UpdateTickets from "./updateTickets";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
 
@@ -31,6 +34,8 @@ const formatDateTime = (dateTime: Date | null): string => {
 };
 
 const Ticket = async () => {
+    const session = await getServerSession(authOptions);
+    if (!session?.user) redirect("/sign-in"); 
     const tickets = await getTickets();
 
     return (
