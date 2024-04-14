@@ -4,6 +4,7 @@ import TextWithIconButton from "@/app/components/ui/TextWithIconButton"
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
+
 const PlusIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M12 5V19M5 12H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -12,10 +13,17 @@ const PlusIcon = () => (
 
 
 const AddCustomer = () => {
+    const [outlet, setOutlet] = useState("");
+    const [number, setNumber] = useState("");
     const [name, setName] = useState("");
-    const [gender, setGender] = useState("");
-    const [year_of_birth, setYear] = useState("");
-    const [address, setAddress] = useState("");
+    const [code, setCode] = useState("");
+    const [referenceNumber, setReferenceNumber] = useState("");
+    const [date, setDate] = useState("");
+    const [createdTime, setCreatedTime] = useState("");
+    const [due, setDue] = useState("");
+    const [amount, setAmount] = useState("");
+    const [payment, setPayment] = useState("");
+    const [fulfillment, setFulfillment] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -25,10 +33,17 @@ const AddCustomer = () => {
         e.preventDefault();
         setIsLoading(true);
         await axios.post("/api/customers", {
+            outlet: outlet,
+            number: number,
             name: name,
-            gender: gender,
-            year_of_birth: Number(year_of_birth),
-            address: address,
+            code: code,
+            referenceNumber: referenceNumber,
+            date: date,
+            createdTime: createdTime,
+            due: due,
+            amount: Number(amount),
+            payment: payment,
+            fulfillment: fulfillment,
         });
         setIsLoading(false);
         router.refresh();
@@ -47,49 +62,146 @@ const AddCustomer = () => {
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Add New Customer</h3>
                     <form onSubmit={handleSubmit}>
+                    <div className="form-control w-full">
+                        <label className="label font-bold">Outlet</label>
+                        <select
+                            value={outlet}
+                            onChange={(e) => setOutlet(e.target.value)}
+                            className="select select-bordered"
+                            required
+                        >
+                            <option value="" disabled>
+                                Select Outlet
+                            </option>
+                            <option value="Serpong">Serpong</option>
+                        </select>
+                        </div>
                         <div className="form-control w-full">
-                            <label className="label font-bold">Customer Name</label>
+                            <label className="label font-bold">Number</label>
+                            <input
+                                type="text"
+                                value={number}
+                                onChange={(e) => setNumber(e.target.value)}
+                                className="input input-bordered"
+                                placeholder="Number"
+                                required
+                            />
+                        </div>
+                        <div className="form-control w-full">
+                            <label className="label font-bold">Customer</label>
                             <input
                                 type="text"
                                 value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                onChange={(e) => {
+                                    const inputValue = e.target.value;
+                                    // Mengizinkan hanya huruf alfabet (baik huruf besar maupun kecil)
+                                    const filteredValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
+                                    setName(filteredValue);
+                                }}
                                 className="input input-bordered"
-                                placeholder="Customer Name"
+                                placeholder="Customer"
+                                required
                             />
                         </div>
                         <div className="form-control w-full">
-                            <label className="label font-bold">Gender</label>
-                            <select
-                                value={gender}
-                                onChange={(e) => setGender(e.target.value)}
-                                className="select select-bordered"
-                            >
-                                <option value="" disabled>
-                                    Select Gender
-                                </option>
-                                <option value="F">Female</option>
-                                <option value="M">Male</option>
-                            </select>
-                        </div>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Year of Birth</label>
+                            <label className="label font-bold">Code</label>
                             <input
                                 type="text"
-                                value={year_of_birth}
-                                onChange={(e) => setYear(e.target.value)}
+                                value={code}
+                                onChange={(e) => setCode(e.target.value)}
                                 className="input input-bordered"
-                                placeholder="Year of Birth"
+                                placeholder="Code"
+                               
                             />
                         </div>
                         <div className="form-control w-full">
-                            <label className="label font-bold">Address</label>
+                            <label className="label font-bold">Reference Number</label>
                             <input
                                 type="text"
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
+                                value={referenceNumber}
+                                onChange={(e) => setReferenceNumber(e.target.value)}
                                 className="input input-bordered"
-                                placeholder="Adress"
+                                placeholder="Reference Number"
+                              
                             />
+                        </div>
+                        <div className="form-control w-full">
+                            <label className="label font-bold">Date</label>
+                            <input
+                                type="date"
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                                className="input input-bordered"
+                                placeholder="Date"
+                                required
+                            />
+                        </div>
+                        <div className="form-control w-full">
+                            <label className="label font-bold">Created Time</label>
+                            <input
+                                type="time"
+                                value={createdTime}
+                                onChange={(e) => setCreatedTime(e.target.value)}
+                                className="input input-bordered"
+                                placeholder="Created Time"
+                                required
+                            />
+                        </div>
+                        <div className="form-control w-full">
+                            <label className="label font-bold">Due</label>
+                            <input
+                                type="due"
+                                value={due}
+                                onChange={(e) => setDue(e.target.value)}
+                                className="input input-bordered"
+                                placeholder="Due"
+                            />
+                        </div>
+                        <div className="form-control w-full">
+                        <label className="label font-bold">Amount</label>
+                        <input
+                            type="number"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            className="input input-bordered"
+                            placeholder="Amount"
+                            step="0.01" // Membatasi input ke dua tempat desimal
+                            min="0" // Membatasi nilai minimum ke nol (opsional, sesuai kebutuhan)
+                        />
+                        </div>
+                        <div className="form-control w-full">
+                        <label className="label font-bold">Payment</label>
+                        <select
+                            value={payment}
+                            onChange={(e) => setPayment(e.target.value)}
+                            className="select select-bordered"
+                            required
+                        >
+                            <option value="" disabled>
+                                Select Payment
+                            </option>
+                            <option value="Unpaid">Unpaid</option>
+                            <option value="Partially">Partially Paid</option>
+                            <option value="Paid">Paid</option>
+                        </select>
+                        </div>
+                        <div className="form-control w-full">
+                        <label className="label font-bold">Fulfillment</label>
+                        <select
+                            value={fulfillment}
+                            onChange={(e) => setFulfillment(e.target.value)}
+                            className="select select-bordered"
+                            required
+                        >
+                            <option value="" disabled>
+                                Select Fulfillment
+                            </option>
+                            <option value="Sent">Sent</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
                         </div>
                         <div className="modal-action">
                             <button type="button" className="btn" onClick={handleModal}>

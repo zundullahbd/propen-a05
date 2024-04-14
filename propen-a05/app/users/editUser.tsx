@@ -49,7 +49,7 @@ const UpdateUser = ({user}: {user: User}) => {
                     <div className="form-control w-full">
                         <label className="label font-bold">Product Name</label>
                         <input
-                            type="text"
+                            type="number"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             className="input input-bordered"

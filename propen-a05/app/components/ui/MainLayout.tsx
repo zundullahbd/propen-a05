@@ -67,6 +67,12 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <span className="ml-3">Customers</span>
                     </div>
                 </Link>
+                <Link href="/articles" onClick={(e) => handlePageClick('/articles', e)}>
+                <div className={`flex items-center p-2 text-gray-800 hover:bg-indigo-100 rounded-lg ${activePage === '/knowledgebase' ? 'font-bold' : ''}`} >
+                    <Image src="/knowledge base.svg" alt="Knowledge Base" width={20} height={20}/>
+                    <span className="ml-3">FAQ & Article</span>
+                    </div>
+                </Link>
                 <Link href="/knowledgebase" onClick={(e) => handlePageClick('/knowledgebase', e)}>
                 <div className={`flex items-center p-2 text-gray-800 hover:bg-indigo-100 rounded-lg ${activePage === '/knowledgebase' ? 'font-bold' : ''}`} >
                     <Image src="/knowledge base.svg" alt="Knowledge Base" width={20} height={20}/>

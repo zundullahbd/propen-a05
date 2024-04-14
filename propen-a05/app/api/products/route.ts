@@ -16,8 +16,6 @@ export const POST = async (request: Request) =>{
     });
     return NextResponse.json(product, {status: 201});
 }
-<<<<<<< HEAD
-=======
 
 export const PATCH = async (request: Request, {params}: {params: {id: string}}) =>{
     const body: Product = await request.json();
@@ -42,4 +40,3 @@ export const DELETE = async (request: Request, {params}: {params: {id: string}})
     });
     return NextResponse.json(product, {status: 200});
 }
->>>>>>> 4d6a3d7571d0d6ab0df8f5173c9d1b5ddc630acb
