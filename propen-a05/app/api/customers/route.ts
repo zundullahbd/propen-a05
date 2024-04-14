@@ -7,10 +7,17 @@ export const POST = async (request: Request) =>{
     const body: Customer = await request.json();
     const customer = await prisma.customer.create({
         data:{
+            outlet: body.outlet,
+            number: body.number,
             name: body.name,
-            gender: body.gender,
-            year_of_birth: body.year_of_birth,
-            address: body.address
+            code: body.code,
+            referenceNumber: body.referenceNumber,
+            date: body.date,
+            createdTime: body.createdTime,
+            due: body.due,
+            amount: body.amount,
+            payment: body.payment,
+            fulfillment: body.fulfillment,
         }
     });
     return NextResponse.json(customer, {status: 201});
@@ -23,10 +30,17 @@ export const PATCH = async (request: Request, {params}: {params: {id: string}}) 
             id: Number(params.id)
         },
         data:{
+            outlet: body.outlet,
+            number: body.number,
             name: body.name,
-            gender: body.gender,
-            year_of_birth: body.year_of_birth,
-            address: body.address,
+            code: body.code,
+            referenceNumber: body.referenceNumber,
+            date: body.date,
+            createdTime: body.createdTime,
+            due: body.due,
+            amount: body.amount,
+            payment: body.payment,
+            fulfillment: body.fulfillment,
         }
     });
     return NextResponse.json(customer, {status: 200});

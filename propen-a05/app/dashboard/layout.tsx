@@ -4,7 +4,7 @@ export const metadata = {
     title: "Dashboard",
 };
 
-const ProductLayout = ({ children }: { children: React.ReactNode }) => {
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <MainLayout>
             <div className="py-10 px-10">{children}</div>
@@ -12,4 +12,4 @@ const ProductLayout = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-export default ProductLayout;
+export default DashboardLayout;

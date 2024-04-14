@@ -1,7 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import AddCustomer from "./addCustomer";
+import ExcelImport from "./importCustomer";
 import DeleteCustomer from "./deleteCustomer";
 import UpdateCustomer from "./updateCustomer";
+import ImportCustomer from "./importCustomer";
 const prisma = new PrismaClient();
 
 export const dynamic = "force-dynamic";
@@ -10,15 +12,21 @@ const getCustomers = async () => {
     const res = await prisma.customer.findMany({
         select: {
             id: true,
+            outlet: true,
+            number: true,
             name: true,
-            gender: true,
-            year_of_birth: true,
-            address: true,
+            code: true,
+            referenceNumber: true,
+            date: true,
+            createdTime: true,
+            due: true,
+            amount: true,
+            payment: true,
+            fulfillment: true,       
         },
     });
     return res;
 };
-
 
 const Customer = async () => {
     const customers = await getCustomers();
@@ -28,32 +36,49 @@ const Customer = async () => {
              <div className="mb-2">
                 <AddCustomer/>
             </div>
+            <div className="mb-4">
+                <ExcelImport/>
+            </div>
 
             <table className="table w-full">
                 <thead>
                 <tr>
                     <th>#</th>
+                    <th>Outlet</th>
+                    <th>Number</th>
                     <th>Customer Name</th>
-                    <th>Gender</th>
-                    <th>Year of Birth</th>
-                    <th>Address</th>
+                    <th>Code</th>
+                    <th>Reference Number</th>
+                    <th>Date</th>
+                    <th>Created Time</th>
+                    <th>Due</th>
+                    <th>Amount</th>
+                    <th>Payment</th>
+                    <th>Fulfillment</th>
                     <th className="text-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {customers.map((customer: { id: any; name: any; gender: any; year_of_birth: any; address: any; }, index: number) => (
+                {customers.map((customer, index) => (
                     <tr key={customer.id}>
                         <td>{index + 1}</td>
+                        <td>{customer.outlet}</td>
+                        <td>{customer.number}</td>
                         <td>{customer.name}</td>
-                        <td>{customer.gender}</td>
-                        <td>{customer.year_of_birth}</td>
-                        <td>{customer.address}</td>
+                        <td>{customer.code}</td>
+                        <td>{customer.referenceNumber}</td>
+                        <td>{customer.date}</td>
+                        <td>{customer.createdTime}</td>
+                        <td>{customer.due}</td>
+                        <td>{customer.amount}</td>
+                        <td>{customer.payment}</td>
+                        <td>{customer.fulfillment}</td>
                         <td className="flex justify-center space-x-1">
-                            <UpdateCustomer customer={customer}/>
-                            <DeleteCustomer customer={customer}/>
+                        <UpdateCustomer customer={customer} />
+                        <DeleteCustomer customer={customer} />
                         </td>
                     </tr>
-                ))}
+          ))}
                 </tbody>
             </table>
         </div>

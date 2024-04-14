@@ -5,10 +5,17 @@ import axios from "axios";
 
 type Customer = {
     id: number;
+    outlet: string;
+    number: string;
     name: string;
-    gender: string,
-    year_of_birth: number;
-    address: string;
+    code: string;
+    referenceNumber: string;
+    date: string;
+    createdTime: string;
+    due: string;
+    amount : number;
+    payment: string;
+    fulfillment: string;
 };
 
 const DeleteCustomer = ({ customer }: { customer: Customer }) => {

@@ -56,16 +56,28 @@ model User {
 }
 
 model Customer {
-  id              Int      @id @default(autoincrement())
-  name            String
-  gender          String
-  year_of_birth   Int
-  address         String
+  id            Int     @id @default(autoincrement())
+  outlet        String
+  number        String  
+  name          String
+  code          String
+  referenceNumber     String
+  date          String
+  createdTime   String
+  due           String
+  amount        Int
+  payment       String
+  fulfillment   String
 }
 
+model Article {
+  id              Int      @id @default(autoincrement())
+  title           String
+  text            String
+}
 
 model Profile {
   id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) 
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
