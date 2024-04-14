@@ -30,7 +30,7 @@ const ExpandableIcon: React.FC = () => {
 
   return (
     <div className="relative" ref={ref}>
-      <button onClick={() => setIsExpanded(!isExpanded)} className="flex items-center justify-center p-2 rounded-full hover:bg-indigo-100 focus:outline-none focus:ring">
+      <button onClick={() => setIsExpanded(!isExpanded)} className="flex items-center justify-center p-2 rounded-ful">
         <div className='text-white-800'> <AccountCircleOutlinedIcon fontSize='medium'/></div>
       </button>
       {isExpanded && (

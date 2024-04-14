@@ -12,6 +12,7 @@ export const PATCH = async (request: Request, {params}: {params: {id: string}}) 
         data:{
             username: body.username,
             email: body.email,
+            role: body.role
             
         }
     });

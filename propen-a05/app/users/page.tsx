@@ -12,6 +12,7 @@ const getUsers = async () => {
       id: true,
       username: true,
       email: true,
+      role: true,
     },
   });
   return res;
@@ -33,6 +34,7 @@ const User = async () => {
             <th>User ID</th>
             <th>Username</th>
             <th>Email</th>
+            <th>Role</th>
             <th className="text-center">Actions</th>
           </tr>
         </thead>
@@ -43,6 +45,7 @@ const User = async () => {
               <td>{user.id}</td>
               <td>{user.username}</td>
               <td>{user.email}</td>
+              <td>{user.role}</td>
               <td className="flex justify-center space-x-1">
                 <UpdateUser user={user} />
                 <DeleteUser user={user} />

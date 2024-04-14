@@ -12,6 +12,7 @@ export const POST = async (request: Request) =>{
             email: body.email,
             password: hashPassword,
             username: body.username,
+            role: body.role
         }
     });
     return NextResponse.json(account, {status: 201});
@@ -27,6 +28,7 @@ export const PATCH = async (request: Request, {params}: {params: {id: string}}) 
         data:{
             username: body.username,
             email: body.email,
+            role: body.role
             
         }
     });

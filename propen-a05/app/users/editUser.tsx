@@ -1,8 +1,6 @@
 "use client";
 import { useState, SyntheticEvent } from "react";
-import { useRouter } from "next/navigation";
 import axios from "axios";
-import PrimaryButton from "@/app/components/ui/PrimaryButton";
 import User from "./page";
 
 
@@ -10,15 +8,15 @@ type User = {
   id: number;
   username: string;
   email: string;
+  role: string;
 };
 
 const UpdateUser = ({user}: {user: User}) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const router = useRouter();
 
   const handleUpdate = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -26,9 +24,10 @@ const UpdateUser = ({user}: {user: User}) => {
     await axios.patch(`/api/users/${user.id}`, {
       username: username,
       email: email,
+      role: role,
     });
     setIsLoading(false);
-    router.refresh();
+    window.location.reload();
     setIsOpen(false);
   };
 
@@ -66,6 +65,22 @@ const UpdateUser = ({user}: {user: User}) => {
                             placeholder="Email"
                         >
                         </input>
+                    </div>
+                    <div className="form-control w-full">
+                            <label className="label font-bold">Role</label>
+                            <select
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                                className="select select-bordered"
+                            >
+                                <option value="" disabled>
+                                    Select Role
+                                </option>
+                                <option value="Admin">Admin</option>
+                                <option value="Exec">Executive</option>
+                                <option value="Sales">Sales</option>
+                                <option value="CS">Customer Service</option>
+                            </select>
                     </div>
                     <div className="modal-action">
                         <button type="button" className="btn" onClick={handleModal}>

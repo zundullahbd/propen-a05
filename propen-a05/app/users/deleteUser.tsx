@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 
 type User = {
     id: number;
@@ -9,9 +11,12 @@ type User = {
     email: string;
 };
 
-const DeleteUser = ({ user }: { user: User }) => {
+
+
+const DeleteUser = async ({ user }: {user: User }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+//   const session = await getServerSession(authOptions); 
 
   const router = useRouter();
 
@@ -21,6 +26,7 @@ const DeleteUser = ({ user }: { user: User }) => {
       setIsLoading(false);
       router.refresh();
       setIsOpen(false);
+     
   };
 
   const handleModal = () => {
@@ -29,6 +35,9 @@ const DeleteUser = ({ user }: { user: User }) => {
 
   return (
       <div>
+        {/* {session?.user.id ===  user.id &&(
+            <div className="text-red-500">You can't delete your own account</div>
+        )}    */}
           <button className="btn btn-error btn-sm" onClick={handleModal}>
               Delete
           </button>
