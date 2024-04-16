@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Figtree } from 'next/font/google';
 import "./styles/globals.css";
 import UserNav from "./components/ui/userNav";
 import { Toaster } from "react-hot-toast";
 
 
-const inter = Inter({ subsets: ["latin"] });
+const figtree = Figtree({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Welcome to Best Price",
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      <body className={figtree.className}>
         <main className='w-full'>
           <UserNav />
           {children}

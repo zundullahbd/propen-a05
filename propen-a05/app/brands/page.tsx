@@ -1,65 +1,60 @@
-import { PrismaClient } from "@prisma/client";
-import AddProduct from "@/app/products/addProduct";
-import DeleteProduct from "@/app/products/deleteProduct";
-import UpdateProduct from "@/app/products/updateProduct";
-const prisma = new PrismaClient();
+import * as React from 'react'
 
-export const dynamic = "force-dynamic";
+import { ArrowDownAZ, ArrowUpAZ, PlusIcon } from 'lucide-react'
 
-const getProducts = async () => {
-    const res = await prisma.product.findMany({
-        select: {
-            id: true,
-            title: true,
-            price: true,
-            brandId: true,
-            brand: true,
-        },
-    });
-    return res;
-};
+import { BrandGrid } from './_components/BrandGrid'
+import Link from 'next/link'
 
-const getBrands = async () => {
-    const res = await prisma.brand.findMany();
-    return res;
-};
+interface PageProps {
+	searchParams: {
+		page: string
+		sort: string
+	}
+}
 
-const Product = async () => {
-    const [products, brands] = await Promise.all([getProducts(), getBrands()]);
+const Page: React.FC<PageProps> = ({ searchParams }) => {
+	const page = Number.parseInt(searchParams.page, 10) || 1
+	const sort = searchParams.sort === 'asc' ? 'asc' : 'desc'
+	const serialized = JSON.stringify({ page, sort })
 
-    return (
-        <div>
-            <div className="mb-2">
-                <AddProduct brands={brands} />
-            </div>
+	return (
+		<>
+			<div className='flex items-center justify-between mb-6'>
+				<Link
+					href={`/brands?page=${page}&sort=${sort === 'asc' ? 'desc' : 'asc'}`}
+					className='flex items-center space-x-2 text-gray-500'>
+					{sort === 'asc' ? <ArrowUpAZ size={16} /> : <ArrowDownAZ size={16} />}
+					<span className='text-sm'>Name</span>
+				</Link>
 
-            <table className="table w-full">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Product Name</th>
-                    <th>Price</th>
-                    <th>Brand</th>
-                    <th className="text-center">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {products.map((product, index) => (
-                    <tr key={product.id}>
-                        <td>{index + 1}</td>
-                        <td>{product.title}</td>
-                        <td>{product.price}</td>
-                        <td>{product.brand.name}</td>
-                        <td className="flex justify-center space-x-1">
-                            <UpdateProduct brands={brands} product={product} />
-                            <DeleteProduct product={product} />
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        </div>
-    );
-};
+				<div className='flex items-center justify-end space-x-2'>
+					<Link href='/brands/create'>
+						<button className='text-sm bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center space-x-2'>
+							<span>Add Brand</span>
+							<PlusIcon size={16} />
+						</button>
+					</Link>
 
-export default Product;
+					<Link href='/brands/import'>
+						<button className='text-sm bg-white border border-indigo-700 text-indigo-700 font-medium py-2 px-4 rounded-lg flex items-center justify-center space-x-2'>
+							<span>Import</span>
+							<PlusIcon size={16} />
+						</button>
+					</Link>
+				</div>
+			</div>
+
+			<React.Suspense
+				key={serialized}
+				fallback={
+					<div className='w-full h-[80vh] flex justify-center items-center'>
+						<span className='loading loading-bars text-indigo-700'></span>
+					</div>
+				}>
+				<BrandGrid page={page} sort={sort} />
+			</React.Suspense>
+		</>
+	)
+}
+
+export default Page

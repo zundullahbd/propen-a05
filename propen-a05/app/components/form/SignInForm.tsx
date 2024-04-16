@@ -7,9 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { signIn, useSession } from 'next-auth/react';
-import Image from 'next/image';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 
 const FormSchema = z.object({
@@ -86,8 +86,16 @@ const SignInForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col justify-center items-center h-full space-y-4'>
-        <Image src="/logo best price.jpg" alt="Login" width={100} height={50} />
-        <h1 className="text-xl font-bold text-gray-800">Welcome to Best Price CSM!</h1>
+      <Image
+					alt='logo'
+					src='/logo best price.png'
+					width={80}
+					height={80}
+					className='absolute top-0 right-0 m-4'
+				/>
+        {/* <Image src="/logo best price.jpg" alt="Login" width={100} height={50} /> */}
+        <h1 className="text-xl font-bold text-gray-800">Welcome to BestCare!</h1>
+		    <h4 className="text-sm text-gray-700">Sign in to access our features</h4>
         <FormField control={form.control} name='email' render={({ field }) => (
           <FormItem>
             <FormLabel>Email</FormLabel>
@@ -107,7 +115,7 @@ const SignInForm = () => {
           </FormItem>
         )} />
         <a href="#" className='flex justify-end text-sm text-blue-500'>Forgot password?</a>
-          <Button type='submit' className="btn btn-primary">Login</Button>
+          <Button type='submit' className="w-full bg-indigo-700 hover:bg-indigo-800 btn btn-primary">Sign in</Button>
           {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
       </form>
     </Form>
