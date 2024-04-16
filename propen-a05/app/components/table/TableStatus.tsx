@@ -1,11 +1,11 @@
 import React from 'react'
 
 enum StatusColor {
-    "Submitted" = 'bg-[#E0EAFF] text-[#344054]',
-    "Reviewed" = 'bg-[#FFBE46] text-[#344054]',
-    "In Progress" = 'bg-[#3D3FDF] text-[#FFFFFF]',
-    "Resolved" = 'bg-[#32D583] text-[#344054]',
-    "Closed" = 'bg-[#344054] text-[#FFFFFF]',
+    "Terbuka" = 'bg-[#E0EAFF] text-[#344054]',
+    "Dalam Proses BestPrice" = 'bg-[#FFBE46] text-[#344054]',
+    "Dalam Proses 3rd Party" = 'bg-[#3D3FDF] text-[#FFFFFF]',
+    "Selesai" = 'bg-[#32D583] text-[#344054]',
+    "Dibatalkan" = 'bg-[#344054] text-[#FFFFFF]',
 }
 
 interface TableStatusProps {

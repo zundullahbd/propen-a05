@@ -1,5 +1,4 @@
 import React from 'react'
-
 interface TableButtonProps {
     label: string;
     onClick: () => void;

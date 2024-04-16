@@ -1,8 +1,8 @@
-"use client";
+'use client'
 import { useState, SyntheticEvent } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
 import TextWithIconButton from "@/app/components/ui/TextWithIconButton"
+import axios from "axios";
+
 
 const PlusIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,8 +22,6 @@ const AddTicket = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const router = useRouter();
-
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
         setIsLoading(true);
@@ -35,14 +33,8 @@ const AddTicket = () => {
             description: description,
             status: status
         });
-        setIsLoading(false);
-        setTitle("");
-        setCustomerId("");
-        setProductSalesId("");
-        setCategory("");    
-        setDescription("");
-        setStatus("");
-        router.refresh();
+        setIsLoading(false);    
+        window.location.reload();
         setIsOpen(false);
     };
 

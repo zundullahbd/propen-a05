@@ -1,9 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import AddCustomer from "./addCustomer";
-import ExcelImport from "./importCustomer";
 import DeleteCustomer from "./deleteCustomer";
 import UpdateCustomer from "./updateCustomer";
-import ImportCustomer from "./importCustomer";
 const prisma = new PrismaClient();
 
 export const dynamic = "force-dynamic";
@@ -35,9 +33,6 @@ const Customer = async () => {
         <div>
              <div className="mb-2">
                 <AddCustomer/>
-            </div>
-            <div className="mb-4">
-                <ExcelImport/>
             </div>
 
             <table className="table w-full">

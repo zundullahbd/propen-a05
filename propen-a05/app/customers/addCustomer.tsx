@@ -1,7 +1,6 @@
 "use client";
 import { useState, SyntheticEvent } from "react";
 import TextWithIconButton from "@/app/components/ui/TextWithIconButton"
-import { useRouter } from "next/navigation";
 import axios from "axios";
 
 
@@ -27,8 +26,6 @@ const AddCustomer = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const router = useRouter();
-
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
         setIsLoading(true);
@@ -46,7 +43,7 @@ const AddCustomer = () => {
             fulfillment: fulfillment,
         });
         setIsLoading(false);
-        router.refresh();
+        window.location.reload();
         setIsOpen(false);
     };
 

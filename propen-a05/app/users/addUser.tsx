@@ -2,10 +2,11 @@
 import { useState, SyntheticEvent } from "react";
 import axios from "axios";
 import TextWithIconButton from "@/app/components/ui/TextWithIconButton"
+import toast from "react-hot-toast";
 
 const PlusIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 5V19M5 12H19" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M12 5V19M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   );
 
@@ -18,8 +19,17 @@ const AddUser = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
+    const validateForm = () => {
+        if (!username || !email || !password || !role) {
+            toast.error("All fields are required!");
+            return false;
+        }
+        return true;
+    };
+
     const handleSubmit = async (e: SyntheticEvent) => {
         e.preventDefault();
+        if (!validateForm()) return;
         setIsLoading(true);
 
         await axios.post("/api/users", {
@@ -27,12 +37,19 @@ const AddUser = () => {
             email: email,
             password: password,
             role: role
+        })
+        .catch((error) => {
+            console.error(error);
+            toast.error("Failed to add user!");
+        })
+        .finally(() => {
+            setIsLoading(false);
         });
 
         setIsLoading(false);
         window.location.reload();
         setIsOpen(false);
-    };
+        };
 
     const handleModal = () => {
         setIsOpen(!isOpen);
@@ -101,9 +118,41 @@ const AddUser = () => {
                                     Save
                                 </button>
                             ) : (
-                                <button type="button" className="btn loading">
-                                    Saving...
-                                </button>
+                                toast.custom((t) => (
+                                    <div
+                                      className={`${
+                                        t.visible ? 'animate-enter' : 'animate-leave'
+                                      } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-red-600 ring-opacity-100`}
+                                    >
+                                      <div className="flex-1 w-0 p-4">
+                                        <div className="flex items-start">
+                                          <div className="flex-shrink-0 pt-0.5">
+                                            <img
+                                              className="h-10 w-10 rounded-full"
+                                              src="correct.png"
+                                              alt=""
+                                            />
+                                          </div>
+                                          <div className="ml-3 flex-1">
+                                            <p className="text-sm font-medium text-slate-600">
+                                              Success!
+                                            </p>
+                                            <p className="mt-1 text-sm text-slate-600">
+                                              Berhasil Menambahkan User!
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="flex border-l">
+                                      <button
+                                    onClick={() => toast.dismiss(t.id)}
+                                    className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                                  >
+                                    Close
+                                  </button>
+                                      </div>
+                                    </div>
+                                  ))
                             )}
                         </div>
                     </form>

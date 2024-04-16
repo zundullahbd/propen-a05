@@ -1,34 +1,13 @@
 "use client";
 import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { PrismaClient } from '@prisma/client';
 
 import TableStatus from '@/app/components/table/TableStatus';
 import PrimaryButton from '@/app/components/ui/PrimaryButton';
 import TicketTile from '@/app/components/ui/TicketTile';
 import { formatDateTime } from '../page';
 
-const prisma = new PrismaClient();
-
-const getTickets = async () => {
-    const res = await prisma.ticket.findMany({
-        select: {
-            id: true,
-            title: true,
-            customerId: true,
-            productSalesId: true,
-            category: true,
-            description: true,
-            status: true,
-            createdAt: true,
-            updatedAt: true,
-        },
-    });
-    return res;
-};
-
 const TicketDetailPage = () => {
-    const tickets = async () => await getTickets();
     const router = useRouter();
     const params = useParams();
     const appURL = "http://localhost:3000";
@@ -57,7 +36,6 @@ const TicketDetailPage = () => {
             'likes': ['Customer service attitude', 'Speed of service', 'Communication quality'],
         }
     }
-
     useEffect(() => {
         setIsMounted(true);
     }, [isMounted]);

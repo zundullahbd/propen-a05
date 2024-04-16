@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import DeleteUser from "./deleteUser";
 import UpdateUser from "./editUser";
 import AddUser from "./addUser";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 const prisma = new PrismaClient();
 
 export const dynamic = "force-dynamic";
@@ -19,6 +21,7 @@ const getUsers = async () => {
 };
 
 const User = async () => {
+  const session = await getServerSession(authOptions);
   const [users] = await Promise.all([getUsers()]);
 
   return (
@@ -42,14 +45,21 @@ const User = async () => {
           {users.map((user, index) => (
             <tr key={user.id}>
               <td>{index + 1}</td>
+              <td>{user.id}</td>
               <td>{user.username}</td>
               <td>{user.email}</td>
               <td>{user.role}</td>
-              <td className="flex justify-center space-x-1">
+              {session?.user.username === user.username ? (
+                <td className="flex justify-center space-x-1">
+                <h1>Active</h1>
+                </td>
+              ) : (
+                <td className="flex justify-center space-x-1">
                 <UpdateUser user={user} />
                 <DeleteUser user={user} />
               </td>
-            </tr>
+              )}
+              </tr>
           ))}
         </tbody>
       </table>
