@@ -1,8 +1,12 @@
 export { default } from 'next-auth/middleware';
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/dashboard', '/tickets', '/customers', '/products', '/brands', '/users', '/articles']
+  matcher: ['/dashboard', '/tickets', '/customers', '/products', '/brands', '/users', '/articles'],
+  session: {
+    strategy: 'jwt',
+  },
 }
+
 
 
 // import { withAuth } from 'next-auth/middleware'
@@ -65,3 +69,27 @@ export const config = {
 // export const config = {
 //   matcher: "/((?!sign-in).*)",
 // };
+// import { NextRequest, NextResponse } from 'next/server';
+
+// export function middleware(request: NextRequest) {
+//   const shouldHandle = [
+//     '/dashboard',
+//     '/tickets',
+//     '/customers',
+//     '/products',
+//     '/brands',
+//     '/users',
+//     '/articles',
+//   ].some((path) => request.nextUrl.pathname.startsWith(path));
+
+//   if (shouldHandle) {
+//     const user = request.nextauth.token;
+
+//     if (!user) {
+//       return NextResponse.redirect('/api/auth/signin');
+//     }
+//   }
+
+//   return NextResponse.next();
+// }
+
