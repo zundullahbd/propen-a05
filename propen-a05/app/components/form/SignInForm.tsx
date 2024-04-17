@@ -53,7 +53,7 @@ const SignInForm = () => {
           <div className="flex-1 w-0 p-4">
             <div className="flex items-start">
               <div className="flex-shrink-0 pt-0.5">
-                <img
+                <Image
                   className="h-10 w-10 rounded-full"
                   src="close.png"
                   alt=""
