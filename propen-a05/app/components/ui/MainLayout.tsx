@@ -20,9 +20,9 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         setActivePage(pathName);
     }, [pathName]);
   return (
-    <div className="h-screen w-full bg-gray-100 overflow-hidden">
+    <div className="h-screen w-full bg-gray-100 position-absolute overflow-clip flex-wrap">
         {/*Navbar*/}
-        <div className='flex h-full w-full'>
+        <div className='flex resize-none w-full h-full'>
             {/* Sidebar */}
             <nav className="flex flex-col p-4 w-60 bg-white h-full space-y-3 text-sm">
                 <Link href="/dashboard" onClick={(e) => handlePageClick('/dashboard', e)}>
@@ -79,6 +79,9 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <span className="ml-3">Knowledge Base</span>
                     </div>
                 </Link>
+                <div className="flex items-center p-20 ">
+                    <span className="ml-1">V1.0.0</span>
+                </div>
             </nav>
             
             <div className="grow overflow-y-auto">

@@ -4,6 +4,8 @@ import UpdateUser from "./editUser";
 import AddUser from "./addUser";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import Table from "../components/table/Table";
+import TableStatus from "../components/table/TableStatus";
 const prisma = new PrismaClient();
 
 export const dynamic = "force-dynamic";
@@ -23,6 +25,8 @@ const getUsers = async () => {
 const User = async () => {
   const session = await getServerSession(authOptions);
   const [users] = await Promise.all([getUsers()]);
+  const tableHeaders = ["No", "ID", "Username", "Email", "Role", "Actions"]
+    
 
   return (
     <div>
@@ -30,39 +34,25 @@ const User = async () => {
         <AddUser />
       </div>
 
-      <table className="table w-full">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>User ID</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th className="text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table header={tableHeaders}>
           {users.map((user, index) => (
-            <tr key={user.id}>
-              <td>{index + 1}</td>
+            <tr key={index} className='text-center'>
+              <td className="py-[18px]">{index + 1}</td>
               <td>{user.id}</td>
-              <td>{user.username}</td>
-              <td>{user.email}</td>
-              <td>{user.role}</td>
+              <td className="px-4">{user.username}</td>
+              <td className="truncate max-w-40 px-4">{user.email}</td>
+              <td className="px-4">{user.role}</td>
               {session?.user.username === user.username ? (
-                <td className="flex justify-center space-x-1">
-                <h1>Active</h1>
-                </td>
+                <td className='px-6 font-bold text-red-500'>Disabled (Active User)</td>
               ) : (
-                <td className="flex justify-center space-x-1">
+                <td className="flex flex-row justify-center space-x-3">
                 <UpdateUser user={user} />
                 <DeleteUser user={user} />
-              </td>
+                </td>
               )}
               </tr>
-          ))}
-        </tbody>
-      </table>
+          ))}   
+      </Table>
     </div>
   );
 };

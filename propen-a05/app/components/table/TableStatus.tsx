@@ -6,6 +6,7 @@ enum StatusColor {
     "Dalam Proses 3rd Party" = 'bg-[#3D3FDF] text-[#FFFFFF]',
     "Selesai" = 'bg-[#32D583] text-[#344054]',
     "Dibatalkan" = 'bg-[#344054] text-[#FFFFFF]',
+    "Disabled/Active User" = 'bg-[#ff3333] text-[#FFFFFF]',
 }
 
 interface TableStatusProps {
@@ -15,7 +16,7 @@ interface TableStatusProps {
 const TableStatus = ({status}: TableStatusProps) => {
     const color = StatusColor [status as keyof typeof StatusColor];
   return (
-    <div className={`py-[6px] ${color} text-center px-2 rounded-lg font-medium`}>{status}</div>
+    <div className={`py-2 ${color} text-center px-0 rounded-lg font-medium`}>{status}</div>
   )
 }
 

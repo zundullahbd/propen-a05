@@ -7,7 +7,7 @@ interface TicketTileProps {
 
 const TicketTile = ({header, children}: TicketTileProps) => {
   return (
-    <div className='bg-white rounded-lg py-7 px-8 space-y-6 w-full'>
+    <div className='bg-white rounded-lg py-7 px-8'>
       <h1 className='font-semibold text-[#344054]'>{header}</h1>
       {children}
     </div>

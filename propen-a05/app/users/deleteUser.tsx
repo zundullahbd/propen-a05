@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
+import SecondaryButton from "../components/ui/SecondaryButton";
+import toast from "react-hot-toast";
 
 type User = {
     id: number;
@@ -11,12 +11,9 @@ type User = {
     email: string;
 };
 
-
-
-const DeleteUser = async ({ user }: {user: User }) => {
+const DeleteUser = ({ user }: { user: User }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-//   const session = await getServerSession(authOptions); 
 
   const router = useRouter();
 
@@ -26,7 +23,6 @@ const DeleteUser = async ({ user }: {user: User }) => {
       setIsLoading(false);
       router.refresh();
       setIsOpen(false);
-     
   };
 
   const handleModal = () => {
@@ -34,22 +30,16 @@ const DeleteUser = async ({ user }: {user: User }) => {
   };
 
   return (
-      <div>
-        {/* {session?.user.id ===  user.id &&(
-            <div className="text-red-500">You can't delete your own account</div>
-        )}    */}
-          <button className="btn btn-error btn-sm" onClick={handleModal}>
-              Delete
-          </button>
-
+        <div className="flex flex-row justify-center space-x-5">
+          <SecondaryButton text="Delete" onClick={handleModal} />
           <div className={isOpen ? "modal modal-open" : "modal"}>
               <div className="modal-box">
-                  <h3 className="font-bold text-lg">
-                      Are sure to delete {user.username}?
+                  <h3 className="font-bold text-lg text-white text-left">
+                      Are you sure to delete user {user.username}?
                   </h3>
 
                   <div className="modal-action">
-                      <button type="button" className="btn" onClick={handleModal}>
+                      <button type="button" onClick={handleModal} className="btn btn-danger">
                           No
                       </button>
                       {!isLoading ? (
@@ -61,10 +51,42 @@ const DeleteUser = async ({ user }: {user: User }) => {
                               Yes
                           </button>
                       ) : (
-                          <button type="button" className="btn loading">
-                              Deleting...
+                        toast.custom((t) => (
+                            <div
+                              className={`${
+                                t.visible ? 'animate-enter' : 'animate-leave'
+                              } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-green-600 ring-opacity-100`}
+                            >
+                              <div className="flex-1 w-0 p-4">
+                                <div className="flex items-start">
+                                  <div className="flex-shrink-0 pt-0.5">
+                                    <img
+                                      className="h-10 w-10 rounded-full"
+                                      src="correct.png"
+                                      alt=""
+                                    />
+                                  </div>
+                                  <div className="ml-3 flex-1">
+                                    <p className="text-sm font-medium text-slate-600">
+                                      Success!
+                                    </p>
+                                    <p className="mt-1 text-sm text-slate-600">
+                                      Berhasil Menghapus User!
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex border-l">
+                              <button
+                            onClick={() => toast.dismiss(t.id)}
+                            className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                          >
+                            Close
                           </button>
-                      )}
+                              </div>
+                            </div>
+                          ))
+                    )}
                   </div>
               </div>
           </div>
