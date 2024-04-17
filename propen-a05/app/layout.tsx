@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={figtree.className}>
-        <main className='w-full'>
+        <main className='w-full bg-white'>
           <UserNav />
           {children}
         </main>

@@ -1,15 +1,25 @@
-import React from 'react'
+import React from 'react';
+import Link from 'next/link';
+
 interface TableButtonProps {
-    label: string;
-    onClick: () => void;
-    borderColor: string;
-    textColor: string;
+  identifier: number;
+  label: string;
+  borderColor: string;
+  textColor: string;
 }
 
-const TableButton = ({label, onClick, borderColor, textColor}: TableButtonProps) => {
+const TableButton = ({ identifier, label, borderColor, textColor }: TableButtonProps) => {
   return (
-    <button className={`py-[6px] border font-medium text-sm ${borderColor} ${textColor} rounded-lg px-4`} onClick={onClick}>{label}</button>
-  )
-}
+      <Link href={`/tickets/${identifier}`}>
+          <button className={`bg-white bg-out; py-[6px] outline outline-gray-100 text-center px-2 rounded-lg font-medium ${borderColor} ${textColor}`}>
+          {label}
+        </button>
+      </Link>
 
-export default TableButton
+  );
+};
+
+export default TableButton;
+
+
+

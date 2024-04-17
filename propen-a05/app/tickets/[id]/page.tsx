@@ -16,8 +16,8 @@ const TicketDetailPage = () => {
     const [isMounted, setIsMounted] = useState(false);
     const dummyData = {
         'ID': '1',
-        'createdAt': '2021-09-21',
-        'updatedAt': '2021-09-21',
+        'createdAt': '9-21-2022',
+        'updatedAt': '9-21-2023',
         'category': 'Product Quality',
         'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris porttitor arcu tempor cursus dignissim. Nulla facilisi. Integer erat felis, aliquet at euismod at, cursus ut velit. Quisque dictum, nisl in cursus bibendum, nisi tellus vulputate lacus, vel gravida nisi ex commodo nisl. Sed nec justo leo. Cras magna felis, luctus nec vestibulum in, sodales non dui. Quisque facilisis, lorem eu semper congue, mauris magna viverra mi, non eleifend lectus urna non erat.',
         'status': 'In Progress',
@@ -28,7 +28,7 @@ const TicketDetailPage = () => {
             'brand': 'Samsung',
             'category': 'Air Conditioner (AC)',
             'variant': 'Default',
-            'purchaseDate': '2021-09-21',
+            'purchaseDate': '9-21-2022',
         },
         'rating': {
             'stars': 5,
@@ -46,17 +46,16 @@ const TicketDetailPage = () => {
     }
 
     return (
-        <div className='flex flex-col'>
-            <button onClick={router.back} className='w-min flex text-[#344054] font-medium'>
+        <div>
+            <button onClick={router.back} className='mb-2 text-[#344054] font-medium'>
                 <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-2 mt-[1px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                     </svg>
                 </span>
                 Back
             </button>
-            <div className="grid grid-cols-2 gap-7 mt-4 w-full">
-                {/* Left Section */}
+            <div className="grid grid-cols-1 gap-7 mt-4">
                 <div>
                     <div className="flex space-x-5 items-center">
                         <h1 className='text-[#344054] font-semibold text-2xl'>Ticket #{dummyData.ID}</h1>
@@ -97,7 +96,6 @@ const TicketDetailPage = () => {
                         </TicketTile>
                     </div>
                 </div>
-                {/* Right Section */}
                 <div>
                     <div className="flex items-center justify-end space-x-4 relative">
                         {isCopyLinkPopUpOpen && (<div className="absolute -top-10 bg-white rounded-lg p-6 w-full text-[#344054] shadow-md shadow-black/30">
@@ -123,8 +121,6 @@ const TicketDetailPage = () => {
                         </div>
                         )}
                         <PrimaryButton onClick={() => setIsCopyLinkPopUpOpen(true)} text='Generate Link' />
-                        {/* <PrimaryButton onClick={() => { }} text='Edit' />
-                        <TableButton onClick={() => { }} label='Delete' borderColor='border-[#D92D20]' textColor='text-[#D92D20]' /> */}
                     </div>
                     <div className="mt-3">
                         <TicketTile header="Product Details">
@@ -163,9 +159,7 @@ const TicketDetailPage = () => {
                         </TicketTile>
                     </div>
                 </div>
-                {/* Bottom Section */}
-                {
-                    dummyData.rating && (
+                {dummyData.rating && (
                         <div className="col-span-2 mt-7">
                             <TicketTile header="Rating & Review">
                                 <div className="flex flex-row text-[#344054] space-x-32">
@@ -206,4 +200,4 @@ const TicketDetailPage = () => {
     )
 }
 
-export default TicketDetailPage
+export default TicketDetailPage;

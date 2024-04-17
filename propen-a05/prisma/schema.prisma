@@ -8,8 +8,8 @@ generator client {
 
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE")
+  provider = "postgresql"
+  url      = env("DB_URL")
   relationMode = "prisma"
 }
 
@@ -26,14 +26,16 @@ model Brand {
   twitter   String?
   image     String?
 
-  Category Category[]
-  Product  Product[]
+  category  Category[]
+  products  Product[]
 
-  sales   User? @relation(fields: [salesId], references: [id])
-  salesId Int?
+  sales     User? @relation(fields: [salesId], references: [id])
+  salesId   Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([salesId])
 }
 
 model Category {
@@ -43,21 +45,20 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Product Product[]
-  Brand   Brand[]
+  brand   Brand @relation(fields: [brandId], references: [id])
+  brandId  Int
+  
+  @@index([brandId])
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
-  title     String
-  price     Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  brand     Brand    @relation(fields: [brandId], references: [id])
-  brandId   Int
-  productId String
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
+  id         Int      @id @default(autoincrement())
+  title      String
+  price      Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  brand      Brand @relation(fields: [brandId], references: [id])
+  brandId    Int
 
   @@index([brandId])
 }

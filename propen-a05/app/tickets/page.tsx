@@ -67,13 +67,11 @@
 // };
 
 // export default Ticket;
-'use client'
 import {PrismaClient} from "@prisma/client";
 import AddTicket from "./addTicket";
-import { useRouter, redirect } from "next/navigation";
 import Table from "../components/table/Table";
-import TableButton from "../components/table/TableButton";
 import TableStatus from "../components/table/TableStatus";
+import TableButton from "../components/table/TableButton";
 
 const prisma = new PrismaClient();
 
@@ -101,10 +99,10 @@ export const getTickets = async () => {
     return dateTime ? new Date(dateTime).toLocaleString() : "";
 };
 
+
 const Ticket = async () => {
-    const router = useRouter();
     const tickets = await getTickets();
-    const tableHeaders = ["No", "ID", "Last Updated", "Product", "Category", "Description", "Status", "Actions"];
+    const tableHeaders = ["No", "ID", "Last Updated", "Product", "Category", "Description", "Status", "Actions"]
     
 
     return (
@@ -121,9 +119,11 @@ const Ticket = async () => {
                         <td>{formatDateTime(new Date(tickets.updatedAt))}</td>
                         <td className='px-4'>{tickets.productSalesId}</td>
                         <td>{tickets.category}</td>
-                        <td className='truncate max-w-40 px-4 text-left'>{tickets.description}</td>
+                        <td className='truncate max-w-40 px-4'>{tickets.description}</td>
                         <td className='px-4'><TableStatus status={tickets.status} /></td>
-                        <td><TableButton label='Details' onClick={() => router.push(`/tickets/${tickets.id}`)} borderColor='border-[#a16207]' textColor='text-[#a16207]' /></td>
+                        <td>
+                        <TableButton identifier={tickets.id} borderColor="border-[#a16207]" label="Details" textColor="text-[#a16207]" />
+                        </td>
                     </tr>
                 ))}
             </Table>

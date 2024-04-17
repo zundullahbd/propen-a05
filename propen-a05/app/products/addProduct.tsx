@@ -44,7 +44,6 @@ const AddProduct = ({ brands }: { brands: Brand[] }) => {
         <div>
             <TextWithIconButton text="Add New" icon={<PlusIcon />} onClick={handleModal}/>
 
-
             <div className={isOpen ? "modal modal-open" : "modal"}>
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">Add New Product</h3>
