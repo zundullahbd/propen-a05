@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, PromiseLikeOfReactNode } from "react";
+import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
 
 // function Typography(props: { type: string; text: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined }) {
 //   return (
@@ -10,7 +10,7 @@ import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, PromiseLik
 
 // export default Typography
 
-const Typography = (props: { type: string; text: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | PromiseLikeOfReactNode | null | undefined; }) => {
+const Typography = (props: { type: string; text: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }) => {
   const textSize = props.type === "h1" ? "text-6xl" :
                    props.type === "h2" ? "text-5xl" :
                    props.type === "h3" ? "text-4xl" :

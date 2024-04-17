@@ -3,6 +3,7 @@ import { useState, SyntheticEvent } from "react";
 import axios from "axios";
 import TextWithIconButton from "@/app/components/ui/TextWithIconButton"
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 const PlusIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -127,7 +128,7 @@ const AddUser = () => {
                                       <div className="flex-1 w-0 p-4">
                                         <div className="flex items-start">
                                           <div className="flex-shrink-0 pt-0.5">
-                                            <img
+                                            <Image
                                               className="h-10 w-10 rounded-full"
                                               src="correct.png"
                                               alt=""

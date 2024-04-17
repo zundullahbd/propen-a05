@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import SecondaryButton from "../components/ui/SecondaryButton";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 type User = {
     id: number;
@@ -60,7 +61,7 @@ const DeleteUser = ({ user }: { user: User }) => {
                               <div className="flex-1 w-0 p-4">
                                 <div className="flex items-start">
                                   <div className="flex-shrink-0 pt-0.5">
-                                    <img
+                                    <Image
                                       className="h-10 w-10 rounded-full"
                                       src="correct.png"
                                       alt=""
