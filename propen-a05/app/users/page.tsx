@@ -44,7 +44,7 @@ const User = async () => {
               {session?.user.username === user.username ? (
                 <td className='px-6 font-bold text-red-500'>Disabled (Active User)</td>
               ) : (
-                <td className="flex flex-row justify-center space-x-3">
+                <td className="flex flex-row justify-center space-x-3 items-center py-[18px] place-content-center">
                 <UpdateUser user={user} />
                 <DeleteUser user={user} />
                 </td>
