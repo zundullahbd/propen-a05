@@ -29,3 +29,11 @@ export const PATCH = async (request: Request, {params}: {params: {id: string}}) 
     return NextResponse.json(article, {status: 200});
 }
 
+export const DELETE = async (request: Request, {params}: {params: {id: string}}) =>{
+    const article = await prisma.article.delete({
+        where:{
+            id: Number(params.id)
+        }
+    });
+    return NextResponse.json(article, {status: 200});
+}

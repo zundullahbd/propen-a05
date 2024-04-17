@@ -35,7 +35,7 @@ const UpdateArticle = ({ article }: { article: Article }) => {
 
     return (
         <div>
-            <button className="btn btn-info btn-sm" onClick={handleModal}>
+            <button className="btn btn-sm bg-indigo-700 text-white hover:bg-indigo-800" onClick={handleModal}>
                 Edit
             </button>
 
@@ -54,12 +54,12 @@ const UpdateArticle = ({ article }: { article: Article }) => {
                             />
                         </div>
                         <div className="form-control w-full">
-                            <label className="label font-bold">Article</label>
+                            <label className="label font-bold">Content</label>
                             <textarea
                                 value={text}
                                 onChange={(e) => setText(e.target.value)}
-                                className="input input-bordered"
-                                placeholder="Article"
+                                className="h-32 input input-bordered"
+                                placeholder="Content"
                                 required
                                 rows={5}
                             />
@@ -70,7 +70,7 @@ const UpdateArticle = ({ article }: { article: Article }) => {
                                 Close
                             </button>
                             {!isLoading ? (
-                                <button type="submit" className="btn btn-primary">
+                                <button type="submit" className="btn btn-primary text-white">
                                     Save
                                 </button>
                             ) : (
