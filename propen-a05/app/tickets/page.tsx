@@ -78,7 +78,7 @@ const prisma = new PrismaClient();
 export const dynamic = "force-dynamic";
 
 
-export const getTickets = async () => {
+const getTickets = async () => {
     const res = await prisma.ticket.findMany({
         select: {
             id: true,
