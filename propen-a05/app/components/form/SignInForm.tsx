@@ -1,5 +1,5 @@
 // SignInForm.tsx
-'use client';
+'use client'
 import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import * as z from 'zod';
@@ -7,7 +7,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { signIn, useSession } from 'next-auth/react';
-import { useState } from 'react';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 
@@ -18,8 +17,8 @@ const FormSchema = z.object({
 });
 
 const SignInForm = () => {
+  const errorMessage = useSession();
   const { data: session } = useSession();
-  const [errorMessage, setErrorMessage] = useState('');
   if (session?.user) {
     window.location.href = '/dashboard';
   }
@@ -116,7 +115,6 @@ const SignInForm = () => {
         )} />
         <a href="#" className='flex justify-end text-sm text-blue-500'>Forgot password?</a>
           <Button type='submit' className="w-full bg-indigo-700 hover:bg-indigo-800 btn btn-primary">Sign in</Button>
-          {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
       </form>
     </Form>
   );
