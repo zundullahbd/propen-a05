@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { cn } from '@/lib/utils';
-import { formatDateTime } from '@/app/tickets/page';
+
 
 interface TrackerIconProps {
     icon: React.ReactElement;
@@ -17,7 +17,7 @@ const TrackerIcon = ({ icon, label, isActive = false, date }: TrackerIconProps) 
                 {icon}
             </div>
             <h2 className='font-medium'>{label}</h2>
-            <p className='text-sm text-[#98A2B3]'>{formatDateTime(new Date(date))}</p>
+            <p className='text-sm text-[#98A2B3]'>{date}</p>
         </div>
     )
 }
