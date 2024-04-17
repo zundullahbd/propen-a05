@@ -5,7 +5,6 @@ import AddUser from "./addUser";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import Table from "../components/table/Table";
-import TableStatus from "../components/table/TableStatus";
 const prisma = new PrismaClient();
 
 export const dynamic = "force-dynamic";

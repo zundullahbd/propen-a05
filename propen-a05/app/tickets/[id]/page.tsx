@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import TableStatus from '@/app/components/table/TableStatus';
 import PrimaryButton from '@/app/components/ui/PrimaryButton';
 import TicketTile from '@/app/components/ui/TicketTile';
-import { formatDateTime } from '../page';
+
 
 const TicketDetailPage = () => {
     const router = useRouter();
@@ -81,11 +81,11 @@ const TicketDetailPage = () => {
                                 <div className="grid grid-cols-3">
                                     <div>
                                         <h2 className='text-[#667085] mb-2'>Date Submitted</h2>
-                                        <p>{formatDateTime(new Date(dummyData.createdAt))}</p>
+                                        <p>{dummyData.createdAt}</p>
                                     </div>
                                     <div>
                                         <h2 className='text-[#667085] mb-2'>Last Updated</h2>
-                                        <p>{formatDateTime(new Date(dummyData.updatedAt))}</p>
+                                        <p>{dummyData.updatedAt}</p>
                                     </div>
                                 </div>
                                 <div>
@@ -152,7 +152,7 @@ const TicketDetailPage = () => {
                                     </div>
                                     <div>
                                         <h2 className='text-[#667085] mb-2'>Purchase Date</h2>
-                                        <p>{formatDateTime(new Date(dummyData.product.purchaseDate))}</p>
+                                        <p>{dummyData.product.purchaseDate}</p>
                                     </div>
                                 </div>
                             </div>

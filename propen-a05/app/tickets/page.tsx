@@ -95,9 +95,9 @@ const getTickets = async () => {
     return res;
 };
 
- export const formatDateTime = (dateTime: Date | null): string => {
-    return dateTime ? new Date(dateTime).toLocaleString() : "";
-};
+//  export const formatDateTime = (dateTime: Date | null): string => {
+//     return dateTime ? new Date(dateTime).toLocaleString() : "";
+// };
 
 
 const Ticket = async () => {
@@ -116,7 +116,8 @@ const Ticket = async () => {
                     <tr key={index} className='text-center'>
                         <td className=' py-[18px]'>{index + 1}</td>
                         <td>{tickets.id}</td>
-                        <td>{formatDateTime(new Date(tickets.updatedAt))}</td>
+                        <td>{tickets.updatedAt.toString()}</td>
+                        {/* <td>{formatDateTime(new Date(tickets.updatedAt))}</td> */}
                         <td className='px-4'>{tickets.productSalesId}</td>
                         <td>{tickets.category}</td>
                         <td className='truncate max-w-40 px-4'>{tickets.description}</td>
