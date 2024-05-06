@@ -1,29 +1,31 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import type { Customer } from "@prisma/client";
+import type { Article } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const PATCH = async (request: Request, {params}: {params: {id: string}}) =>{
-    const body: Customer = await request.json();
-    const customer = await prisma.customer.update({
+    const body: Article = await request.json();
+    const article = await prisma.article.update({
         where:{
             id: Number(params.id)
         },
         data:{
-            name: body.name,
-            gender: body.gender,
-            year_of_birth: body.year_of_birth,
-            address: body.address,
+            title: body.title,
+            text: body.text,
         }
     });
-    return NextResponse.json(customer, {status: 200});
+    return NextResponse.json(article, {status: 200});
 }
 
+
+
 export const DELETE = async (request: Request, {params}: {params: {id: string}}) =>{
-    const customer = await prisma.customer.delete({
+    const article = await prisma.article.delete({
         where:{
             id: Number(params.id)
         }
     });
-    return NextResponse.json(customer, {status: 200});
+    return NextResponse.json(article, {status: 200});
 }
+
+

@@ -2,30 +2,65 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
 }
 
+
 datasource db {
   provider = "mysql"
-  // provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE")
+  relationMode = "prisma"
 }
 
 model Brand {
-  id       Int       @id @default(autoincrement())
-  name     String
-  products Product[]
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  phone       String
+  website     String
+
+  service   String?
+  facebook  String?
+  instagram String?
+  twitter   String?
+  image     String?
+
+  category  Category[]
+  products  Product[]
+
+  sales     User? @relation(fields: [salesId], references: [id])
+  salesId   Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([salesId])
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  brand   Brand @relation(fields: [brandId], references: [id])
+  brandId  Int
+  
+  @@index([brandId])
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
-  title     String
-  price     Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  brand     Brand    @relation(fields: [brandId], references: [id])
-  brandId   Int
+  id         Int      @id @default(autoincrement())
+  title      String
+  price      Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  brand      Brand @relation(fields: [brandId], references: [id])
+  brandId    Int
+
+  @@index([brandId])
 }
 
 model Ticket {
@@ -38,4 +73,42 @@ model Ticket {
   status         String   @default("")
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+model User {
+  id           Int    @id @default(autoincrement())
+  username     String     @unique
+  email        String     @unique
+  password     String     
+  role         String     
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  Brand     Brand[]
+}
+
+model Customer {
+  id            Int     @id @default(autoincrement())
+  outlet        String
+  number        String  
+  name          String
+  code          String
+  referenceNumber     String
+  date          String
+  createdTime   String
+  due           String
+  amount        Int
+  payment       String
+  fulfillment   String
+}
+
+model Article {
+  id              Int      @id @default(autoincrement())
+  title           String
+  text            String
+}
+
+model Profile {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

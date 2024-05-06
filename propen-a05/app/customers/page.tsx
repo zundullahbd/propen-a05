@@ -1,63 +1,61 @@
-import { PrismaClient } from "@prisma/client";
-import AddCustomer from "./addCustomer";
-import DeleteCustomer from "./deleteCustomer";
-import UpdateCustomer from "./updateCustomer";
-const prisma = new PrismaClient();
+import * as React from 'react'
 
-export const dynamic = "force-dynamic";
+import { ArrowDownAZ, ArrowUpAZ, PlusIcon } from 'lucide-react'
+import { CustomerGrid } from './_components/CustomerGrid'
+import Link from 'next/link'
 
-const getCustomers = async () => {
-    const res = await prisma.customer.findMany({
-        select: {
-            id: true,
-            name: true,
-            gender: true,
-            year_of_birth: true,
-            address: true,
-        },
-    });
-    return res;
-};
+interface PageProps {
+	searchParams: {
+		page: string
+		sort: string
+	}
+}
 
+const Page: React.FC<PageProps> = ({ searchParams }) => {
+	const page = Number.parseInt(searchParams.page, 10) || 1
+	const sort = searchParams.sort === 'asc' ? 'asc' : 'desc'
+	const serialized = JSON.stringify({ page, sort })
 
-const Customer = async () => {
-    const customers = await getCustomers();
+	return (
+		<>
+			<div className='flex items-center justify-between mb-6'>
+				<Link
+					href={`/customers?page=${page}&sort=${sort === 'asc' ? 'desc' : 'asc'}`}
+					className='flex items-center space-x-2 text-gray-500'>
+					{sort === 'asc' ? <ArrowUpAZ size={16} /> : <ArrowDownAZ size={16} />}
+					<span className='text-sm'>Name</span>
+				</Link>
 
-    return (
-        <div>
-             <div className="mb-2">
-                <AddCustomer/>
-            </div>
+				<div className='flex items-center justify-end space-x-2'>
+					<Link href='/customers/create'>
+						<button className='text-sm bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center space-x-2'>
+							<span>Add Customer</span>
+							<PlusIcon size={16} />
+						</button>
+					</Link>
 
-            <table className="table w-full">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Customer Name</th>
-                    <th>Gender</th>
-                    <th>Year of Birth</th>
-                    <th>Address</th>
-                    <th className="text-center">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {customers.map((customer: { id: any; name: any; gender: any; year_of_birth: any; address: any; }, index: number) => (
-                    <tr key={customer.id}>
-                        <td>{index + 1}</td>
-                        <td>{customer.name}</td>
-                        <td>{customer.gender}</td>
-                        <td>{customer.year_of_birth}</td>
-                        <td>{customer.address}</td>
-                        <td className="flex justify-center space-x-1">
-                            <UpdateCustomer customer={customer}/>
-                            <DeleteCustomer customer={customer}/>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        </div>
-    );
-};
+					<Link href='/customers/import'>
+						<button className='text-sm bg-white border border-indigo-700 text-indigo-700 font-medium py-2 px-4 rounded-lg flex items-center justify-center space-x-2'>
+							<span>Import</span>
+							<PlusIcon size={16} />
+						</button>
+					</Link>
+				</div>
+			</div>
 
-export default Customer;
+			<React.Suspense
+				key={serialized}
+				fallback={
+					<div className='w-full h-[80vh] flex justify-center items-center'>
+						<span className='loading loading-bars text-indigo-700'></span>
+					</div>
+				}>
+				<CustomerGrid page={page} sort={sort} />
+			</React.Suspense>
+		</>
+	)
+}
+
+export default Page
+
+;
