@@ -1,135 +1,61 @@
-// "use client";
-// import { PrismaClient } from "@prisma/client";
-// import AddTicket from "./addTicket";
-// import DeleteTickets from "./deleteTickets";
-// import UpdateTickets from "./updateTickets";
-
-// import Table from "../components/table/Table";
-// import TableStatus from "../components/table/TableStatus";
-// import TableButton from "../components/table/TableButton";
-// import { useRouter } from "next/navigation";
-
-// const prisma = new PrismaClient();
-
-// export const dynamic = "force-dynamic";
-
-// export const formatDateTime = (dateTime: Date | null): string => {
-//     return dateTime ? new Date(dateTime).toLocaleString() : "";
-// };
-
-
-// const getTickets = async () => {
-//     const res = await prisma.ticket.findMany({
-//         select: {
-//             id: true,
-//             title: true,
-//             customerId: true,
-//             productSalesId: true,
-//             category: true,
-//             description: true,
-//             status: true,
-//             createdAt: true,
-//             updatedAt: true,
-//         },
-//     });
-//     return res;
-// };
-
-
-// const Ticket = async () => {
-//     const tickets = await getTickets();
-//     const router = useRouter();
-//     const tableHeaders = ["No", "ID", "Last Updated", "Product", "Category", "Description", "Status", "Actions"];
-    
-
-//     return (
-//         <div>
-//             <div className="mb-2">
-//                 <AddTicket/>
-//             </div>
-
-//             <Table header={tableHeaders}>
-//                 {tickets.map((tickets, index) => (
-//                     <tr key={index} className='text-center'>
-//                         <td className=' py-[18px]'>{index + 1}</td>
-//                         <td>{tickets.id}</td>
-//                         <td>{formatDateTime(new Date(tickets.updatedAt))}</td>
-//                         <td className='px-4'>{tickets.productSalesId}</td>
-//                         <td>{tickets.category}</td>
-//                         <td className='truncate max-w-40 px-4 text-left'>{tickets.description}</td>
-//                         <td className='px-4'><TableStatus status={tickets.status} /></td>
-//                         <td><TableButton label='Details' onClick={() => router.push(`/tickets/${tickets.id}`)} borderColor='border-[#a16207]' textColor='text-[#a16207]' /></td>
-//                     </tr>
-//                 ))}
-//             </Table>
-//         </div>
-//     );
-// };
-
-// export default Ticket;
-import {PrismaClient} from "@prisma/client";
-import AddTicket from "./addTicket";
-import Table from "../components/table/Table";
-import TableStatus from "../components/table/TableStatus";
-import TableButton from "../components/table/TableButton";
-
-const prisma = new PrismaClient();
-
-export const dynamic = "force-dynamic";
-
+import AddTicket from './addTicket';
+import Link from 'next/link';
+import Table from '../components/table/Table';
+import { db } from '@/lib/prisma';
 
 const getTickets = async () => {
-    const res = await prisma.ticket.findMany({
-        select: {
-            id: true,
-            title: true,
-            customerId: true,
-            productSalesId: true,
-            category: true,
-            description: true,
-            status: true,
-            createdAt: true,
-            updatedAt: true,
-        },
-    });
-    return res;
+	return await db.ticket.findMany({
+		include: {
+			sales: {
+				include: {
+					product: true,
+				},
+			},
+		},
+	});
 };
 
-//  export const formatDateTime = (dateTime: Date | null): string => {
-//     return dateTime ? new Date(dateTime).toLocaleString() : "";
-// };
-
-
 const Ticket = async () => {
-    const tickets = await getTickets();
-    const tableHeaders = ["No", "ID", "Last Updated", "Product", "Category", "Description", "Status", "Actions"]
-    
+	const tickets = await getTickets();
+	const tableHeaders = ['ID', 'Title', 'Last Updated', 'Product', 'Category', 'Status', 'Actions'];
 
-    return (
-        <div>
-            <div className="mb-2">
-                <AddTicket/>
-            </div>
+	return (
+		<div>
+			<div className='mb-4'>
+				<AddTicket />
+			</div>
 
-            <Table header={tableHeaders}>
-                {tickets.map((tickets, index) => (
-                    <tr key={index} className='text-center'>
-                        <td className=' py-[18px]'>{index + 1}</td>
-                        <td>{tickets.id}</td>
-                        <td>{tickets.updatedAt.toString()}</td>
-                        {/* <td>{formatDateTime(new Date(tickets.updatedAt))}</td> */}
-                        <td className='px-4'>{tickets.productSalesId}</td>
-                        <td>{tickets.category}</td>
-                        <td className='truncate max-w-40 px-4'>{tickets.description}</td>
-                        <td className='px-4'><TableStatus status={tickets.status} /></td>
-                        <td>
-                        <TableButton identifier={tickets.id} borderColor="border-[#a16207]" label="Details" textColor="text-[#a16207]" />
-                        </td>
-                    </tr>
-                ))}
-            </Table>
-        </div>
-    );
+			<Table header={tableHeaders}>
+				{tickets.map((tickets, index) => (
+					<tr key={index} className='[&>td]:p-6'>
+						<td>{tickets.id}</td>
+						<td>{tickets.title}</td>
+						<td>
+							{tickets.updatedAt.toLocaleDateString('id-ID', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+							})}
+						</td>
+						<td>{tickets.sales.product.title}</td>
+						<td>{tickets.category}</td>
+						<td>
+							<span className='py-2 px-4 border border-indigo-700 text-indigo-700 rounded-full text-sm'>
+								{tickets.status}
+							</span>
+						</td>
+						<td>
+							<Link
+								href={`/tickets/${tickets.id}`}
+								className='py-2 px-4 text-sm bg-indigo-700 text-white font-medium rounded-lg'>
+								<span>Details</span>
+							</Link>
+						</td>
+					</tr>
+				))}
+			</Table>
+		</div>
+	);
 };
 
 export default Ticket;

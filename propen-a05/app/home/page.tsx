@@ -54,7 +54,7 @@ const page = async () => {
 				</div>
 
 				<React.Suspense fallback={<div>Loading...</div>}>
-					{Component ? <Component /> : <div>{`Theres no Action for Role ${session.user.role}`}</div>}
+					{Component ? <Component /> : <div>{`There's no Action for Role ${session.user.role}`}</div>}
 				</React.Suspense>
 			</div>
 

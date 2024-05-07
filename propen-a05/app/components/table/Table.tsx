@@ -1,26 +1,29 @@
-import React from 'react'
+import React from 'react';
+import { cn } from '@/lib/utils';
 
 interface TableProps {
-    header: string[];
-    headerColor?: string;
-    children: React.TableHTMLAttributes<HTMLTableElement>['children'];
+	header: string[];
+	children: React.TableHTMLAttributes<HTMLTableElement>['children'];
+	className?: string;
 }
 
-const Table = ({header, headerColor = "bg-white", children}: TableProps) => {
-  return (
-    <table className='bg-[#fffefe] border-2 border-[#EDF0F7] rounded-xl w-full text-[#344054]'>
-        <thead className={`border-b border-[#cfcecf] ${headerColor}`}>
-            <tr>
-                {header.map((item, index) => (
-                    <th key={index}  className='py-[18px] px-7 font-semibold text-sm'>{item}</th>
-                ))}
-            </tr>
-        </thead>
-        <tbody>
-            {children}
-        </tbody>
-    </table>
-  )
-}
+const Table = ({ header, children, className }: TableProps) => {
+	return (
+		<div className={cn('w-full rounded-xl border border-gray-200 overflow-auto', className)}>
+			<table className='w-full table-auto bg-white'>
+				<thead>
+					<tr>
+						{header.map((item, index) => (
+							<th key={index} className='p-6 text-start font-semibold text-sm'>
+								{item}
+							</th>
+						))}
+					</tr>
+				</thead>
+				<tbody className='[&>tr]:border-t [&>tr]:border-gray-200 text-sm'>{children}</tbody>
+			</table>
+		</div>
+	);
+};
 
-export default Table
+export default Table;

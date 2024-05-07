@@ -1,143 +1,171 @@
-'use client'
-import { useState, SyntheticEvent } from "react";
-import TextWithIconButton from "@/app/components/ui/TextWithIconButton"
-import axios from "axios";
+'use client';
 
+import { Controller, useForm } from 'react-hook-form';
+import axios, { AxiosError } from 'axios';
+import { categoryOptions, statusOptions } from '@/lib/constants';
+
+import TextWithIconButton from '@/app/components/ui/TextWithIconButton';
+import schema from '@/schemas/ticketSchema';
+import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const PlusIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 5V19M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  );
-
+	<svg width='20' height='20' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+		<path d='M12 5V19M5 12H19' stroke='white' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
+	</svg>
+);
 
 const AddTicket = () => {
-    const [title, setTitle] = useState("");
-    const [customerId, setCustomerId] = useState("");
-    const [salesId, setProductSalesId] = useState("");
-    const [category, setCategory] = useState("");
-    const [description, setDescription] = useState("");
-    const [status, setStatus] = useState("");
+	const {
+		control,
+		register,
+		handleSubmit,
+		formState: { errors },
+		watch,
+	} = useForm<z.infer<typeof schema>>({
+		defaultValues: {
+			category: 'KOMPLAIN',
+			status: 'SUBMITTED',
+		},
+		resolver: zodResolver(schema),
+	});
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async (e: SyntheticEvent) => {
-        e.preventDefault();
-        setIsLoading(true);
-        await axios.post("/api/tickets", {
-            title: title,
-            customerId: Number(customerId),
-            salesId: Number(salesId),
-            category: category,
-            description: description,
-            status: status
-        });
-        setIsLoading(false);    
-        window.location.reload();
-        setIsOpen(false);
-    };
+	const onSubmit = async (formData: z.infer<typeof schema>) => {
+		setIsLoading(true);
 
-    const handleModal = () => {
-        setIsOpen(!isOpen);
-    };
+		try {
+			await axios.post('/api/tickets', formData);
+			setIsOpen(false);
+			window.location.reload();
+		} catch (error: any) {
+			if (error instanceof AxiosError) toast.error(error.response?.data.message);
+			else toast.error(error.message);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
-    return (
-        <div>
-            <TextWithIconButton text="Add New" icon={<PlusIcon />} onClick={handleModal} />
+	const handleModal = () => {
+		setIsOpen(!isOpen);
+	};
 
-            <div className={isOpen ? "modal modal-open" : "modal"}>
-                <div className="modal-box">
-                    <h3 className="font-bold text-lg">Add New Ticket</h3>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Ticket title</label>
-                            <input
-                                type="text"
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                className="input input-bordered"
-                                placeholder="Ticket title"
-                            />
-                        </div>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Customer ID</label>
-                            <input
-                                type="text"
-                                value={customerId}
-                                onChange={(e) => setCustomerId(e.target.value)}
-                                className="input input-bordered"
-                                placeholder="Customer ID"
-                            />
-                        </div>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Product Sales ID</label>
-                            <input
-                                type="text"
-                                value={salesId}
-                                onChange={(e) => setProductSalesId(e.target.value)}
-                                className="input input-bordered"
-                                placeholder="Product Sales ID"
-                            />
-                        </div>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Category</label>
-                            <select
-                                value={category}
-                                onChange={(e) => setCategory(e.target.value)}
-                                className="input input-bordered"
-                            >
-                                <option value="">Select Category</option>
-                                <option value="Bantuan Informasi">Bantuan Informasi</option>
-                                <option value="Komplain">Komplain</option>
-                                <option value="Klaim Garansi">Klaim Garansi</option>
-                            </select>
-                        </div>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Description</label>
-                            <input
-                                type="text"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                className="input input-bordered"
-                                placeholder="Description"
-                            />
-                        </div>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Status</label>
-                            <select
-                                value={status}
-                                onChange={(e) => setStatus(e.target.value)}
-                                className="input input-bordered"
-                            >
-                                <option value="">Select Status</option>
-                                <option value="Terbuka">Terbuka</option>
-                                <option value="Dalam Proses BestPrice">Dalam Proses BestPrice</option>
-                                <option value="Dalam Proses 3rd Party">Dalam Proses 3rd Party</option>
-                                <option value="Selesai">Selesai</option>
-                                <option value="Dibatalkan">Dibatalkan</option>
-                            </select>
-                        </div>
+	return (
+		<div>
+			<TextWithIconButton text='Add New' icon={<PlusIcon />} onClick={handleModal} />
 
-                        <div className="modal-action">
-                            <button type="button" className="btn" onClick={handleModal}>
-                                Close
-                            </button>
-                            {!isLoading ? (
-                                <button type="submit" className="btn btn-primary">
-                                    Save
-                                </button>
-                            ) : (
-                                <button type="button" className="btn loading">
-                                    Saving...
-                                </button>
-                            )}
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    );
+			<div className={isOpen ? 'modal modal-open' : 'modal'}>
+				<div className='modal-box'>
+					<h3 className='font-bold text-lg'>Add New Ticket</h3>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<div className='form-control w-full'>
+							<label className='label font-bold'>Ticket title</label>
+							<input
+								type='text'
+								{...register('title')}
+								className='input input-bordered'
+								placeholder='Ticket title'
+							/>
+							<p className='text-red-500 text-sm mt-1'>{errors.title?.message}</p>
+						</div>
+
+						<div className='form-control w-full'>
+							<label className='label font-bold'>Customer ID</label>
+							<input
+								type='text'
+								{...register('customerId')}
+								className='input input-bordered'
+								placeholder='Customer ID'
+							/>
+							<p className='text-red-500 text-sm mt-1'>{errors.customerId?.message}</p>
+						</div>
+
+						<div className='form-control w-full'>
+							<label className='label font-bold'>Order ID</label>
+							<input
+								type='text'
+								{...register('salesId')}
+								className='input input-bordered'
+								placeholder='Order ID'
+							/>
+							<p className='text-red-500 text-sm mt-1'>{errors.salesId?.message}</p>
+						</div>
+
+						<div className='form-control w-full'>
+							<label className='label font-bold'>Category</label>
+							<Controller
+								name='category'
+								control={control}
+								render={({ field }) => (
+									<select {...field} className='select select-bordered'>
+										<option value='' disabled>
+											Select Category
+										</option>
+										{categoryOptions.map((option) => (
+											<option key={option.value} value={option.value}>
+												{option.label}
+											</option>
+										))}
+									</select>
+								)}
+							/>
+							<p className='text-red-500 text-sm mt-1'>{errors.category?.message}</p>
+						</div>
+
+						<div className='form-control w-full'>
+							<label className='label font-bold'>Description</label>
+							<textarea
+								{...register('description')}
+								className='textarea textarea-lg textarea-bordered'
+								placeholder='Description'
+							/>
+							<p className='text-red-500 text-sm mt-1'>{errors.description?.message}</p>
+						</div>
+
+						<div className='form-control w-full'>
+							<label className='label font-bold'>Status</label>
+							<Controller
+								name='status'
+								control={control}
+								render={({ field }) => (
+									<select {...field} className='select select-bordered'>
+										<option value='' disabled>
+											Select Status
+										</option>
+										{statusOptions.map((option) => (
+											<option key={option.value} value={option.value}>
+												{option.label}
+											</option>
+										))}
+									</select>
+								)}
+							/>
+							<p className='text-red-500 text-sm mt-1'>{errors.status?.message}</p>
+						</div>
+
+						<div className='modal-action'>
+							<button type='button' className='btn' onClick={handleModal}>
+								Close
+							</button>
+							{!isLoading ? (
+								<button type='submit' className='btn btn-primary'>
+									Save
+								</button>
+							) : (
+								<button type='button' className='btn loading'>
+									Saving...
+								</button>
+							)}
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default AddTicket;

@@ -8,7 +8,9 @@ export const getTicketsData = async () => {
 	const [ongoing, total] = await Promise.all([
 		db.ticket.count({
 			where: {
-				status: 'SUBMITTED',
+				status: {
+					not: 'CLOSED',
+				},
 			},
 		}),
 		db.ticket.count(),

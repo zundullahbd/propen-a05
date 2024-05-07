@@ -1,143 +1,169 @@
-"use client";
-import { useState, SyntheticEvent } from "react";
-import type { Ticket } from "@prisma/client";
-import { useRouter } from "next/navigation";
-import axios from "axios";
+'use client';
 
-const UpdateTicket = ({
-                          ticket,
-                      }: {
-    ticket: Ticket;
-}) => {
-    const [title, setTitle] = useState(ticket.title);
-    const [customerId, setCustomerId] = useState(ticket.customerId.toString());
-    const [productSalesId, setProductSalesId] = useState(ticket.productSalesId.toString());
-    const [category, setCategory] = useState(ticket.category);
-    const [description, setDescription] = useState(ticket.description);
-    const [status, setStatus] = useState(ticket.status);
+import { Controller, useForm } from 'react-hook-form';
+import axios, { AxiosError } from 'axios';
+import { categoryOptions, statusOptions } from '@/lib/constants';
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+import PrimaryButton from '../components/ui/PrimaryButton';
+import type { Ticket } from '@prisma/client';
+import schema from '@/schemas/ticketSchema';
+import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-    const router = useRouter();
+const UpdateTicket = ({ ticket }: { ticket: Ticket }) => {
+	const {
+		control,
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<z.infer<typeof schema>>({
+		defaultValues: {
+			title: ticket.title,
+			customerId: Number(ticket.customerId),
+			salesId: Number(ticket.salesId),
+			category: ticket.category,
+			description: ticket.description,
+			status: ticket.status,
+		},
+		resolver: zodResolver(schema),
+	});
 
-    const handleUpdate = async (e: SyntheticEvent) => {
-        e.preventDefault();
-        setIsLoading(true);
-        await axios.patch(`/api/tickets/${ticket.id}`, {
-            title: title,
-            customerId: Number(customerId),
-            productSalesId: Number(productSalesId),
-            category: category,
-            description: description,
-            status: status
-        });
-        setIsLoading(false);
-        router.refresh();
-        setIsOpen(false);
-    };
+	const [isOpen, setIsOpen] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
-    const handleModal = () => {
-        setIsOpen(!isOpen);
-    };
+	const onSubmit = async (formData: z.infer<typeof schema>) => {
+		setIsLoading(true);
 
-    return (
-        <div>
-            <button className="btn btn-info btn-sm" onClick={handleModal}>
-                Edit
-            </button>
+		try {
+			await axios.patch(`/api/tickets/${ticket.id}`, formData);
+			setIsOpen(false);
+			window.location.reload();
+		} catch (error: any) {
+			if (error instanceof AxiosError) toast.error(error.response?.data.message);
+			else toast.error(error.message);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
-            <div className={isOpen ? "modal modal-open" : "modal"}>
-                <div className="modal-box">
-                    <h3 className="font-bold text-lg">Update {ticket.title}</h3>
-                    <form onSubmit={handleUpdate}>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Ticket title</label>
-                            <input
-                                type="text"
-                                value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                className="input input-bordered"
-                                placeholder="Ticket title"
-                            />
-                        </div>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Customer ID</label>
-                            <input
-                                type="text"
-                                value={customerId}
-                                onChange={(e) => setCustomerId(e.target.value)}
-                                className="input input-bordered"
-                                placeholder="Customer ID"
-                            />
-                        </div>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Product Sales ID</label>
-                            <input
-                                type="text"
-                                value={productSalesId}
-                                onChange={(e) => setProductSalesId(e.target.value)}
-                                className="input input-bordered"
-                                placeholder="Product Sales ID"
-                            />
-                        </div>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Category</label>
-                            <select
-                                value={category}
-                                onChange={(e) => setCategory(e.target.value)}
-                                className="input input-bordered"
-                            >
-                                <option value="">Select Category</option>
-                                <option value="Bantuan Informasi">Bantuan Informasi</option>
-                                <option value="Komplain">Komplain</option>
-                                <option value="Klaim Garansi">Klaim Garansi</option>
-                            </select>
-                        </div>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Description</label>
-                            <input
-                                type="text"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                className="input input-bordered"
-                                placeholder="Description"
-                            />
-                        </div>
-                        <div className="form-control w-full">
-                            <label className="label font-bold">Status</label>
-                            <select
-                                value={status}
-                                onChange={(e) => setStatus(e.target.value)}
-                                className="input input-bordered"
-                            >
-                                <option value="">Select Status</option>
-                                <option value="Terbuka">Terbuka</option>
-                                <option value="Dalam Proses BestPrice">Dalam Proses BestPrice</option>
-                                <option value="Dalam Proses 3rd Party">Dalam Proses 3rd Party</option>
-                                <option value="Selesai">Selesai</option>
-                                <option value="Dibatalkan">Dibatalkan</option>
-                            </select>
-                        </div>
-                        <div className="modal-action">
-                            <button type="button" className="btn" onClick={handleModal}>
-                                Close
-                            </button>
-                            {!isLoading ? (
-                                <button type="submit" className="btn btn-primary">
-                                    Update
-                                </button>
-                            ) : (
-                                <button type="button" className="btn loading">
-                                    Updating...
-                                </button>
-                            )}
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    );
+	const handleModal = () => {
+		setIsOpen(!isOpen);
+	};
+
+	return (
+		<div>
+			<PrimaryButton onClick={() => setIsOpen(true)} text='Edit Ticket' className='text-sm' />
+
+			<div className={isOpen ? 'modal modal-open' : 'modal'}>
+				<div className='modal-box'>
+					<h3 className='font-bold text-lg'>Add New Ticket</h3>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<div className='form-control w-full'>
+							<label className='label font-bold'>Ticket title</label>
+							<input
+								type='text'
+								{...register('title')}
+								className='input input-bordered'
+								placeholder='Ticket title'
+							/>
+							<p className='text-red-500 text-sm mt-1'>{errors.title?.message}</p>
+						</div>
+
+						<div className='form-control w-full'>
+							<label className='label font-bold'>Customer ID</label>
+							<input
+								type='text'
+								{...register('customerId')}
+								className='input input-bordered'
+								placeholder='Customer ID'
+							/>
+							<p className='text-red-500 text-sm mt-1'>{errors.customerId?.message}</p>
+						</div>
+
+						<div className='form-control w-full'>
+							<label className='label font-bold'>Order ID</label>
+							<input
+								type='text'
+								{...register('salesId')}
+								className='input input-bordered'
+								placeholder='Order ID'
+							/>
+							<p className='text-red-500 text-sm mt-1'>{errors.salesId?.message}</p>
+						</div>
+
+						<div className='form-control w-full'>
+							<label className='label font-bold'>Category</label>
+							<Controller
+								name='category'
+								control={control}
+								render={({ field }) => (
+									<select {...field} className='select select-bordered'>
+										<option value='' disabled>
+											Select Category
+										</option>
+										{categoryOptions.map((option) => (
+											<option key={option.value} value={option.value}>
+												{option.label}
+											</option>
+										))}
+									</select>
+								)}
+							/>
+							<p className='text-red-500 text-sm mt-1'>{errors.category?.message}</p>
+						</div>
+
+						<div className='form-control w-full'>
+							<label className='label font-bold'>Description</label>
+							<textarea
+								{...register('description')}
+								className='textarea textarea-lg textarea-bordered'
+								placeholder='Description'
+							/>
+							<p className='text-red-500 text-sm mt-1'>{errors.description?.message}</p>
+						</div>
+
+						<div className='form-control w-full'>
+							<label className='label font-bold'>Status</label>
+							<Controller
+								name='status'
+								control={control}
+								render={({ field }) => (
+									<select {...field} className='select select-bordered'>
+										<option value='' disabled>
+											Select Status
+										</option>
+										{statusOptions.map((option) => (
+											<option key={option.value} value={option.value}>
+												{option.label}
+											</option>
+										))}
+									</select>
+								)}
+							/>
+							<p className='text-red-500 text-sm mt-1'>{errors.status?.message}</p>
+						</div>
+
+						<div className='modal-action'>
+							<button type='button' className='btn' onClick={handleModal}>
+								Close
+							</button>
+							{!isLoading ? (
+								<button type='submit' className='btn btn-primary'>
+									Save
+								</button>
+							) : (
+								<button type='button' className='btn loading'>
+									Saving...
+								</button>
+							)}
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default UpdateTicket;

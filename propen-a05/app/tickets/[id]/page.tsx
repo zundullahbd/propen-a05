@@ -1,203 +1,209 @@
-"use client";
-import { useParams, useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { ArrowLeft, Check, CircleCheck } from 'lucide-react';
+import React, { useEffect } from 'react';
 
-import TableStatus from '@/app/components/table/TableStatus';
-import PrimaryButton from '@/app/components/ui/PrimaryButton';
+import DeleteTickets from '../deleteTickets';
+import Link from 'next/link';
+import TicketClipboard from '../_components/TicketClipboard';
 import TicketTile from '@/app/components/ui/TicketTile';
+import UpdateTicket from '../updateTickets';
+import { db } from '@/lib/prisma';
 
-
-const TicketDetailPage = () => {
-    const router = useRouter();
-    const params = useParams();
-    const appURL = "http://localhost:3000";
-    const ticketURL = `${appURL}/tickets/${params.id}`;
-    const [isCopyLinkPopUpOpen, setIsCopyLinkPopUpOpen] = useState(false);
-    const [isMounted, setIsMounted] = useState(false);
-    const dummyData = {
-        'ID': '1',
-        'createdAt': '9-21-2022',
-        'updatedAt': '9-21-2023',
-        'category': 'Product Quality',
-        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris porttitor arcu tempor cursus dignissim. Nulla facilisi. Integer erat felis, aliquet at euismod at, cursus ut velit. Quisque dictum, nisl in cursus bibendum, nisi tellus vulputate lacus, vel gravida nisi ex commodo nisl. Sed nec justo leo. Cras magna felis, luctus nec vestibulum in, sodales non dui. Quisque facilisis, lorem eu semper congue, mauris magna viverra mi, non eleifend lectus urna non erat.',
-        'status': 'In Progress',
-        'customer': 'Budi Budi',
-        'product': {
-            'name': 'Samsung AC 1 PK',
-            'id': 'AR18CYKAAWKNSE',
-            'brand': 'Samsung',
-            'category': 'Air Conditioner (AC)',
-            'variant': 'Default',
-            'purchaseDate': '9-21-2022',
-        },
-        'rating': {
-            'stars': 5,
-            'review': 'The customer service attitude was exceptional – friendly, understanding, and proactive in resolving my issue. Not to mention, the speed of service was remarkable; my concern was addressed swiftly and efficiently. Keep up the fantastic work!',
-            'likes': ['Customer service attitude', 'Speed of service', 'Communication quality'],
-        }
-    }
-    useEffect(() => {
-        setIsMounted(true);
-    }, [isMounted]);
-
-    function copyTicketURLToClipboard() {
-        navigator.clipboard.writeText(ticketURL);
-        setIsCopyLinkPopUpOpen(false);
-    }
-
-    return (
-        <div>
-            <button onClick={router.back} className='mb-2 text-[#344054] font-medium'>
-                <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-                    </svg>
-                </span>
-                Back
-            </button>
-            <div className="grid grid-cols-1 gap-7 mt-4">
-                <div>
-                    <div className="flex space-x-5 items-center">
-                        <h1 className='text-[#344054] font-semibold text-2xl'>Ticket #{dummyData.ID}</h1>
-                        <TableStatus status="In Progress" />
-                    </div>
-                    <div className="mt-4">
-                        <TicketTile header="Ticket Details">
-                            <div className='text-[#344054] space-y-5'>
-                                <div className='grid grid-cols-3'>
-                                    <div>
-                                        <h2 className='text-[#667085] mb-2'>Ticket ID</h2>
-                                        <p>#{dummyData.ID}</p>
-                                    </div>
-                                    <div>
-                                        <h2 className='text-[#667085] mb-2'>Customer</h2>
-                                        <p>{dummyData.customer}</p>
-                                    </div>
-                                    <div>
-                                        <h2 className='text-[#667085] mb-2'>Category</h2>
-                                        <p className='border-[1px] border-[#344054] py-1 px-2 rounded-xl text-center'>{dummyData.category}</p>
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-3">
-                                    <div>
-                                        <h2 className='text-[#667085] mb-2'>Date Submitted</h2>
-                                        <p>{dummyData.createdAt}</p>
-                                    </div>
-                                    <div>
-                                        <h2 className='text-[#667085] mb-2'>Last Updated</h2>
-                                        <p>{dummyData.updatedAt}</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h2 className='text-[#667085] mb-2'>Description</h2>
-                                    <p>{dummyData.description}</p>
-                                </div>
-                            </div>
-                        </TicketTile>
-                    </div>
-                </div>
-                <div>
-                    <div className="flex items-center justify-end space-x-4 relative">
-                        {isCopyLinkPopUpOpen && (<div className="absolute -top-10 bg-white rounded-lg p-6 w-full text-[#344054] shadow-md shadow-black/30">
-                            <div className="flex flex-row justify-between items-center mb-2">
-                                <h2 className='font-semibold'>Ticket #{dummyData.ID}</h2>
-                                <button onClick={() => setIsCopyLinkPopUpOpen(false)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <p>Use this link to track your complaint status in real time</p>
-                            <div className="flex mt-5 text-[#3D3FDF] font-medium text-2xl items-center space-x-5">
-                                <h1>{ticketURL}</h1>
-                                <button onClick={copyTicketURLToClipboard}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                                        <path fillRule="evenodd" d="M17.663 3.118c.225.015.45.032.673.05C19.876 3.298 21 4.604 21 6.109v9.642a3 3 0 0 1-3 3V16.5c0-5.922-4.576-10.775-10.384-11.217.324-1.132 1.3-2.01 2.548-2.114.224-.019.448-.036.673-.051A3 3 0 0 1 13.5 1.5H15a3 3 0 0 1 2.663 1.618ZM12 4.5A1.5 1.5 0 0 1 13.5 3H15a1.5 1.5 0 0 1 1.5 1.5H12Z" clipRule="evenodd" />
-                                        <path d="M3 8.625c0-1.036.84-1.875 1.875-1.875h.375A3.75 3.75 0 0 1 9 10.5v1.875c0 1.036.84 1.875 1.875 1.875h1.875A3.75 3.75 0 0 1 16.5 18v2.625c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625v-12Z" />
-                                        <path d="M10.5 10.5a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963 5.23 5.23 0 0 0-3.434-1.279h-1.875a.375.375 0 0 1-.375-.375V10.5Z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        )}
-                        <PrimaryButton onClick={() => setIsCopyLinkPopUpOpen(true)} text='Generate Link' />
-                    </div>
-                    <div className="mt-3">
-                        <TicketTile header="Product Details">
-                            <div className='text-[#344054] space-y-5'>
-                                <div className='grid grid-cols-2'>
-                                    <div>
-                                        <h2 className='text-[#667085] mb-2'>Product Name</h2>
-                                        <p>{dummyData.product.name}</p>
-                                    </div>
-                                    <div>
-                                        <h2 className='text-[#667085] mb-2'>Product ID</h2>
-                                        <p>{dummyData.product.id}</p>
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-2">
-                                    <div>
-                                        <h2 className='text-[#667085] mb-2'>Brand</h2>
-                                        <p>{dummyData.product.brand}</p>
-                                    </div>
-                                    <div>
-                                        <h2 className='text-[#667085] mb-2'>Product Category</h2>
-                                        <p>{dummyData.product.category}</p>
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-2">
-                                    <div>
-                                        <h2 className='text-[#667085] mb-2'>Variant</h2>
-                                        <p>{dummyData.product.variant}</p>
-                                    </div>
-                                    <div>
-                                        <h2 className='text-[#667085] mb-2'>Purchase Date</h2>
-                                        <p>{dummyData.product.purchaseDate}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </TicketTile>
-                    </div>
-                </div>
-                {dummyData.rating && (
-                        <div className="col-span-2 mt-7">
-                            <TicketTile header="Rating & Review">
-                                <div className="flex flex-row text-[#344054] space-x-32">
-                                    <div>
-                                        <div>
-                                            <h2 className='text-[#667085] mb-2'>Rating</h2>
-                                            <div className="flex space-x-1">
-                                                {dummyData.rating.stars > 0 && Array.from({ length: dummyData.rating.stars }).map((_, index) => (
-                                                    <svg key={index} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10 text-[#3D3FDF]">
-                                                        <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clipRule="evenodd" />
-                                                    </svg>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <div className='mt-5'>
-                                            <h2 className='text-[#667085] mb-2'>What they liked</h2>
-                                            {dummyData.rating.likes.length > 0 && dummyData.rating.likes.map((like, index) => (
-                                                <div className='flex items-center space-x-3' key={index}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-[#3D3FDF]">
-                                                        <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
-                                                    </svg>
-                                                    <p>{like}</p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h2 className='text-[#667085] mb-2'>Rating</h2>
-                                        <p>{dummyData.rating.review}</p>
-                                    </div>
-                                </div>
-                            </TicketTile>
-                        </div>
-                    )
-                }
-            </div>
-        </div>
-    )
+interface PageProps {
+	params: {
+		id: string;
+	};
 }
 
-export default TicketDetailPage;
+const getTicketData = async ({ id }: { id: string }) => {
+	const ticket = await db.ticket.findUnique({
+		where: {
+			id: Number.parseInt(id, 10),
+		},
+		include: {
+			sales: {
+				include: {
+					product: {
+						include: {
+							brand: true,
+						},
+					},
+				},
+			},
+			customer: true,
+			Review: true,
+		},
+	});
+
+	return ticket;
+};
+
+const Page: React.FC<PageProps> = async ({ params }) => {
+	const ticket = await getTicketData({ id: params.id });
+	if (!ticket) return <div>Ticket not found</div>;
+
+	const likes = [
+		{ name: 'Customer service attitude', icon: CircleCheck, enabled: ticket.Review?.attitude },
+		{ name: 'Speed of service', icon: CircleCheck, enabled: ticket.Review?.speed },
+		{ name: 'Communication quality', icon: CircleCheck, enabled: ticket.Review?.communication },
+		{ name: 'Outcome of the complaint', icon: CircleCheck, enabled: ticket.Review?.outcome },
+		{ name: 'Efficiency of the process', icon: CircleCheck, enabled: ticket.Review?.efficiency },
+	];
+
+	return (
+		<>
+			<div className='flex justify-start mb-4'>
+				<Link className='flex items-center justify-center space-x-2' href='/tickets'>
+					<ArrowLeft size={16} />
+					<span>Back</span>
+				</Link>
+			</div>
+
+			<div className='flex space-x-4 items-center justify-between'>
+				<h1 className='text-[#344054] font-semibold text-2xl'>Ticket #{ticket?.id}</h1>
+
+				<div className='flex items-center space-x-4'>
+					<TicketClipboard id={ticket.id} />
+					<UpdateTicket ticket={ticket} />
+					<DeleteTickets ticket={ticket} />
+				</div>
+			</div>
+
+			<div className='grid lg:grid-cols-5 gap-7 mt-4'>
+				<TicketTile header='Ticket Details' className='lg:col-span-3'>
+					<div className='text-[#344054] space-y-5'>
+						<div className='grid grid-cols-3 gap-4'>
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Ticket ID</h2>
+								<p>#{ticket.id}</p>
+							</div>
+
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Title</h2>
+								<p>{ticket.title}</p>
+							</div>
+
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Customer</h2>
+								<p>{ticket.customer.name}</p>
+							</div>
+
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Category</h2>
+								<p>{ticket.category}</p>
+							</div>
+						</div>
+						<div className='grid grid-cols-3'>
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Date Submitted</h2>
+								<p>
+									{ticket.createdAt.toLocaleDateString('id-ID', {
+										year: 'numeric',
+										month: 'long',
+										day: 'numeric',
+									})}
+								</p>
+							</div>
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Last Updated</h2>
+								<p>
+									{ticket.updatedAt.toLocaleDateString('id-ID', {
+										year: 'numeric',
+										month: 'long',
+										day: 'numeric',
+									})}
+								</p>
+							</div>
+						</div>
+						<div className='text-sm'>
+							<h2 className='text-gray-500 mb-1'>Description</h2>
+							<p>{ticket.description}</p>
+						</div>
+					</div>
+				</TicketTile>
+
+				<TicketTile header='Product Details' className='lg:col-span-2'>
+					<div className='text-[#344054] space-y-5'>
+						<div className='grid grid-cols-2'>
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Product Name</h2>
+								<p>{ticket.sales.product.title}</p>
+							</div>
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Product ID</h2>
+								<p>{ticket.sales.product.id}</p>
+							</div>
+						</div>
+						<div className='grid grid-cols-2'>
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Brand</h2>
+								<p>{ticket.sales.product.brand.name}</p>
+							</div>
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Brand Website</h2>
+								<p>{ticket.sales.product.brand.website}</p>
+							</div>
+						</div>
+						<div className='grid grid-cols-2'>
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Variant</h2>
+								<p>No Variation</p>
+							</div>
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Purchase Date</h2>
+								<p>No Date</p>
+							</div>
+						</div>
+					</div>
+				</TicketTile>
+
+				{ticket.Review && (
+					<TicketTile header='Rating & Review' className='col-span-full '>
+						<div className='flex flex-row text-[#344054] space-x-32'>
+							<div>
+								<div className='text-sm'>
+									<h2 className='text-gray-500 mb-1'>Rating</h2>
+									<div className='flex space-x-1'>
+										{Array.from({ length: ticket.Review.stars }).map((_, index) => (
+											<svg
+												key={index}
+												xmlns='http://www.w3.org/2000/svg'
+												viewBox='0 0 24 24'
+												fill='currentColor'
+												className='w-6 h-6 text-indigo-700'>
+												<path
+													fillRule='evenodd'
+													d='M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z'
+													clipRule='evenodd'
+												/>
+											</svg>
+										))}
+									</div>
+								</div>
+								<div className='text-sm mt-5'>
+									<h2 className='text-gray-500 mb-1'>What they liked</h2>
+									{likes
+										.filter((like) => like.enabled)
+										.map((like, index) => {
+											const Icon = like.icon;
+											return (
+												<div className='flex items-center space-x-3 mb-1' key={index}>
+													<Icon size={16} className='text-indigo-700 flex-none' />
+													<p className='w-full whitespace-nowrap'>{like.name}</p>
+												</div>
+											);
+										})}
+								</div>
+							</div>
+							<div className='text-sm'>
+								<h2 className='text-gray-500 mb-1'>Rating</h2>
+								<p>{ticket.Review.review}</p>
+							</div>
+						</div>
+					</TicketTile>
+				)}
+			</div>
+		</>
+	);
+};
+
+export default Page;
