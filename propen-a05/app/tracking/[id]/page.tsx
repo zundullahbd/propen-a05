@@ -75,7 +75,7 @@ export default async function Page({ params }: PageProps): Promise<React.JSX.Ele
 				</div>
 			</div>
 
-			<Table header={tableHeaders} className='mb-8'>
+			<Table header={tableHeaders} className='mb-2'>
 				<tr className='[&>td]:p-6'>
 					<td>1</td>
 					<td>{ticket.id}</td>
@@ -95,10 +95,10 @@ export default async function Page({ params }: PageProps): Promise<React.JSX.Ele
 
 			<div className='flex flex-col items-center justify-center'>
 				<Image
-					src='/illustration landing page.svg'
-					alt='Illustration of a dashboard'
-					width={400}
-					height={400}
+					src='/review-illustration.svg'
+					alt='review-Illustration'
+					width={300}
+					height={300}
 					className='mb-8'
 				/>
 
