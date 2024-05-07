@@ -1,4 +1,5 @@
 export const navLinks = [
+	{ href: '/home', icon: '/home.svg', title: 'Home' },
 	{ href: '/dashboard', icon: '/dashboard.svg', title: 'Dashboard' },
 	{ href: '/tickets', icon: '/complaint management.svg', title: 'Complaint Management' },
 	{ href: '/products', icon: '/package.svg', title: 'Products' },
@@ -6,5 +7,5 @@ export const navLinks = [
 	{ href: '/brands', icon: '/brands.svg', title: 'Brands' },
 	{ href: '/users', icon: '/user management.svg', title: 'User Management' },
 	{ href: '/customers', icon: '/customers.svg', title: 'Customers' },
-	{ href: '/knowledgebase', icon: '/knowledge base.svg', title: 'Knowledge Base' },
+	// { href: '/knowledgebase', icon: '/knowledge base.svg', title: 'Knowledge Base' },
 ];

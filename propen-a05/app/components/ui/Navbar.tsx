@@ -11,7 +11,7 @@ const Navbar = async () => {
 
   return (
     <div className="flex items-center justify-between h-fit px-7 py-6 shadow-md w-full bg-white relative z-90">
-      <Link href="/dashboard">
+      <Link href="/home">
       <Image src="/logo best price.jpg" alt="Logo" width={100} height={50}/>
       </Link>
       <div className='flex justify-end items-center'>

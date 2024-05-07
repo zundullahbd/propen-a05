@@ -14,7 +14,7 @@ const PlusIcon = () => (
 const AddTicket = () => {
     const [title, setTitle] = useState("");
     const [customerId, setCustomerId] = useState("");
-    const [productSalesId, setProductSalesId] = useState("");
+    const [salesId, setProductSalesId] = useState("");
     const [category, setCategory] = useState("");
     const [description, setDescription] = useState("");
     const [status, setStatus] = useState("");
@@ -28,7 +28,7 @@ const AddTicket = () => {
         await axios.post("/api/tickets", {
             title: title,
             customerId: Number(customerId),
-            productSalesId: Number(productSalesId),
+            salesId: Number(salesId),
             category: category,
             description: description,
             status: status
@@ -74,7 +74,7 @@ const AddTicket = () => {
                             <label className="label font-bold">Product Sales ID</label>
                             <input
                                 type="text"
-                                value={productSalesId}
+                                value={salesId}
                                 onChange={(e) => setProductSalesId(e.target.value)}
                                 className="input input-bordered"
                                 placeholder="Product Sales ID"

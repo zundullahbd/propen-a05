@@ -21,7 +21,7 @@ const SignInForm = () => {
   const { data: session } = useSession();
   const [errorMessage, setErrorMessage] = useState('');
   if (session?.user) {
-    window.location.href = '/dashboard';
+    window.location.href = '/home';
   }
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -41,7 +41,7 @@ const SignInForm = () => {
     console.log('signInData', signInData);
     if (!signInData?.error) {
       if (signInData?.ok){
-        window.location.href = '/dashboard';
+        window.location.href = '/home';
       }
     } else {
       toast.custom((t) => (
