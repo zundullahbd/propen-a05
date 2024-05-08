@@ -1,5 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
+import Dashboard from "../dashboard/components/dashboard";
 
 const page = async () => {
     const session = await getServerSession(authOptions);
@@ -12,11 +13,12 @@ const page = async () => {
                 </div>
             );
         }
-    else if (session?.user.role === "Exec") {
+    else if (session?.user.role === "Executive") {
         return (
             <div className="py-10 px-10">
                 <div className="flex justify-center font-bold mb-5 color: #000000">
                     <h1>Welcome Back, Executive {session?.user.username}</h1>
+                    <Dashboard />
                     </div>
                 </div>
             );
@@ -30,7 +32,7 @@ const page = async () => {
                 </div>
             );
         }
-    else if (session?.user.role === "CS") {
+    else if (session?.user.role === "CustomerService") {
         return (
             <div className="py-10 px-10">
                 <div className="flex justify-center font-bold mb-5 color: #000000">
