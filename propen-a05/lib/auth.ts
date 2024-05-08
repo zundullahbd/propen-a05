@@ -5,29 +5,6 @@ import { compare } from 'bcrypt';
 import { db } from './prisma';
 
 export const authOptions: NextAuthOptions = {
-<<<<<<< HEAD
-	adapter: PrismaAdapter(db),
-	secret: process.env.NEXTAUTH_SECRET,
-	session: {
-		strategy: 'jwt',
-		maxAge: 30 * 24 * 60 * 60,
-		updateAge: 24 * 60 * 60,
-	},
-	pages: {
-		signIn: '/sign-in',
-	},
-	providers: [
-		CredentialsProvider({
-			name: 'Credentials',
-			credentials: {
-				email: { label: 'Email', type: 'email', placeholder: 'johndoe@email.com' },
-				password: { label: 'Password', type: 'password' },
-			},
-			async authorize(credentials) {
-				if (!credentials?.email || !credentials?.password) {
-					return null;
-				}
-=======
     adapter: PrismaAdapter(db),
     secret: process.env.NEXTAUTH_SECRET,
     session: {
@@ -49,7 +26,6 @@ export const authOptions: NextAuthOptions = {
             if (!credentials?.email || !credentials?.password) {
               return null;
             }
->>>>>>> 00275c8952a285256573ec2fb5852d10ae870112
 
 				const existingUser = await db.user.findUnique({
 					where: { email: credentials?.email },
