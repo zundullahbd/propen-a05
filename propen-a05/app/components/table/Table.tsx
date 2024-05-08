@@ -14,7 +14,7 @@ const Table = ({ header, children, className }: TableProps) => {
 				<thead>
 					<tr>
 						{header.map((item, index) => (
-							<th key={index} className='p-6 text-start font-semibold text-sm'>
+							<th key={index} className='p-6 font-semibold text-sm text-center'>
 								{item}
 							</th>
 						))}

@@ -35,7 +35,7 @@ const User = async () => {
 
       <Table header={tableHeaders}>
           {users.map((user, index) => (
-            <tr key={index} className='items-center'>
+            <tr key={index} className='text-center'>
               <td className="py-[18px]">{index + 1}</td>
               <td>{user.id}</td>
               <td className="px-4">{user.username}</td>

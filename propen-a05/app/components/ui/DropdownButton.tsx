@@ -11,7 +11,7 @@ const DropdownButton = (props: {text: String}) => {
     <div className="relative inline-block text-left">
       <button
         onClick={toggleDropdown}
-        className="bg-indigo-700 rounded-lg text-white flex items-center px-3 py-1.5 rounded shadow"
+        className="bg-indigo-700 rounded text-white flex items-center px-3 py-1.5 shadow"
       >
         <span className="mr-2">{props.text}</span>
         <span className='relative mr-3'>
