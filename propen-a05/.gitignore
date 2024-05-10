@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/app/tickets/[id]/page.tsx
 /.pnp
 .pnp.js
 .yarn/install-state.gz

@@ -1,48 +1,50 @@
-import Image from "next/image";
-import { Box, Stack, Input, Button, Text } from "@chakra-ui/react";
-import AddProduct from "./products/addProduct";
+'use client';
 
-export default function Home() {
-  return (
-      <Box className="h-[calc(100%-5rem)] px-40 pb-20 pt-10 flex justify-center items-center">
-          <Box className="flex w-full overflow-hidden rounded-2xl shadow-xl bg-base-50">
-              <Box className="flex w-1/2 flex-col items-center justify-between px-24 py-10">
-                  <Box className="flex flex-col items-center text-lg text-base-content-200 mb-10">
-                      {/* Replace with your logo component */}
-                      <Image
-                          src="/logo-bni-full.svg" // Replace with your actual logo path
-                          width={175}
-                          height={57}
-                          alt=""
-                      />
-                      <a href="./addProduct">Product</a>
-                      <Text className="font-bold">International Division</Text>
-                      <Text className="">Custody Form Database</Text>
-                  </Box>
-                  <Box className="mb-4 flex w-full flex-col gap-4">
-                      <Box className="mb-2">
-                          <Text className="text-base-content-300">Email address</Text>
-                          <Input
-                              type="email"
-                              placeholder="johndoe@bni.co.id"
-                              className="rounded-lg border-base-content-500 bg-transparent shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          />
-                      </Box>
-                      <Box className="mb-2">
-                          <Text className="text-base-content-300">Password</Text>
-                          <Input
-                              type="password"
-                              placeholder="••••••••••••"
-                              className="rounded-lg border-base-content-500 bg-transparent shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                          />
-                      </Box>
-                  </Box>
-                  <Button className="btn w-full">Login</Button>
-              </Box>
-              <Box className="w-1/2 bg-[url('/images/bg-auth.svg')] object-cover" />
-          </Box>
-      </Box>
-  )
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+export default function Page() {
+	const router = useRouter();
+
+	useEffect(() => {
+		// Perform a client-side redirect to the sign-in page
+		router.replace('/sign-in');
+
+		// Define the rotation angle and the animation frame ID
+		let rotation = 0;
+		let animationFrameId: number;
+
+		// Define the animation function
+		const animate = () => {
+			// Rotate the child div element by 1 degree
+			rotation += 1;
+
+			// Update the rotation value of the child div element
+			const childDiv = document.querySelector('.child-div') as HTMLElement;
+			if (childDiv) {
+				childDiv.style.transform = `rotate(${rotation}deg)`;
+			}
+
+			// Request the next animation frame
+			animationFrameId = requestAnimationFrame(animate);
+		};
+
+		// Start the animation
+		animate();
+
+		// Clean up the animation when the component unmounts
+		return () => {
+			cancelAnimationFrame(animationFrameId);
+		};
+	}, [router]);
+
+	// Optionally, you can render a fallback content or a loading spinner while the redirection is in progress
+	return (
+		<div
+			className='justify-center items-center flex flex-col h-screen bg-center bg-no-repeat bg-cover'
+			style={{ backgroundImage: `url(/landing.svg)` }}>
+			<div className='absolute inset-0 z-0 child-div' />
+			<div className='z-10'></div>
+		</div>
+	);
 }
-
-

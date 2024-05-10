@@ -28,4 +28,3 @@ export const DELETE = async (request: Request, {params}: {params: {id: string}})
     return NextResponse.json(article, {status: 200});
 }
 
-

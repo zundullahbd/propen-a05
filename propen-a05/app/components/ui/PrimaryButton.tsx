@@ -1,9 +1,23 @@
-import React from 'react'
+import React from 'react';
+import { cn } from '@/lib/utils';
 
-function PrimaryButton(props: { text: string, onClick: React.MouseEventHandler<HTMLButtonElement>; }) {
-  return (
-    <button onClick={props.onClick} className='bg-indigo-700 text-white text-bold rounded-lg px-6 py-2'>{props.text}</button>
-  )
+interface PrimaryButtonProps {
+	text: string;
+	onClick: React.MouseEventHandler<HTMLButtonElement>;
+	className?: string;
 }
 
-export default PrimaryButton
+const PrimaryButton: React.FC<PrimaryButtonProps> = ({ text, onClick, className }) => {
+	return (
+		<button
+			className={cn(
+				'text-sm bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center space-x-2',
+				className
+			)}
+			onClick={onClick}>
+			<span>{text}</span>
+		</button>
+	);
+};
+
+export default PrimaryButton;

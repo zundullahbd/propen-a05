@@ -1,81 +1,61 @@
-
-import {PrismaClient} from "@prisma/client";
-import AddTicket from "./addTicket";
-import DeleteTickets from "./deleteTickets";
-import UpdateTickets from "./updateTickets";
-
-const prisma = new PrismaClient();
-
-export const dynamic = "force-dynamic";
-
+import AddTicket from './addTicket';
+import Link from 'next/link';
+import Table from '../components/table/Table';
+import { db } from '@/lib/prisma';
 
 const getTickets = async () => {
-    const res = await prisma.ticket.findMany({
-        select: {
-            id: true,
-            title: true,
-            customerId: true,
-            productSalesId: true,
-            category: true,
-            description: true,
-            status: true,
-            createdAt: true,
-            updatedAt: true,
-        },
-    });
-    return res;
-};
-
-const formatDateTime = (dateTime: Date | null): string => {
-    return dateTime ? new Date(dateTime).toLocaleString() : "";
+	return await db.ticket.findMany({
+		include: {
+			sales: {
+				include: {
+					product: true,
+				},
+			},
+		},
+	});
 };
 
 const Ticket = async () => {
-    const tickets = await getTickets();
+	const tickets = await getTickets();
+	const tableHeaders = ['ID', 'Title', 'Last Updated', 'Product', 'Category', 'Status', 'Actions'];
 
-    return (
-        <div>
-            <div className="mb-2">
-                <AddTicket/>
-            </div>
+	return (
+		<div>
+			<div className='mb-4'>
+				<AddTicket />
+			</div>
 
-            <table className="table w-full">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Customer ID</th>
-                    <th>Product Sales ID</th>
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                    <th className="text-center">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {tickets.map((ticket, index) => (
-                    <tr key={ticket.id}>
-                        <td>{index + 1}</td>
-                        <td>{ticket.title}</td>
-                        <td>{ticket.customerId}</td>
-                        <td>{ticket.productSalesId}</td>
-                        <td>{ticket.category}</td>
-                        <td>{ticket.description}</td>
-                        <td>{ticket.status}</td>
-                        <td>{formatDateTime(ticket.createdAt)}</td>
-                        <td>{formatDateTime(ticket.updatedAt)}</td>
-                        <td className="flex justify-center space-x-1">
-                            <UpdateTickets  ticket={ticket}/>
-                            <DeleteTickets ticket={ticket}/>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        </div>
-    );
+			<Table header={tableHeaders}>
+				{tickets.map((tickets, index) => (
+					<tr key={index} className='[&>td]:p-6'>
+						<td>{tickets.id}</td>
+						<td>{tickets.title}</td>
+						<td>
+							{tickets.updatedAt.toLocaleDateString('id-ID', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric',
+							})}
+						</td>
+						<td>{tickets.sales.product.title}</td>
+						<td>{tickets.category}</td>
+						<td>
+							<span className='py-2 px-4 border border-indigo-700 text-indigo-700 rounded-full text-sm'>
+								{tickets.status}
+							</span>
+						</td>
+						<td>
+							<Link
+								href={`/tickets/${tickets.id}`}
+								className='py-2 px-4 text-sm bg-indigo-700 text-white font-medium rounded-lg'>
+								<span>Details</span>
+							</Link>
+						</td>
+					</tr>
+				))}
+			</Table>
+		</div>
+	);
 };
 
 export default Ticket;

@@ -26,8 +26,8 @@ model Brand {
   twitter   String?
   image     String?
 
-  category  Category[]
-  products  Product[]
+  Category  Category[]
+  Product  Product[]
 
   sales     User? @relation(fields: [salesId], references: [id])
   salesId   Int?
@@ -60,19 +60,104 @@ model Product {
   brand      Brand @relation(fields: [brandId], references: [id])
   brandId    Int
 
+  Sales  Sales[]
+
   @@index([brandId])
 }
 
+model Sales {
+    id        Int      @id @default(autoincrement())
+    outlet          String
+    number          String
+    name            String
+    code            String
+    referenceNumber String
+    date            String
+    createdTime     String
+    due             String
+    amount          Int
+    payment         String
+    fulfillment     String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    customer   Customer @relation(fields: [customerId], references: [id])
+    customerId Int
+
+    product   Product @relation(fields: [productId], references: [id])
+    productId Int
+
+    Ticket Ticket[]
+
+    @@index([customerId])
+    @@index([productId])
+}
+
 model Ticket {
-  id             Int      @id @default(autoincrement())
-  title          String
-  customerId     Int
-  productSalesId Int
-  category       String   @default("")
-  description    String   @default("")
-  status         String   @default("")
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+    id          Int            @id @default(autoincrement())
+    title       String
+    category    TicketCategory @default(KOMPLAIN)
+    description String         @default("")
+    status      Status         @default(SUBMITTED)
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+
+    customer   Customer @relation(fields: [customerId], references: [id])
+    customerId Int
+
+    sales   Sales @relation(fields: [salesId], references: [id])
+    salesId Int
+
+    Review Review?
+
+    @@index([customerId])
+    @@index([salesId])
+}
+
+enum Status {
+    SUBMITTED
+    REVIEWED
+    INPROGRESS
+    RESOLVED
+    CLOSED
+}
+
+enum TicketCategory {
+    KOMPLAIN
+    INFORMASI
+    GARANSI
+}
+
+model Review {
+    id     Int     @id @default(autoincrement())
+    stars  Int
+    review String?
+
+    attitude      Boolean @default(false)
+    speed         Boolean @default(false)
+    communication Boolean @default(false)
+    outcome       Boolean @default(false)
+    efficiency    Boolean @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    customer   Customer @relation(fields: [customerId], references: [id])
+    customerId Int
+
+    ticket   Ticket @relation(fields: [ticketId], references: [id])
+    ticketId Int    @unique
+
+    @@index([ticketId])
+    @@index([customerId])
+}
+
+enum Role {
+    CustomerService
+    Sales
+    Executive
+    Admin
 }
 
 model User {
@@ -80,25 +165,31 @@ model User {
   username     String     @unique
   email        String     @unique
   password     String     
-  role         String     
+  role         Role     
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   Brand     Brand[]
 }
 
 model Customer {
-  id            Int     @id @default(autoincrement())
-  outlet        String
-  number        String  
-  name          String
-  code          String
-  referenceNumber     String
-  date          String
-  createdTime   String
-  due           String
-  amount        Int
-  payment       String
-  fulfillment   String
+    id              Int      @id @default(autoincrement())
+    outlet          String
+    number          String
+    name            String
+    code            String
+    referenceNumber String
+    date            String
+    createdTime     String
+    due             String
+    amount          Int
+    payment         String
+    fulfillment     String
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    Ticket Ticket[]
+    Sales  Sales[]
+    Review Review[]
 }
 
 model Article {
