@@ -1,17 +1,18 @@
 "use client";
 import { useState, SyntheticEvent } from "react";
+import type { Brand } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
 type Article = {
-    title: string;
     id: number;
+    title: string;
     text: string;
 };
 
 const UpdateArticle = ({ article }: { article: Article }) => {
-    const [title, setTitle] = useState("");
-    const [text, setText] = useState("");
+    const [title, setTitle] = useState(article.title);
+    const [text, setText] = useState(article.text);
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -34,8 +35,8 @@ const UpdateArticle = ({ article }: { article: Article }) => {
     };
 
     return (
-        <div>
-            <button className="btn btn-sm bg-indigo-700 text-white hover:bg-indigo-800" onClick={handleModal}>
+        <div className='flex items-center justify-between mb-40'>
+            <button className="btn btn-info btn-sm" onClick={handleModal}>
                 Edit
             </button>
 
@@ -44,7 +45,7 @@ const UpdateArticle = ({ article }: { article: Article }) => {
                     <h3 className="font-bold text-lg">Update {article.title}</h3>
                     <form onSubmit={handleUpdate}>
                         <div className="form-control w-full">
-                            <label className="label font-bold">Title</label>
+                            <label className="label font-bold">Article Title</label>
                             <input
                                 type="text"
                                 value={title}
@@ -58,24 +59,19 @@ const UpdateArticle = ({ article }: { article: Article }) => {
                             <textarea
                                 value={text}
                                 onChange={(e) => setText(e.target.value)}
-                                className="h-32 input input-bordered"
+                                className="input input-bordered"
                                 placeholder="Content"
-                                required
                                 rows={5}
                             />
                         </div>
-                        
                         <div className="modal-action">
-                            <button type="button" className="btn" onClick={handleModal}>
-                                Close
-                            </button>
                             {!isLoading ? (
-                                <button type="submit" className="btn btn-primary text-white">
+                                <button type="submit" className="btn btn-primary">
                                     Save
                                 </button>
                             ) : (
                                 <button type="button" className="btn loading">
-                                    Saving...
+                                    Updating...
                                 </button>
                             )}
                         </div>

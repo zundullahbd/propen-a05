@@ -2,6 +2,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import PrimaryButton from "@/app/components/ui/PrimaryButton";
+import UpdateArticle from "./updateArticle";
+import DeleteArticle from "./deleteArticle";
 
 type Article = {
     title: string;
@@ -9,15 +12,15 @@ type Article = {
     text: string;
 };
 
-const DeleteArticle = ({ article }: { article: Article }) => {
+const ViewArticle = ({ article }: { article: Article }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const router = useRouter();
 
-    const handleDelete = async (articleId: number) => {
+    const handleView = async (articleId: number) => {
         setIsLoading(true);
-        await axios.delete(`/api/articles/${articleId}`);
+        await axios.get(`/api/articles/${articleId}`);
         setIsLoading(false);
         router.refresh();
         setIsOpen(false);
@@ -29,28 +32,28 @@ const DeleteArticle = ({ article }: { article: Article }) => {
 
     return (
         <div>
-            <button className="btn border border-error-500 text-red-500 btn-sm bg-white hover:bg-error-100 hover:border-red-500" onClick={handleModal}>
-                Delete
-            </button>
+            <PrimaryButton text="View" onClick={handleModal}/>
 
             <div className={isOpen ? "modal modal-open" : "modal"}>
                 <div className="modal-box">
+                <button className="modal-close"  onClick={handleModal}>X</button>
+                    <br>
+                    </br>
+                    <br>
+                    </br>
                     <h3 className="font-bold text-lg">
-                        Are sure you want to delete {article.title}?
+                        {article.title}
                     </h3>
+                    <br>
+                    </br>
+                    <h6>
+                        {article.text}
+                    </h6>
 
-                    <div className="modal-action">
-                        <button type="button" className="btn" onClick={handleModal}>
-                            No
-                        </button>
+                    <div className="modal-action" >
+                    <UpdateArticle article={article}/>
                         {!isLoading ? (
-                            <button
-                                type="button"
-                                onClick={() => handleDelete(article.id)}
-                                className="btn btn-primary"
-                            >
-                                Yes
-                            </button>
+                            <DeleteArticle article={article}/>
                         ) : (
                             <button type="button" className="btn loading">
                                 Deleting...
@@ -63,4 +66,4 @@ const DeleteArticle = ({ article }: { article: Article }) => {
     );
 };
 
-export default DeleteArticle;
+export default ViewArticle;
