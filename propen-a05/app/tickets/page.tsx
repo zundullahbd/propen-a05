@@ -27,7 +27,7 @@ const Ticket = async () => {
 
 			<Table header={tableHeaders}>
 				{tickets.map((tickets, index) => (
-					<tr key={index} className='[&>td]:p-6'>
+					<tr key={index} className='[&>td]:p-6 text-center'>
 						<td>{tickets.id}</td>
 						<td>{tickets.title}</td>
 						<td>

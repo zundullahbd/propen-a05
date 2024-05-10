@@ -1,4 +1,4 @@
-import { FilePlus2, FilePlus, FileSearch, FileInput, FileCheck2, Plus, Search } from 'lucide-react';
+import { FilePlus2, FileSearch, FileInput, FileCheck2, Plus, Search } from 'lucide-react';
 
 import Link from 'next/link';
 import React from 'react';

@@ -1,13 +1,22 @@
 import { useState, useEffect } from 'react';
 import { PrismaClient } from "@prisma/client";
 import AddArticle from "./addArticle";
-import UpdateArticle from "./updateArticle";
-import DeleteArticle from "./deleteArticle";
+import ViewArticle from "./viewArticle";
 import AccordionItem from '@/app/components/ui/Accordion';
+import { db } from '@/lib/prisma';
 const prisma = new PrismaClient();
-
+import * as React from 'react'
+import { ArrowDownAZ, ArrowUpAZ, PlusIcon } from 'lucide-react'
+import Link from 'next/link'
 
 export const dynamic = "force-dynamic";
+
+interface PageProps {
+	searchParams: {
+		page: string
+		sort: string
+	}
+}
 
 const faqs = [
     {
@@ -35,9 +44,24 @@ const getArticles = async () => {
     return res;
 };
 
-const Article = async () => {
+export const Article : React.FC<PageProps> = async ({ searchParams }) => {
 
-    const articles = await getArticles();
+    const page = Number.parseInt(searchParams.page, 10) || 1
+	const sort = searchParams.sort === 'asc' ? 'asc' : 'desc'
+	const serialized = JSON.stringify({ page, sort })
+
+    const limit = 6;
+	const offset = (page - 1) * limit;
+
+	const articles = await db.article.findMany({
+		take: limit,
+		skip: offset,
+		orderBy: { title: sort },
+	});
+
+	const totalArticles = await db.article.count();
+	const totalPages = Math.ceil(totalArticles / limit);
+	const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     return (
         <div>
@@ -56,33 +80,44 @@ const Article = async () => {
             <div className="mb-2">
                 <AddArticle/>
             </div>
+            <br>
+            </br>
+            
+            <Link
+					href={`/articles?page=${page}&sort=${sort === 'asc' ? 'desc' : 'asc'}`}
+					className='flex items-center space-x-2 text-gray-500'>
+					{sort === 'asc' ? <ArrowUpAZ size={16} /> : <ArrowDownAZ size={16} />}
+					<span className='text-sm'>Title</span>
+			</Link>
+     
+            <br>
+            </br>
 
             <table className="table w-full bg-white p-4" style={{ padding: '20px' }}>
                 <thead>
                 <tr>
-                    <th style={{ color: '#1D2939', fontSize: '14px', height: '50px' }}>No.</th>
                     <th style={{ color: '#1D2939', fontSize: '14px', height: '50px' }}>Title</th>
-                    <th style={{ color: '#1D2939', fontSize: '14px', height: '50px' }}>Text</th>
+                    <th style={{ color: '#1D2939', fontSize: '14px', height: '50px' }}>Content</th>
                     <th className="text-center" style={{ color: '#1D2939', fontSize: '14px', height: '50px' }}>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 {articles.map((article: { id: any; title: any; text: any}, index: number) => (
                     <tr key={article.id}>
-                        <td>{index + 1}</td>
                         <td>{article.title}</td>
                         <td className="text-ellipsis max-w-xs">{article.text}</td>
                         <td className="flex justify-center">
             <div className="flex gap-x-2"> {/* Add this div with flex and gap */}
-                <UpdateArticle article={article}/>
-                <DeleteArticle article={article}/>
+                <ViewArticle article={article}/>
                 </div>
                 </td>
                 </tr>
                 ))}
                 </tbody>
             </table>
+            
         </div>
+        
     );
 };
 export default Article;

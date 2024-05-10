@@ -1,15 +1,27 @@
 import MainLayout from "../components/ui/MainLayout";
+import * as React from 'react'
 
 export const metadata = {
     title: "Customers",
 };
 
-const CustomerLayout = ({ children }: { children: React.ReactNode }) => {
-    return (
+interface LayoutProps {
+	children: React.ReactNode
+	modal: React.ReactNode
+}
+
+const Layout: React.FC<LayoutProps> = ({ children, modal }) => {
+	return (
         <MainLayout>
+            {modal}
             <div className="py-10 px-10">{children}</div>
         </MainLayout>
-    );
-};
+		// <>
+		// 	{modal}
+		// 	<div className='w-full'>{children}</div>
+		// </>
+	)
+}
 
-export default CustomerLayout;
+export default Layout;
+
