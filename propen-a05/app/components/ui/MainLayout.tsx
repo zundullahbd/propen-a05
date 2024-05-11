@@ -30,7 +30,7 @@ const links = [
 		image: '/package.svg',
 	},
 	{
-		href: '/productsales',
+		href: '/sales',
 		name: 'Product Sales',
 		image: '/product sales.svg',
 	},
