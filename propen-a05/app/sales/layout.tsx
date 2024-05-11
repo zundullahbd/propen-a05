@@ -2,7 +2,7 @@ import MainLayout from "../components/ui/MainLayout";
 import * as React from 'react'
 
 export const metadata = {
-    title: "Product",
+    title: "Sales",
 };
 
 interface LayoutProps {
