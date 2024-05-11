@@ -1,69 +1,71 @@
-import { PrismaClient } from "@prisma/client";
-import AddProduct from "./addProduct";
-import DeleteProduct from "./deleteProduct";
-import UpdateProduct from "./updateProduct";
-const prisma = new PrismaClient();
+import * as React from 'react';
+import { ArrowDownAZ, ArrowUpAZ, PlusIcon, SearchIcon } from 'lucide-react';
+import { ProductGrid } from './_components/ProductGrid';
+import Link from 'next/link';
+import Search from './_components/Search';
 
-export const dynamic = "force-dynamic";
+interface PageProps {
+	searchParams: {
+		page: string;
+		sort: string;
+		limit: string;
+		search: string;
+	};
+}
 
-const getProducts = async () => {
-    const res = await prisma.product.findMany({
-        select: {
-            id: true,
-            title: true,
-            price: true,
-            brandId: true,
-            brand: true,
-        },
-    });
-    return res;
+const Page: React.FC<PageProps> = ({ searchParams }) => {
+	const { page, sort, limit, search } = searchParams;
+	const currentPage = Number.parseInt(page, 10) || 1;
+	const currentSort = sort === 'asc'? 'asc' : 'desc';
+	const currentLimit = Number.parseInt(limit, 10) || 10;
+	const currentSearch = search || undefined;
+
+	const serialized = JSON.stringify({ page: currentPage, sort: currentSort });
+
+	return (
+		<>
+			<div className='flex items-center justify-between mb-6'>
+				<Link
+					href={`/products?page=${currentPage}&sort=${currentSort === 'asc'? 'desc' : 'asc'}`}
+					className='flex items-center space-x-2 text-gray-500'
+				>
+					{currentSort === 'asc'? <ArrowUpAZ size={16} /> : <ArrowDownAZ size={16} />}
+					<span className='text-sm'>Name</span>
+				</Link>
+
+				<div className='grow'>
+					<Search search={currentSearch} />
+				</div>
+
+				<div className='flex items-center justify-end space-x-2'>
+					<Link href='/products/create'>
+						<button className='text-sm bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center space-x-2'>
+							<span>Add New</span>
+							<PlusIcon size={16} />
+						</button>
+					</Link>
+
+					<Link href='/products/import'>
+						<button className='text-sm bg-white border border-indigo-700 text-indigo-700 font-medium py-2 px-4 rounded-lg flex items-center justify-center space-x-2'>
+							<span>Import</span>
+							<PlusIcon size={16} />
+						</button>
+					</Link>
+				</div>
+			</div>
+
+			<React.Suspense
+				key={serialized}
+				fallback={
+					<div className='w-full h-[80vh] flex justify-center items-center'>
+						<span className='loading loading-bars text-indigo-700'></span>
+					</div>
+				}
+			>
+				<ProductGrid page={currentPage} sort={currentSort} />
+			</React.Suspense>
+		</>
+	);
 };
 
-const getBrands = async () => {
-    const res = await prisma.brand.findMany();
-    return res;
-};
-
-const Product = async () => {
-    const [products, brands] = await Promise.all([getProducts(), getBrands()]);
-
-    return (
-        <div>
-            <div className="mb-2">
-                <AddProduct brands={brands} />
-            </div>
-
-            <table className="table w-full">
-                <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Product ID</th>
-                    <th>Name</th>
-                    <th>Brand</th>
-                    <th>Price</th>
-                    {/* <th>Description</th> */}
-                    <th className="text-center">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {products.map((product, index) => (
-                    <tr key={product.id}>
-                        <td>{index + 1}</td>
-                        <td>{product.id}</td>
-                        <td>{product.title}</td>
-                        <td>{product.brand.name}</td>
-                        <td>{product.price}</td>
-                        {/* <td>{product.description}</td> */}
-                        <td className="flex justify-center space-x-1">
-                            <UpdateProduct brands={brands} product={product} />
-                            <DeleteProduct product={product} />
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-        </div>
-    );
-};
-
-export default Product;
+export default Page;
