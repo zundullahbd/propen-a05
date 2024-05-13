@@ -11,6 +11,7 @@ export const POST = async (request: Request) =>{
             title: body.title,
             price: body.price,
             brandId: body.brandId,
+            brandName: body.brandName
             
         }
     });
