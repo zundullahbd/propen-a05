@@ -29,7 +29,7 @@ export const CustomerGrid: React.FC<CustomerGridProps> = async ({ page, sort }) 
     return (
         <div>
 
-            <Table header={header} className='w-full items-center justify-between'>
+            <Table header={header} className='w-full items-center justify-between'  >
                 {customers.map((customer, index) => (
                     <tr key={index} className='text-center items-center justify-between'>
                         <td className="py-[18px]">{index + 1}</td>
