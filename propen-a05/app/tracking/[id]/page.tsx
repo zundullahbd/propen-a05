@@ -25,7 +25,7 @@ const getTicket = async (id: number) => {
 		include: {
 			sales: {
 				include: {
-					product: true,
+					Product: true,
 				},
 			},
 			Review: true,
@@ -80,7 +80,7 @@ export default async function Page({ params }: PageProps): Promise<React.JSX.Ele
 					<td>1</td>
 					<td>{ticket.id}</td>
 					<td>{ticket.updatedAt.toString()}</td>
-					<td>{ticket.sales.product.title}</td>
+					<td>{ticket.sales?.Product?.title}</td>
 					<td>{ticket.category}</td>
 					<td>
 						<p className='text-sm w-full max-w-40 line-clamp-2'>{ticket.description}</p>
