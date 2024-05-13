@@ -8,7 +8,7 @@ const getTickets = async () => {
 		include: {
 			sales: {
 				include: {
-					product: true,
+					Product: true,
 				},
 			},
 		},
@@ -37,7 +37,7 @@ const Ticket = async () => {
 								day: 'numeric',
 							})}
 						</td>
-						<td>{tickets.sales.product.title}</td>
+						<td>{tickets.sales.Product ? tickets.sales.Product.title : ''}</td>
 						<td>{tickets.category}</td>
 						<td>
 							<span className='py-2 px-4 border border-indigo-700 text-indigo-700 rounded-full text-sm'>

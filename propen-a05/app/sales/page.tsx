@@ -26,12 +26,22 @@ const Page: React.FC<PageProps> = ({ searchParams }) => {
 					<span className='text-sm'>Name</span>
 				</Link>
 
-				<div className='flex items-center w-full max-w-xs relative'>
+				{/* <div className='flex items-center w-full max-w-xs relative'>
 					<SearchIcon className='h-5 w-20 text-gray-400 absolute left-3' aria-hidden='true' />
 					<input
 						type='text'
 						placeholder='Search sales...'
 						className='block w-full rounded-md border-0 py-1.5 pl-14 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6'
+					/>
+				</div> */}
+
+				<div className='grow relative rounded-md'>
+					<div className='pointer-events-none absolute inset-y-0 left-10 flex items-center pl-3'>
+						<SearchIcon className='h-5 w-20 text-gray-400' aria-hidden='true' />
+					</div>
+					<input
+						placeholder='Search'
+						className='block w-5/6 rounded-md border-0 py-1.5 pl-10 pr-6 mx-auto text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 bg-white'
 					/>
 				</div>
 

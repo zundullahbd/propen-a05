@@ -35,7 +35,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 			</div>
 
 			<div className='mb-4 flex justify-between items-center'>
-				<h1 className='font-semibold text-2xl'>{product.name}</h1>
+				<h1 className='font-semibold text-2xl'>{product.title}</h1>
 
 				<div className='flex items-center justify-end space-x-2'>
 					<Link

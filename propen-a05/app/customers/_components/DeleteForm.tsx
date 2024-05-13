@@ -35,7 +35,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
 	return (
 		<>
 			<button
-				className='text-sm border border-red-500 text-red-500 py-2 px-4 rounded-lg flex items-center justify-center space-x-2'
+				className='text-sm border border-red-500 text-red-500 py-2 px-2 rounded-lg flex items-center justify-center space-x-2'
 				onClick={() => setOpen(true)}>
 				<span>Delete</span>
 				<Trash size={16} />

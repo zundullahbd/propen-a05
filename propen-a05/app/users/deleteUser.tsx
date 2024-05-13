@@ -5,6 +5,7 @@ import axios from "axios";
 import SecondaryButton from "../components/ui/SecondaryButton";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import { Trash } from "lucide-react";
 
 type User = {
     id: number;
@@ -32,7 +33,12 @@ const DeleteUser = ({ user }: { user: User }) => {
 
   return (
         <div className="flex flex-row justify-center space-x-5">
-          <SecondaryButton text="Delete" onClick={handleModal} />
+          <button
+				    className='text-sm border border-red-500 text-red-500 py-2 px-2 rounded-lg flex items-center justify-center space-x-2'
+				    onClick={handleModal}>
+				    <span>Delete</span>
+				    <Trash size={16} />
+			    </button>
           <div className={isOpen ? "modal modal-open" : "modal"}>
               <div className="modal-box">
                   <h3 className="font-bold text-lg text-white text-left">

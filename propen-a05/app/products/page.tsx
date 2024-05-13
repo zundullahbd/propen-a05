@@ -57,7 +57,7 @@ const Page: React.FC<PageProps> = ({ searchParams }) => {
 			<React.Suspense
 				key={serialized}
 				fallback={
-					<div className='w-full h-[80vh] flex justify-center items-center'>
+					<div className='w-full h-[80vh] flex flex-col justify-end items-center'>
 						<span className='loading loading-bars text-indigo-700'></span>
 					</div>
 				}

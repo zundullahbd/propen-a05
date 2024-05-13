@@ -36,8 +36,6 @@ const ExpandableIcon: React.FC = () => {
       {isExpanded && (
         <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
           <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-            <a href="/profile" className="block px-4 py-2 text-sm text-gray-800 hover:bg-indigo-100" role="menuitem">Profile</a>
-            {/* Update the Log Out link to call handleLogout on click */}
             <a onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-800 hover:bg-indigo-100 cursor-pointer" role="menuitem">Log Out</a>
           </div>
         </div>

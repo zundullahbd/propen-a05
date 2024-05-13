@@ -66,6 +66,7 @@ const seed = async () => {
 			title: 'Product Test',
 			price: 0,
 			brandId: brand.id,
+			brandName: brand.name,
 		},
 	});
 

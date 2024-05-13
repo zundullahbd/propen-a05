@@ -7,8 +7,8 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE")
+  provider     = "postgresql"
+  url          = env("DB_URL")
   relationMode = "prisma"
 }
 
@@ -64,6 +64,8 @@ model Product {
   Sales Sales[]
 
   // @@index([brandId])
+
+  @@index([brandId])
 }
 
 model Sales {
@@ -93,6 +95,9 @@ model Sales {
   productId  Int?
   Customer   Customer? @relation(fields: [customerId], references: [id])
   customerId Int?
+
+  @@index([productId])
+  @@index([customerId])
 }
 
 model Ticket {
@@ -154,6 +159,7 @@ model Review {
 
   @@index([ticketId])
   @@index([customerId])
+  @@index([salesId])
 }
 
 enum Role {

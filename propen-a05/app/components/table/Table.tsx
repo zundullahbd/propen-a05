@@ -9,7 +9,7 @@ interface TableProps {
 
 const Table = ({ header, children, className }: TableProps) => {
 	return (
-		<div className={cn('w-full rounded-xl border border-gray-200 overflow-auto', className)}>
+		<div className={cn('w-full rounded-xl border border-gray-200 flex flex-col', className)}>
 			<table className='w-full table-auto bg-white'>
 				<thead>
 					<tr>

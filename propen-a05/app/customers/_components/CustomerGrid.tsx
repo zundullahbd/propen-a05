@@ -1,57 +1,38 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import { MoveRight } from 'lucide-react';
 import React from 'react';
-import { cn } from '@/lib/utils';
 import DeleteForm from '../_components/DeleteForm';
 import { db } from '@/lib/prisma';
-import { ArrowLeft, Facebook, Instagram, Link2, Pencil, Phone, Trash, Twitter } from 'lucide-react';
+import { Pencil } from 'lucide-react';
+import Table from '@/app/components/table/Table';
 
 
 interface CustomerGridProps {
-	page: number;
-	sort: 'asc' | 'desc';
+    page: number;
+    sort: 'asc' | 'desc';
 }
 
 export const CustomerGrid: React.FC<CustomerGridProps> = async ({ page, sort }) => {
-	const limit = 6;
-	const offset = (page - 1) * limit;
+    const limit = 6;
+    const offset = (page - 1) * limit;
 
-	const customers = await db.customer.findMany({
-		take: limit,
-		skip: offset,
-		orderBy: { name: sort },
-	});
+    const customers = await db.customer.findMany({
+        take: limit,
+        skip: offset,
+        orderBy: { name: sort },
+    });
 
-	const totalCustomers = await db.customer.count();
-	const totalPages = Math.ceil(totalCustomers / limit);
-	const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+    const totalCustomers = await db.customer.count();
+    const totalPages = Math.ceil(totalCustomers / limit);
+    const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+    const header = ["#", "Outlet", "Number", "Name", "Code", "Reference Number", "Date", "Created Time", "Due", "Amount", "Payment", "Fulfillment", "Actions"]
 
-	return (
-		<div>
-            
-            <table className="table w-full">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Outlet</th>
-                    <th>Number</th>
-                    <th>Customer Name</th>
-                    <th>Code</th>
-                    <th>Reference Number</th>
-                    <th>Date</th>
-                    <th>Created Time</th>
-                    <th>Due</th>
-                    <th>Amount</th>
-                    <th>Payment</th>
-                    <th>Fulfillment</th>
-                    <th className="text-center">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
+    return (
+        <div>
+
+            <Table header={header} className='w-full items-center justify-between'>
                 {customers.map((customer, index) => (
-                    <tr key={customer.id}>
-                        <td>{index + 1}</td>
+                    <tr key={index} className='text-center items-center justify-between'>
+                        <td className="py-[18px]">{index + 1}</td>
                         <td>{customer.outlet}</td>
                         <td>{customer.number}</td>
                         <td>{customer.name}</td>
@@ -63,23 +44,22 @@ export const CustomerGrid: React.FC<CustomerGridProps> = async ({ page, sort }) 
                         <td>{customer.amount}</td>
                         <td>{customer.payment}</td>
                         <td>{customer.fulfillment}</td>
-                        <td>
-                        <Link
-                            href={`/customers/${customer.id}/edit`}
-                            className='text-sm text-white bg-indigo-700 py-2 px-4 rounded-lg flex items-center'>
-                            <span>Edit</span>
-                            <Pencil size={16} />
-                        </Link>
+                        <td className='flex flex-wrap items-stretch justify-center p-2'>
+                            <Link href={`/customers/${customer.id}/edit`} className='flex items-center justify-center px-0'>
+                                <button className='text-sm bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg flex justify-center items-center space-x-2'>
+                                    <span>Edit</span>
+                                    <Pencil size={16} />
+                                </button>
+                            </Link>
                         </td>
-                        <td className='flex items-center' style={{ paddingLeft: '0px', paddingTop: '10px'}}>
-                        <React.Suspense fallback={null}>
-                            <DeleteForm id={customer.id} />
-                        </React.Suspense>
+                        <td className='flex items-center justify-center px-2 py-2'>
+                            <React.Suspense fallback={null}>
+                                <DeleteForm id={customer.id} />
+                            </React.Suspense>
                         </td>
                     </tr>
                 ))}
-                </tbody>
-            </table>
+            </Table>
         </div>
-	);
+    );
 };

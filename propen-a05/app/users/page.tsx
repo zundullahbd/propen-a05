@@ -16,6 +16,7 @@ const getUsers = async () => {
       username: true,
       email: true,
       role: true,
+      password: true,
     },
   });
   return res;

@@ -1,13 +1,8 @@
 import * as React from 'react';
-
-import { ArrowLeft, Facebook, Instagram, Link2, Pencil, Phone, Trash, Twitter } from 'lucide-react';
-
+import { ArrowLeft, Pencil } from 'lucide-react';
 import DeleteForm from '../_components/DeleteForm';
-import Image from 'next/image';
 import Link from 'next/link';
 import { db } from '@/lib/prisma';
-import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
 
 interface PageProps {
 	params: {
@@ -55,10 +50,10 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 				<div className='p-6 bg-white rounded-lg '>
 					<h2 className='font-semibold mb-4'>Details</h2>
 
-					
+
 				</div>
 
-				
+
 			</div>
 		</>
 	);

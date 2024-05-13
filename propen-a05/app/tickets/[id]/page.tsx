@@ -22,7 +22,7 @@ const getTicketData = async ({ id }: { id: string }) => {
 		include: {
 			sales: {
 				include: {
-					product: {
+					Product: {
 						include: {
 							brand: true,
 						},
@@ -126,21 +126,21 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 						<div className='grid grid-cols-2'>
 							<div className='text-sm'>
 								<h2 className='text-gray-500 mb-1'>Product Name</h2>
-								<p>{ticket.sales.product.title}</p>
+								<p>{ticket.sales.Product ? ticket.sales.Product.title : ''}</p>
 							</div>
 							<div className='text-sm'>
 								<h2 className='text-gray-500 mb-1'>Product ID</h2>
-								<p>{ticket.sales.product.id}</p>
+								<p>{ticket.sales.Product ? ticket.sales.Product.id : ''}</p>
 							</div>
 						</div>
 						<div className='grid grid-cols-2'>
 							<div className='text-sm'>
 								<h2 className='text-gray-500 mb-1'>Brand</h2>
-								<p>{ticket.sales.product.brand.name}</p>
+								<p>{ticket.sales?.Product?.brand?.name}</p>
 							</div>
 							<div className='text-sm'>
 								<h2 className='text-gray-500 mb-1'>Brand Website</h2>
-								<p>{ticket.sales.product.brand.website}</p>
+								<p>{ticket.sales?.Product?.brand?.website}</p>
 							</div>
 						</div>
 						<div className='grid grid-cols-2'>

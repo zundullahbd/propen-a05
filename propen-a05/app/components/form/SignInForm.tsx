@@ -113,7 +113,6 @@ const SignInForm = () => {
             <FormMessage />
           </FormItem>
         )} />
-        <a href="#" className='flex justify-end text-sm text-blue-500'>Forgot password?</a>
           <Button type='submit' className="w-full bg-indigo-700 hover:bg-indigo-800 btn btn-primary">Sign in</Button>
       </form>
     </Form>
