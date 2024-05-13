@@ -45,7 +45,7 @@ const getArticles = async () => {
     return res;
 };
 
-export const Page: React.FC<PageProps> = async ({ searchParams }) => {
+const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
     const page = Number.parseInt(searchParams.page, 10) || 1
     const sort = searchParams.sort === 'asc' ? 'asc' : 'desc'
@@ -114,3 +114,5 @@ export const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
     );
 };
+
+export default Page;
