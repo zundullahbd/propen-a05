@@ -40,25 +40,25 @@ const AddArticle = () => {
 
             <div className={isOpen ? "modal modal-open" : "modal"}>
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">Add New Article</h3>
+                    <h3 className="font-bold text-lg text-white">Add New Article</h3>
                     <form onSubmit={handleSubmit}>
                         <div className="form-control w-full">
-                            <label className="label font-bold">Title</label>
+                            <label className="label font-bold text-white">Title</label>
                             <input
                                 type="text"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
-                                className="input input-bordered"
+                                className="input input-bordered text-white"
                                 placeholder="Title"
                                 required
                             />
                         </div>
                         <div className="form-control w-full">
-                            <label className="label font-bold">Content</label>
+                            <label className="label font-bold text-white">Content</label>
                             <textarea
                                 value={text}
                                 onChange={(e) => setText(e.target.value)}
-                                className="h-32 input input-bordered"
+                                className="h-32 input input-bordered text-white p-4"
                                 placeholder="Content"
                                 required
                                 rows={5}

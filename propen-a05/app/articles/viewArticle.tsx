@@ -41,12 +41,12 @@ const ViewArticle = ({ article }: { article: Article }) => {
                     </br>
                     <br>
                     </br>
-                    <h3 className="font-bold text-lg">
+                    <h3 className="font-bold text-lg text-white">
                         {article.title}
                     </h3>
                     <br>
                     </br>
-                    <h6>
+                    <h6 className="text-white flex flex-wrap">
                         {article.text}
                     </h6>
 
