@@ -53,10 +53,10 @@ const UpdateUser = async ({ user }: { user: User }) => {
       </button>
       <div className={isOpen ? "modal modal-open" : "modal"}>
         <div className="modal-box">
-          <h3 className="font-bold text-white text-lg">Update Data User {user.username}</h3>
+          <h3 className="font-bold text-lg">Update Data User {user.username}</h3>
           <form onSubmit={handleUpdate}>
             <div className="form-control w-full">
-              <label className="label text-white font-bold">New Username</label>
+              <label className="label font-bold text-sm">New Username</label>
               <input
                 type="text"
                 value={username}
@@ -66,7 +66,7 @@ const UpdateUser = async ({ user }: { user: User }) => {
               />
             </div>
             <div className="form-control w-full">
-              <label className="label text-white font-bold">New Email</label>
+              <label className="label text-sm font-bold">New Email</label>
               <input
                 type='email'
                 value={email}
@@ -77,7 +77,7 @@ const UpdateUser = async ({ user }: { user: User }) => {
               </input>
             </div>
             <div className="form-control w-full">
-              <label className="label text-white font-bold">New Password</label>
+              <label className="label text-sm font-bold">New Password</label>
               <input
                 type='password'
                 value={password}
@@ -88,11 +88,11 @@ const UpdateUser = async ({ user }: { user: User }) => {
               </input>
               </div>
             <div className="form-control w-full">
-              <label className="label text-white font-bold">New Role</label>
+              <label className="label text-sm font-bold">New Role</label>
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="select select-bordered text-gray-200"
+                className="select select-bordered"
               >
                 <option value="" disabled>
                   Select Role
@@ -108,7 +108,7 @@ const UpdateUser = async ({ user }: { user: User }) => {
                 Close
               </button>
               {!isLoading ? (
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary text-white">
                   Save
                 </button>
               ) : (

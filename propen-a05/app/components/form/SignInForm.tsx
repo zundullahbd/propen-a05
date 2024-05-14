@@ -66,7 +66,7 @@ const SignInForm = () => {
           <FormItem>
             <FormLabel>Email</FormLabel>
             <FormControl>
-              <Input placeholder='johndoe@mail.com' {...field} />
+              <Input placeholder='johndoe@mail.com' {...field} style={{ width: '385px' }}/>
             </FormControl>
             <FormMessage className="text-gray-400 p-1"/>
           </FormItem>
@@ -75,7 +75,7 @@ const SignInForm = () => {
           <FormItem>
             <FormLabel>Password</FormLabel>
             <FormControl>
-              <Input type='password' placeholder='password' {...field} />
+              <Input type='password' placeholder='password' {...field} style={{ width: '385px' }}/>
             </FormControl>
             <FormMessage />
           </FormItem>

@@ -151,7 +151,7 @@ const UpdateTicket = ({ ticket }: { ticket: Ticket }) => {
 								Close
 							</button>
 							{!isLoading ? (
-								<button type='submit' className='btn btn-primary'>
+								<button type='submit' className='btn btn-primary text-white'>
 									Save
 								</button>
 							) : (
