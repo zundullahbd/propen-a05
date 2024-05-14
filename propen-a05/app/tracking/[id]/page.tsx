@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import AddReview from './AddReview';
 import Image from 'next/image';
 import Table from '@/app/components/table/Table';
@@ -36,7 +35,7 @@ const getTicket = async (id: number) => {
 export default async function Page({ params }: PageProps): Promise<React.JSX.Element> {
 	const tableHeaders = ['No', 'ID', 'Last Updated', 'Product', 'Category', 'Description', 'Status'];
 
-	const ticket = await getTicket(Number.parseInt(params.id, 10));
+	const ticket = await getTicket(parseInt(params.id));
 	if (!ticket) return <div>Ticket not found</div>;
 
 	const current = Math.max(
@@ -102,7 +101,7 @@ export default async function Page({ params }: PageProps): Promise<React.JSX.Ele
 					className='mb-8'
 				/>
 
-				{!ticket.Review && ticket.status === 'CLOSED' && <AddReview id={ticket.id} />}
+				{!ticket.Review && ticket.status === 'CLOSED' && <AddReview id={ticket.id.toString()} />}
 			</div>
 		</>
 	);

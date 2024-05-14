@@ -15,7 +15,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps & { icon?: React.Rea
         )}
         <input
           type={type}
-          style={{ width: "385px" }} // Set the width using inline styles
+          style={{ width: "100%" }}
           className={cn(
             "inline-flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-black",
             className

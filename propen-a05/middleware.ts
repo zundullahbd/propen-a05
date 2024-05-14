@@ -1,7 +1,7 @@
 export { default } from 'next-auth/middleware';
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ['/dashboard', '/tickets', '/products', '/brands', '/users', ],
+  matcher: ['/home', '/dashboard', '/tickets', '/customers', '/products', '/brands', '/users', '/articles'],
   session: {
     strategy: 'jwt',
   },

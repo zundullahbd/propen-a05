@@ -114,5 +114,4 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
     );
 };
-
 export default Page;

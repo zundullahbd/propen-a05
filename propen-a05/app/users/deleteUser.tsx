@@ -41,8 +41,8 @@ const DeleteUser = ({ user }: { user: User }) => {
 			    </button>
           <div className={isOpen ? "modal modal-open" : "modal"}>
               <div className="modal-box">
-                  <h3 className="font-bold text-lg text-white text-left">
-                      Are you sure to delete user {user.username}?
+                  <h3 className="font-bold text-lg text-left">
+                      Are you sure you want to delete user {user.username}?
                   </h3>
 
                   <div className="modal-action">
@@ -53,7 +53,7 @@ const DeleteUser = ({ user }: { user: User }) => {
                           <button
                               type="button"
                               onClick={() => handleDelete(user.id)}
-                              className="btn btn-primary"
+                              className="btn btn-primary text-white"
                           >
                               Yes
                           </button>
