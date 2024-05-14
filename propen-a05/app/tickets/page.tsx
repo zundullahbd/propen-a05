@@ -2,6 +2,7 @@ import AddTicket from './addTicket';
 import Link from 'next/link';
 import Table from '../components/table/Table';
 import { db } from '@/lib/prisma';
+import { formatDate } from '../libs/util';
 
 const getTickets = async () => {
 	return await db.ticket.findMany({
@@ -17,7 +18,7 @@ const getTickets = async () => {
 
 const Ticket = async () => {
 	const tickets = await getTickets();
-	const tableHeaders = ['ID', 'Title', 'Last Updated', 'Product', 'Category', 'Status', 'Actions'];
+	const tableHeaders = ['Title', 'Last Updated', 'Product', 'Category', 'Status', 'Actions'];
 
 	return (
 		<div>
@@ -27,16 +28,9 @@ const Ticket = async () => {
 
 			<Table header={tableHeaders}>
 				{tickets.map((tickets, index) => (
-					<tr key={index} className='[&>td]:p-6 text-center'>
-						<td>{tickets.id}</td>
+					<tr key={index} className='[&>td]:p-6'>
 						<td>{tickets.title}</td>
-						<td>
-							{tickets.updatedAt.toLocaleDateString('id-ID', {
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric',
-							})}
-						</td>
+						<td>{formatDate(tickets.updatedAt)}</td>
 						<td>{tickets.sales.Product ? tickets.sales.Product.title : ''}</td>
 						<td>{tickets.category}</td>
 						<td>

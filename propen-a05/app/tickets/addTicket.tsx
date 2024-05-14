@@ -23,7 +23,6 @@ const AddTicket = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-		watch,
 	} = useForm<z.infer<typeof schema>>({
 		defaultValues: {
 			category: 'KOMPLAIN',
@@ -56,7 +55,7 @@ const AddTicket = () => {
 
 	return (
 		<div>
-			<TextWithIconButton text='Add New' icon={<PlusIcon />} onClick={handleModal} />
+			<TextWithIconButton text='Add Complaint' icon={<PlusIcon />} onClick={handleModal} />
 
 			<div className={isOpen ? 'modal modal-open' : 'modal'}>
 				<div className='modal-box'>

@@ -25,7 +25,7 @@ const schema = z.object({
 	efficiency: z.coerce.boolean(),
 });
 
-const AddReview = ({ id }: { id: number }) => {
+const AddReview = ({ id }: { id: string }) => {
 	const {
 		control,
 		register,
@@ -68,7 +68,7 @@ const AddReview = ({ id }: { id: number }) => {
 
 	return (
 		<div>
-			<TextWithIconButton text='Add New' icon={<PlusIcon />} onClick={handleModal} />
+			<TextWithIconButton text='Leave a Review' icon={<PlusIcon />} onClick={handleModal} />
 
 			<div className={isOpen ? 'modal modal-open' : 'modal'}>
 				<div className='modal-box'>

@@ -58,23 +58,23 @@ const AddUser = () => {
 
     return (
         <div>
-            <TextWithIconButton text="Add New" icon={<PlusIcon />} onClick={handleModal} />
+            <TextWithIconButton text="Add User" icon={<PlusIcon />} onClick={handleModal} />
 
             <div className={isOpen ? "modal modal-open" : "modal"}>
                 <div className="modal-box bg-white">
                     <h3 className="font-bold text-lg text-center">Add New User</h3>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-control w-full text-white">
+                        <div className="form-control w-full text-sm">
                             <label className="label font-bold">Username</label>
                             <input
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                className="input input-bordered text-white"
+                                className="input input-bordered text-gray-800"
                                 placeholder="Username"
                             />
                         </div>
-                        <div className="form-control w-full text-white">
+                        <div className="form-control w-full text-sm">
                             <label className="label font-bold">Email</label>
                             <input
                                 type="email"
@@ -84,7 +84,7 @@ const AddUser = () => {
                                 placeholder="Email"
                             />
                         </div>
-                        <div className="form-control w-full text-white">
+                        <div className="form-control w-full text-sm">
                             <label className="label font-bold">Password</label>
                             <input
                                 type="password"
@@ -94,7 +94,7 @@ const AddUser = () => {
                                 placeholder="Password"
                             />
                         </div>
-                        <div className="form-control w-full text-white">
+                        <div className="form-control w-full text-sm">
                             <label className="label font-bold">Role</label>
                             <select
                                 value={role}

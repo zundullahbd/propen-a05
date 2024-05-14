@@ -48,7 +48,7 @@ const Page: React.FC<PageProps> = ({ searchParams }) => {
 				<div className='flex items-center justify-end space-x-2'>
 					<Link href='/sales/create'>
 						<button className='text-sm bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg flex items-center justify-center space-x-2'>
-							<span>Add New</span>
+							<span>Add Product Sales</span>
 							<PlusIcon size={16} />
 						</button>
 					</Link>

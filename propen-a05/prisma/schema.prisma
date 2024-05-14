@@ -2,213 +2,210 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+    provider        = "prisma-client-js"
+    previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider     = "postgresql"
-  url          = env("DB_URL")
-  relationMode = "prisma"
+    provider     = "mysql"
+    url          = env("DATABASE")
+    relationMode = "prisma"
 }
 
 model Brand {
-  id          Int    @id @default(autoincrement())
-  name        String
-  description String
-  phone       String
-  website     String
+    id          Int    @id @default(autoincrement())
+    name        String
+    description String
+    phone       String
+    website     String
 
-  service   String?
-  facebook  String?
-  instagram String?
-  twitter   String?
-  image     String?
+    service   String?
+    facebook  String?
+    instagram String?
+    twitter   String?
+    image     String?
 
-  Category Category[]
-  Product  Product[]
+    Category Category[]
+    Product  Product[]
 
-  sales   User? @relation(fields: [salesId], references: [id])
-  salesId Int?
+    sales   User? @relation(fields: [salesId], references: [id])
+    salesId Int?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  @@index([salesId])
+    @@index([salesId])
 }
 
 model Category {
-  id   Int    @id @default(autoincrement())
-  name String
+    id   Int    @id @default(autoincrement())
+    name String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  brand   Brand @relation(fields: [brandId], references: [id])
-  brandId Int
+    brand   Brand @relation(fields: [brandId], references: [id])
+    brandId Int
 
-  @@index([brandId])
+    @@index([brandId])
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
-  title     String
-  price     Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  brandName String
+    id        Int      @id @default(autoincrement())
+    title     String
+    price     Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    brandName String
 
-  brand   Brand? @relation(fields: [brandId], references: [id])
-  brandId Int?
+    brand   Brand? @relation(fields: [brandId], references: [id])
+    brandId Int?
 
-  Sales Sales[]
+    Sales Sales[]
 
-  // @@index([brandId])
-
-  @@index([brandId])
+    @@index([brandId])
 }
 
 model Sales {
-  id              Int    @id @default(autoincrement())
-  outlet          String
-  number          String
-  name            String
-  code            String
-  referenceNumber String
-  date            String
-  createdTime     String
-  due             String
-  amount          Int
-  payment         String
-  fulfillment     String
+    id              Int    @id @default(autoincrement())
+    outlet          String
+    number          String
+    name            String
+    code            String
+    referenceNumber String
+    date            String
+    createdTime     String
+    due             String
+    amount          Int
+    payment         String
+    fulfillment     String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  Ticket Ticket[]
-  Review Review[]
+    Ticket Ticket[]
+    Review Review[]
 
-  // @@index([customerId])
-  // @@index([productId])
+    Product   Product @relation(fields: [productId], references: [id])
+    productId Int
 
-  Product    Product?  @relation(fields: [productId], references: [id])
-  productId  Int?
-  Customer   Customer? @relation(fields: [customerId], references: [id])
-  customerId Int?
+    Customer   Customer? @relation(fields: [customerId], references: [id])
+    customerId Int?
 
-  @@index([productId])
-  @@index([customerId])
+    @@index([productId])
+    @@index([customerId])
 }
 
 model Ticket {
-  id          Int            @id @default(autoincrement())
-  title       String
-  category    TicketCategory @default(KOMPLAIN)
-  description String         @default("")
-  status      Status         @default(SUBMITTED)
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+    id          String         @id @default(uuid())
+    title       String
+    category    TicketCategory @default(KOMPLAIN)
+    description String         @default("")
+    status      Status         @default(SUBMITTED)
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
 
-  customer   Customer @relation(fields: [customerId], references: [id])
-  customerId Int
+    customer   Customer @relation(fields: [customerId], references: [id])
+    customerId Int
 
-  sales   Sales @relation(fields: [salesId], references: [id])
-  salesId Int
+    sales   Sales @relation(fields: [salesId], references: [id])
+    salesId Int
 
-  Review Review?
+    Review Review?
 
-  @@index([customerId])
-  @@index([salesId])
+    @@index([customerId])
+    @@index([salesId])
 }
 
 enum Status {
-  SUBMITTED
-  REVIEWED
-  INPROGRESS
-  RESOLVED
-  CLOSED
+    SUBMITTED
+    REVIEWED
+    INPROGRESS
+    RESOLVED
+    CLOSED
 }
 
 enum TicketCategory {
-  KOMPLAIN
-  INFORMASI
-  GARANSI
+    KOMPLAIN
+    INFORMASI
+    GARANSI
 }
 
 model Review {
-  id     Int     @id @default(autoincrement())
-  stars  Int
-  review String?
+    id     Int     @id @default(autoincrement())
+    stars  Int
+    review String?
 
-  attitude      Boolean @default(false)
-  speed         Boolean @default(false)
-  communication Boolean @default(false)
-  outcome       Boolean @default(false)
-  efficiency    Boolean @default(false)
+    attitude      Boolean @default(false)
+    speed         Boolean @default(false)
+    communication Boolean @default(false)
+    outcome       Boolean @default(false)
+    efficiency    Boolean @default(false)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
-  customer   Customer @relation(fields: [customerId], references: [id])
-  customerId Int
+    customer   Customer @relation(fields: [customerId], references: [id])
+    customerId Int
 
-  ticket   Ticket @relation(fields: [ticketId], references: [id])
-  ticketId Int    @unique
-  Sales    Sales? @relation(fields: [salesId], references: [id])
-  salesId  Int?
+    ticket   Ticket @relation(fields: [ticketId], references: [id])
+    ticketId String @unique
 
-  @@index([ticketId])
-  @@index([customerId])
-  @@index([salesId])
+    Sales   Sales? @relation(fields: [salesId], references: [id])
+    salesId Int?
+
+    @@index([ticketId])
+    @@index([customerId])
+    @@index([salesId])
 }
 
 enum Role {
-  CustomerService
-  Sales
-  Executive
-  Admin
+    CustomerService
+    Sales
+    Executive
+    Admin
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  email     String   @unique
-  password  String
-  role      Role
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Brand     Brand[]
+    id        Int      @id @default(autoincrement())
+    username  String   @unique
+    email     String   @unique
+    password  String
+    role      Role
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    Brand     Brand[]
 }
 
 model Customer {
-  id              Int      @id @default(autoincrement())
-  outlet          String
-  number          String
-  name            String
-  code            String
-  referenceNumber String
-  date            String
-  createdTime     String
-  due             String
-  amount          Int
-  payment         String
-  fulfillment     String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+    id              Int      @id @default(autoincrement())
+    outlet          String
+    number          String
+    name            String
+    code            String
+    referenceNumber String
+    date            String
+    createdTime     String
+    due             String
+    amount          Int
+    payment         String
+    fulfillment     String
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
 
-  Ticket Ticket[]
-  Sales  Sales[]
-  Review Review[]
+    Ticket Ticket[]
+    Sales  Sales[]
+    Review Review[]
 }
 
 model Article {
-  id    Int    @id @default(autoincrement())
-  title String
-  text  String
+    id    Int    @id @default(autoincrement())
+    title String
+    text  String
 }
 
 model Profile {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }

@@ -53,7 +53,7 @@ const AddCustomer = () => {
 
     return (
         <div>
-            <TextWithIconButton text="Add New" icon={<PlusIcon />} onClick={handleModal} />
+            <TextWithIconButton text="Add Customer" icon={<PlusIcon />} onClick={handleModal} />
 
             <div className={isOpen ? "modal modal-open" : "modal"}>
                 <div className="modal-box">

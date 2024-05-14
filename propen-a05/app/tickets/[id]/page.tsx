@@ -1,12 +1,13 @@
-import { ArrowLeft, Check, CircleCheck } from 'lucide-react';
-import React, { useEffect } from 'react';
+import { ArrowLeft, CircleCheck } from 'lucide-react';
 
 import DeleteTickets from '../deleteTickets';
 import Link from 'next/link';
+import React from 'react';
 import TicketClipboard from '../_components/TicketClipboard';
 import TicketTile from '@/app/components/ui/TicketTile';
 import UpdateTicket from '../updateTickets';
 import { db } from '@/lib/prisma';
+import { formatDate } from '@/app/libs/util';
 
 interface PageProps {
 	params: {
@@ -17,7 +18,7 @@ interface PageProps {
 const getTicketData = async ({ id }: { id: string }) => {
 	const ticket = await db.ticket.findUnique({
 		where: {
-			id: Number.parseInt(id, 10),
+			id,
 		},
 		include: {
 			sales: {
@@ -59,7 +60,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 			</div>
 
 			<div className='flex space-x-4 items-center justify-between'>
-				<h1 className='text-[#344054] font-semibold text-2xl'>Ticket #{ticket?.id}</h1>
+				<h1 className='text-[#344054] font-semibold text-2xl'>{ticket.title}</h1>
 
 				<div className='flex items-center space-x-4'>
 					<TicketClipboard id={ticket.id} />
@@ -72,11 +73,6 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 				<TicketTile header='Ticket Details' className='lg:col-span-3'>
 					<div className='text-[#344054] space-y-5'>
 						<div className='grid grid-cols-3 gap-4'>
-							<div className='text-sm'>
-								<h2 className='text-gray-500 mb-1'>Ticket ID</h2>
-								<p>#{ticket.id}</p>
-							</div>
-
 							<div className='text-sm'>
 								<h2 className='text-gray-500 mb-1'>Title</h2>
 								<p>{ticket.title}</p>
@@ -95,23 +91,11 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 						<div className='grid grid-cols-3'>
 							<div className='text-sm'>
 								<h2 className='text-gray-500 mb-1'>Date Submitted</h2>
-								<p>
-									{ticket.createdAt.toLocaleDateString('id-ID', {
-										year: 'numeric',
-										month: 'long',
-										day: 'numeric',
-									})}
-								</p>
+								<p>{formatDate(ticket.createdAt)}</p>
 							</div>
 							<div className='text-sm'>
 								<h2 className='text-gray-500 mb-1'>Last Updated</h2>
-								<p>
-									{ticket.updatedAt.toLocaleDateString('id-ID', {
-										year: 'numeric',
-										month: 'long',
-										day: 'numeric',
-									})}
-								</p>
+								<p>{formatDate(ticket.updatedAt)}</p>
 							</div>
 						</div>
 						<div className='text-sm'>

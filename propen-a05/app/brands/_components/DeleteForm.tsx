@@ -26,7 +26,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
 	React.useEffect(() => {
 		if (formState.type === 'success') {
 			toast.success('Delete Brand', {
-				description: 'Brand deleted successfully',
+				description: 'Brand has been deleted successfully',
 			})
 			router.back()
 		}

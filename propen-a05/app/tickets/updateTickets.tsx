@@ -77,7 +77,8 @@ const UpdateTicket = ({ ticket }: { ticket: Ticket }) => {
 								type='text'
 								{...register('customerId')}
 								className='input input-bordered'
-								placeholder='Customer ID'
+								placeholder='Customder ID'
+								disabled
 							/>
 							<p className='text-red-500 text-sm mt-1'>{errors.customerId?.message}</p>
 						</div>

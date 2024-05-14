@@ -8,7 +8,7 @@ import { Clipboard } from 'lucide-react';
 import Link from 'next/link';
 import PrimaryButton from '@/app/components/ui/PrimaryButton';
 
-const TicketClipboard = ({ id }: { id: Number }) => {
+const TicketClipboard = ({ id }: { id: string }) => {
 	const [isMounted, setIsMounted] = React.useState(false);
 	const [isOpen, setIsOpen] = React.useState(false);
 
@@ -17,7 +17,7 @@ const TicketClipboard = ({ id }: { id: Number }) => {
 	}, []);
 
 	if (!isMounted) return null;
-	const ticketURL = `${window.location.origin}/tracking/${id.toString()}`;
+	const ticketURL = `${window.location.origin}/tracking/${id}`;
 
 	const copyUrl = () => {
 		navigator.clipboard.writeText(ticketURL).then(() => {
@@ -38,7 +38,7 @@ const TicketClipboard = ({ id }: { id: Number }) => {
 						transition={{ duration: 0.3 }}
 						className='absolute top-full right-0 bg-white rounded-lg p-6 text-sm mt-6 border border-gray-200'>
 						<div className='flex flex-row justify-between items-center mb-2'>
-							<h2 className='font-semibold'>Ticket #{id.toString()}</h2>
+							<h2 className='font-semibold'>Ticket #{id}</h2>
 							<button onClick={() => setIsOpen(false)}>
 								<svg
 									xmlns='http://www.w3.org/2000/svg'

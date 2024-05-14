@@ -3,6 +3,7 @@ import * as React from 'react';
 import AddReview from './AddReview';
 import Image from 'next/image';
 import Table from '@/app/components/table/Table';
+import { Ticket } from '@prisma/client';
 import { cn } from '@/lib/utils';
 import { db } from '@/lib/prisma';
 import { ticketSteps } from '@/lib/constants';
@@ -17,7 +18,7 @@ const Line = ({ className }: { className?: string }) => {
 	return <div className={cn('h-0.5 w-full bg-gray-200', className)}></div>;
 };
 
-const getTicket = async (id: number) => {
+const getTicket = async (id: string) => {
 	return await db.ticket.findUnique({
 		where: {
 			id,
@@ -25,7 +26,7 @@ const getTicket = async (id: number) => {
 		include: {
 			sales: {
 				include: {
-					product: true,
+					Product: true,
 				},
 			},
 			Review: true,
@@ -36,7 +37,7 @@ const getTicket = async (id: number) => {
 export default async function Page({ params }: PageProps): Promise<React.JSX.Element> {
 	const tableHeaders = ['No', 'ID', 'Last Updated', 'Product', 'Category', 'Description', 'Status'];
 
-	const ticket = await getTicket(Number.parseInt(params.id, 10));
+	const ticket = await getTicket(params.id);
 	if (!ticket) return <div>Ticket not found</div>;
 
 	const current = Math.max(
@@ -80,7 +81,7 @@ export default async function Page({ params }: PageProps): Promise<React.JSX.Ele
 					<td>1</td>
 					<td>{ticket.id}</td>
 					<td>{ticket.updatedAt.toString()}</td>
-					<td>{ticket.sales.product.title}</td>
+					<td>{ticket.sales.Product.title}</td>
 					<td>{ticket.category}</td>
 					<td>
 						<p className='text-sm w-full max-w-40 line-clamp-2'>{ticket.description}</p>
