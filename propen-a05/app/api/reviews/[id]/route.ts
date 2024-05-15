@@ -16,7 +16,7 @@ const schema = z.object({
 
 export const POST = async (request: Request, { params }: { params: { id: string } }) => {
 	const body: Review = await request.json();
-	const id = Number(params.id);
+	const id = params.id;
 
 	const user = await getServerSession();
 	if (!user) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });

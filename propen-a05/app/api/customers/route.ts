@@ -27,7 +27,7 @@ export const PATCH = async (request: Request, {params}: {params: {id: string}}) 
     const body: Customer = await request.json();
     const customer = await prisma.customer.update({
         where:{
-            id: Number(params.id)
+            id: params.id
         },
         data:{
             outlet: body.outlet,
@@ -49,7 +49,7 @@ export const PATCH = async (request: Request, {params}: {params: {id: string}}) 
 export const DELETE = async (request: Request, {params}: {params: {id: string}}) =>{
     const customer = await prisma.customer.delete({
         where:{
-            id: Number(params.id)
+            id: params.id
         }
     });
     return NextResponse.json(customer, {status: 200});
