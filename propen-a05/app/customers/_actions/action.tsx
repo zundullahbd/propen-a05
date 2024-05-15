@@ -57,7 +57,7 @@ export async function createCustomer(prevState: FormState, formData: FormData): 
 
 export async function editCustomer(prevState: FormState, formData: FormData): Promise<FormState> {
 	try {
-		const id = Number.parseInt(formData.get('id') as string, 10);
+		const id = formData.get('id') as string;
 
 		const data = await schema.parseAsync({
 			outlet: formData.get('outlet'),
@@ -97,7 +97,7 @@ export async function editCustomer(prevState: FormState, formData: FormData): Pr
 
 export async function deleteCustomer(prevState: FormState, formData: FormData): Promise<FormState> {
 	try {
-		const id = Number.parseInt(formData.get('id') as string, 10);
+		const id = formData.get('id') as string;
 		console.log(id);
 
 		await db.customer.delete({
