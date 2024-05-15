@@ -15,7 +15,7 @@ const DeleteArticle = ({ article }: { article: Article }) => {
 
     const router = useRouter();
 
-    const handleDelete = async (articleId: number) => {
+    const handleDelete = async (articleId: string) => {
         setIsLoading(true);
         await axios.delete(`/api/articles/${articleId}`);
         setIsLoading(false);
