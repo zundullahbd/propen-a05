@@ -16,7 +16,7 @@ const Line = ({ className }: { className?: string }) => {
 	return <div className={cn('h-0.5 w-full bg-gray-200', className)}></div>;
 };
 
-const getTicket = async (id: number) => {
+const getTicket = async (id: string) => {
 	return await db.ticket.findUnique({
 		where: {
 			id,
@@ -35,7 +35,7 @@ const getTicket = async (id: number) => {
 export default async function Page({ params }: PageProps): Promise<React.JSX.Element> {
 	const tableHeaders = ['No', 'ID', 'Last Updated', 'Product', 'Category', 'Description', 'Status'];
 
-	const ticket = await getTicket(parseInt(params.id));
+	const ticket = await getTicket(params.id);
 	if (!ticket) return <div>Ticket not found</div>;
 
 	const current = Math.max(

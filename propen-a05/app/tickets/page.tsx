@@ -18,7 +18,7 @@ const getTickets = async () => {
 
 const Ticket = async () => {
 	const tickets = await getTickets();
-	const tableHeaders = ['Title', 'Last Updated', 'Product', 'Category', 'Status', 'Actions'];
+	const tableHeaders = ['#', 'Title', 'Last Updated', 'Product', 'Category', 'Status', 'Actions'];
 
 	return (
 		<div>
@@ -26,9 +26,10 @@ const Ticket = async () => {
 				<AddTicket />
 			</div>
 
-			<Table header={tableHeaders}>
+			<Table header={tableHeaders} className='w-full items-center justify-between'>
 				{tickets.map((tickets, index) => (
-					<tr key={index} className='[&>td]:p-6'>
+					<tr key={index} className='text-center items-center justify-between w-full py-2'>
+						<td className="py-5">{index + 1}</td>
 						<td>{tickets.title}</td>
 						<td>{formatDate(tickets.updatedAt)}</td>
 						<td>{tickets.sales.Product ? tickets.sales.Product.title : ''}</td>

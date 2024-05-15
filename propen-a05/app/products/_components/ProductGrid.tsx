@@ -23,7 +23,7 @@ export const ProductGrid: React.FC<SalesGridProps> = async ({ page, sort }) => {
     const totalItem = await db.product.count();
     const totalPages = Math.ceil(totalItem / limit);
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-    const tableHeaders = ["#", "ID", "Name", "Price", "Brand", "Actions"]
+    const tableHeaders = ["#", "Name", "Price", "Brand", "Actions"]
 
     return (
         <div>
@@ -31,7 +31,6 @@ export const ProductGrid: React.FC<SalesGridProps> = async ({ page, sort }) => {
                 {product.map((product, index) => (
                     <tr key={index} className='text-center items-center justify-between'>
                         <td className="py-[18px]">{index + 1}</td>
-                        <td>{product.id}</td>
                         <td>{product.title}</td>
                         <td>{product.price}</td>
                         <td>{product.brandName}</td>

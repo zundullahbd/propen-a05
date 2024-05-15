@@ -35,6 +35,7 @@ const UpdateTicket = ({ ticket }: { ticket: Ticket }) => {
 
 	const onSubmit = async (formData: z.infer<typeof schema>) => {
 		setIsLoading(true);
+		
 
 		try {
 			await axios.patch(`/api/tickets/${ticket.id}`, formData);

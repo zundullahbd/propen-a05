@@ -16,10 +16,6 @@ const Layout: React.FC<LayoutProps> = ({ children, modal }) => {
             {modal}
             <div className="py-10 px-10">{children}</div>
         </MainLayout>
-		// <>
-		// 	{modal}
-		// 	<div className='w-full'>{children}</div>
-		// </>
 	)
 }
 

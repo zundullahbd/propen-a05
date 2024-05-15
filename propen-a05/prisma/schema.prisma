@@ -7,13 +7,13 @@ generator client {
 }
 
 datasource db {
-    provider     = "mysql"
-    url          = env("DATABASE")
+    provider     = "postgresql"
+    url          = env("DB_URL")
     relationMode = "prisma"
 }
 
 model Brand {
-    id          Int    @id @default(autoincrement())
+    id          String    @id @default(uuid())
     name        String
     description String
     phone       String
@@ -29,7 +29,7 @@ model Brand {
     Product  Product[]
 
     sales   User? @relation(fields: [salesId], references: [id])
-    salesId Int?
+    salesId String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -38,20 +38,20 @@ model Brand {
 }
 
 model Category {
-    id   Int    @id @default(autoincrement())
+    id   String    @id @default(uuid())
     name String
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     brand   Brand @relation(fields: [brandId], references: [id])
-    brandId Int
+    brandId String
 
     @@index([brandId])
 }
 
 model Product {
-    id        Int      @id @default(autoincrement())
+    id        String      @id @default(uuid())
     title     String
     price     Int
     createdAt DateTime @default(now())
@@ -59,7 +59,7 @@ model Product {
     brandName String
 
     brand   Brand? @relation(fields: [brandId], references: [id])
-    brandId Int?
+    brandId String?
 
     Sales Sales[]
 
@@ -67,7 +67,7 @@ model Product {
 }
 
 model Sales {
-    id              Int    @id @default(autoincrement())
+    id              String    @id @default(uuid())
     outlet          String
     number          String
     name            String
@@ -87,10 +87,10 @@ model Sales {
     Review Review[]
 
     Product   Product @relation(fields: [productId], references: [id])
-    productId Int
+    productId String
 
     Customer   Customer? @relation(fields: [customerId], references: [id])
-    customerId Int?
+    customerId String?
 
     @@index([productId])
     @@index([customerId])
@@ -106,10 +106,10 @@ model Ticket {
     updatedAt   DateTime       @updatedAt
 
     customer   Customer @relation(fields: [customerId], references: [id])
-    customerId Int
+    customerId String
 
     sales   Sales @relation(fields: [salesId], references: [id])
-    salesId Int
+    salesId String
 
     Review Review?
 
@@ -132,7 +132,7 @@ enum TicketCategory {
 }
 
 model Review {
-    id     Int     @id @default(autoincrement())
+    id     String     @id @default(uuid())
     stars  Int
     review String?
 
@@ -146,13 +146,13 @@ model Review {
     updatedAt DateTime @updatedAt
 
     customer   Customer @relation(fields: [customerId], references: [id])
-    customerId Int
+    customerId String
 
     ticket   Ticket @relation(fields: [ticketId], references: [id])
     ticketId String @unique
 
     Sales   Sales? @relation(fields: [salesId], references: [id])
-    salesId Int?
+    salesId String?
 
     @@index([ticketId])
     @@index([customerId])
@@ -167,18 +167,18 @@ enum Role {
 }
 
 model User {
-    id        Int      @id @default(autoincrement())
+    id        String      @id @default(uuid())
     username  String   @unique
     email     String   @unique
     password  String
-    role      Role
+    role      Role     @default(Admin)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     Brand     Brand[]
 }
 
 model Customer {
-    id              Int      @id @default(autoincrement())
+    id              String      @id @default(uuid())
     outlet          String
     number          String
     name            String
@@ -199,13 +199,7 @@ model Customer {
 }
 
 model Article {
-    id    Int    @id @default(autoincrement())
+    id    String    @id @default(uuid())
     title String
     text  String
-}
-
-model Profile {
-    id        Int      @id @default(autoincrement())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
 }

@@ -3,7 +3,6 @@ import { useState, SyntheticEvent } from "react";
 import axios from "axios";
 import TextWithIconButton from "@/app/components/ui/TextWithIconButton"
 import toast from "react-hot-toast";
-import Image from "next/image";
 
 const PlusIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,6 +47,7 @@ const AddUser = () => {
         });
 
         setIsLoading(false);
+        toast.success("User added successfully!");
         window.location.reload();
         setIsOpen(false);
         };
@@ -58,23 +58,23 @@ const AddUser = () => {
 
     return (
         <div>
-            <TextWithIconButton text="Add User" icon={<PlusIcon />} onClick={handleModal} />
+            <TextWithIconButton text="Add New" icon={<PlusIcon />} onClick={handleModal} />
 
             <div className={isOpen ? "modal modal-open" : "modal"}>
-                <div className="modal-box bg-white">
-                    <h3 className="font-bold text-lg text-center">Add New User</h3>
+                <div className="modal-box bg-gray-700">
+                    <h3 className="font-bold text-lg text-center text-white">Add New User</h3>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-control w-full text-sm">
+                        <div className="form-control w-full text-white">
                             <label className="label font-bold">Username</label>
                             <input
                                 type="text"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                className="input input-bordered text-gray-800"
+                                className="input input-bordered text-white"
                                 placeholder="Username"
                             />
                         </div>
-                        <div className="form-control w-full text-sm">
+                        <div className="form-control w-full text-white">
                             <label className="label font-bold">Email</label>
                             <input
                                 type="email"
@@ -84,7 +84,7 @@ const AddUser = () => {
                                 placeholder="Email"
                             />
                         </div>
-                        <div className="form-control w-full text-sm">
+                        <div className="form-control w-full text-white">
                             <label className="label font-bold">Password</label>
                             <input
                                 type="password"
@@ -94,7 +94,7 @@ const AddUser = () => {
                                 placeholder="Password"
                             />
                         </div>
-                        <div className="form-control w-full text-sm">
+                        <div className="form-control w-full text-white">
                             <label className="label font-bold">Role</label>
                             <select
                                 value={role}
@@ -105,9 +105,9 @@ const AddUser = () => {
                                     Select Role
                                 </option>
                                 <option value="Admin">Admin</option>
-                                <option value="Exec">Executive</option>
+                                <option value="Executive">Executive</option>
                                 <option value="Sales">Sales</option>
-                                <option value="CS">Customer Service</option>
+                                <option value="CustomerService">Customer Service</option>
                             </select>
                         </div>
                         <div className="modal-action">
@@ -119,41 +119,9 @@ const AddUser = () => {
                                     Save
                                 </button>
                             ) : (
-                                toast.custom((t) => (
-                                    <div
-                                      className={`${
-                                        t.visible ? 'animate-enter' : 'animate-leave'
-                                      } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-green-600 ring-opacity-100`}
-                                    >
-                                      <div className="flex-1 w-0 p-4">
-                                        <div className="flex items-start">
-                                          <div className="flex-shrink-0 pt-0.5">
-                                            <Image
-                                              className="h-10 w-10 rounded-full"
-                                              src="correct.png"
-                                              alt=""
-                                            />
-                                          </div>
-                                          <div className="ml-3 flex-1">
-                                            <p className="text-sm font-medium text-slate-600">
-                                              Success!
-                                            </p>
-                                            <p className="mt-1 text-sm text-slate-600">
-                                              Berhasil Menambahkan User!
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div className="flex border-l">
-                                      <button
-                                    onClick={() => toast.dismiss(t.id)}
-                                    className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                                  >
-                                    Close
-                                  </button>
-                                      </div>
-                                    </div>
-                                  ))
+                                <div className="items-center justify-center">
+                                    <span className="loading loading-spinner loading-sm"></span>
+                                </div>
                             )}
                         </div>
                     </form>

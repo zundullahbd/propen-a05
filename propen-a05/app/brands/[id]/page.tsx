@@ -1,14 +1,12 @@
 import * as React from 'react';
 
-import { ArrowLeft, Facebook, Instagram, Link2, Pencil, Phone, Trash, Twitter } from 'lucide-react';
-
+import { ArrowLeft, Facebook, Instagram, Link2, Pencil, Phone, Twitter } from 'lucide-react';
 import DeleteForm from '../_components/DeleteForm';
 import Image from 'next/image';
 import Link from 'next/link';
 import { categories } from '../_components/constant';
 import { db } from '@/lib/prisma';
-import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
+
 
 interface PageProps {
 	params: {
@@ -20,7 +18,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 	const { id } = params;
 	const brand = await db.brand.findUnique({
 		where: {
-			id: Number.parseInt(id, 10),
+			id: id,
 		},
 	});
 

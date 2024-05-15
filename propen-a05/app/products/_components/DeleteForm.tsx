@@ -6,12 +6,12 @@ import { AnimatePresence, LazyMotion, domAnimation, m } from 'framer-motion'
 import { FormState, deleteProduct } from '../_actions/action'
 import { Trash, X } from 'lucide-react'
 
-import { toast } from 'sonner'
+import { toast } from 'react-hot-toast'
 import { useFormState } from 'react-dom'
 import { useRouter } from 'next/navigation'
 
 interface FormProps {
-	id: number
+	id: string
 }
 
 const Form: React.FC<FormProps> = ({ id }) => {
@@ -25,9 +25,7 @@ const Form: React.FC<FormProps> = ({ id }) => {
 
 	React.useEffect(() => {
 		if (formState.type === 'success') {
-			toast.success('Delete item', {
-				description: 'Item deleted successfully',
-			})
+			toast.success('Delete item successfully!')
 			router.back()
 		}
 	}, [router, formState])

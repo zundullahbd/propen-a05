@@ -9,7 +9,7 @@ export const PATCH = async (request: Request, {params}: {params: {id: string}}) 
     const hashPassword = await hash(body.password, 10);
     const user =  await prisma.user.update({
         where:{
-            id: Number(params.id)
+            id: params.id
         },
         data:{
             username: body.username,
@@ -25,7 +25,16 @@ export const PATCH = async (request: Request, {params}: {params: {id: string}}) 
 export const DELETE = async (request: Request, {params}: {params: {id: string}}) =>{
     const user = await prisma.user.delete({
         where:{
-            id: Number(params.id)
+            id: params.id
+        }
+    });
+    return NextResponse.json(user, {status: 200});
+}
+
+export const GET = async (request: Request, {params}: {params: {id: string}}) =>{
+    const user = await prisma.user.findUnique({
+        where:{
+            id: params.id
         }
     });
     return NextResponse.json(user, {status: 200});

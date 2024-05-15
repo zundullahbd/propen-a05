@@ -36,31 +36,3 @@ export const POST = async (request: Request) => {
 
 	return NextResponse.json(tickets, { status: 201 });
 };
-
-export const PATCH = async (request: Request, { params }: { params: { id: string } }) => {
-	const body: Ticket = await request.json();
-
-	const ticket = await db.ticket.update({
-		where: {
-			id: params.id,
-		},
-		data: {
-			title: body.title,
-			customerId: body.customerId,
-			salesId: body.salesId,
-			category: body.category || '',
-			description: body.description || '',
-			status: body.status || '',
-		},
-	});
-	return NextResponse.json(ticket, { status: 200 });
-};
-
-export const DELETE = async (request: Request, { params }: { params: { id: string } }) => {
-	const ticket = await db.ticket.delete({
-		where: {
-			id: params.id,
-		},
-	});
-	return NextResponse.json(ticket, { status: 200 });
-};

@@ -11,7 +11,7 @@ import { useFormState } from 'react-dom'
 import { useRouter } from 'next/navigation'
 
 interface FormProps {
-	id:  number
+	id:  string
 }
 
 const Form: React.FC<FormProps> = ({ id }) => {

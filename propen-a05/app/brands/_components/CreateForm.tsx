@@ -1,5 +1,4 @@
 'use client';
-
 import * as React from 'react';
 
 import { ArrowLeft, ImageUp } from 'lucide-react';

@@ -13,7 +13,7 @@ const DeleteTickets = ({ ticket }: { ticket: Ticket }) => {
 
 	const router = useRouter();
 
-	const handleDelete = async (ticketId: number) => {
+	const handleDelete = async (ticketId: string) => {
 		setIsLoading(true);
 
 		try {

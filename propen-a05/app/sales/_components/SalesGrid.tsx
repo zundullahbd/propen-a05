@@ -24,7 +24,7 @@ export const SalesGrid: React.FC<SalesGridProps> = async ({ page, sort }) => {
     const totalItem = await db.sales.count();
     const totalPages = Math.ceil(totalItem / limit);
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-    const header = ['#', 'Outlet', 'Number', 'Name', 'Code', 'Reference Number', 'Date', 'Created Time', 'Due', 'Amount', 'Payment', 'Fulfillment', 'Actions'];
+    const header = ['#', 'Outlet', 'Number', 'Name', 'Code', 'Reference Number', 'Date', 'Created Time', 'Amount', 'Payment', 'Fulfillment', 'Actions'];
 
     return (
         <div>
@@ -39,7 +39,6 @@ export const SalesGrid: React.FC<SalesGridProps> = async ({ page, sort }) => {
                         <td>{sales.referenceNumber}</td>
                         <td>{sales.date}</td>
                         <td>{sales.createdTime}</td>
-                        <td>{sales.due}</td>
                         <td>{sales.amount}</td>
                         <td>{sales.payment}</td>
                         <td>{sales.fulfillment}</td>

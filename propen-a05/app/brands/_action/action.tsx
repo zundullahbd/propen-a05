@@ -1,9 +1,4 @@
 'use server';
-
-// import * as csv from 'csv';
-
-import * as fs from 'fs';
-
 import { Brand } from '@prisma/client';
 import { db } from '@/lib/prisma';
 import { parse } from 'csv-parse/sync';
@@ -54,7 +49,7 @@ export async function createBrand(prevState: FormState, formData: FormData): Pro
 
 export async function editBrand(prevState: FormState, formData: FormData): Promise<FormState> {
 	try {
-		const id = Number.parseInt(formData.get('id') as string, 10);
+		const id = formData.get('id') as string;
 
 		const data = await schema.parseAsync({
 			name: formData.get('name'),
@@ -92,7 +87,7 @@ export async function editBrand(prevState: FormState, formData: FormData): Promi
 
 export async function deleteBrand(prevState: FormState, formData: FormData): Promise<FormState> {
 	try {
-		const id = Number.parseInt(formData.get('id') as string, 10);
+		const id = formData.get('id') as string;
 		console.log(id);
 
 		await db.brand.delete({

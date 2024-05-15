@@ -1,5 +1,5 @@
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { NextAuthOptions } from 'next-auth';
+import { NextAuthOptions, User } from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { compare } from 'bcrypt';
 import { db } from './prisma';
@@ -20,42 +20,40 @@ export const authOptions: NextAuthOptions = {
           credentials: {
             email: { label: "Email", type: "email", placeholder: "johndoe@email.com" },
             password: { label: "Password", type: "password" }
-          },
-          async authorize(credentials) {
-            // Add logic here to look up the user from the credentials supplied
-            if (!credentials?.email || !credentials?.password) {
-              return null;
-            }
+        },
+		async authorize(credentials): Promise<User | null> {
+			if (!credentials?.email || !credentials?.password) {
+			return null;
+		}
+			const existingUser = await db.user.findUnique({
+				where: { email: credentials?.email },
+			});
+			if (!existingUser) return null;
 
-				const existingUser = await db.user.findUnique({
-					where: { email: credentials?.email },
-				});
-				if (!existingUser) return null;
+			const passwordMatch = await compare(credentials.password, existingUser.password);
+			if (!passwordMatch) return null;
 
-				const passwordMatch = await compare(credentials.password, existingUser.password);
-				if (!passwordMatch) return null;
-
-				return {
-					id: existingUser.id,
-					username: existingUser.username,
-					email: existingUser.email,
-					role: existingUser.role,
-				};
-			},
-		}),
-	],
-	callbacks: {
-		async jwt({ token, user }) {
-			if (user) {
-				return {
-					...token,
-					username: user.username,
-					role: user.role,
-				};
-			}
-			return token;
+			return {
+				id: parseInt(existingUser.id),
+				username: existingUser.username,
+				email: existingUser.email,
+				role: existingUser.role,
+			};
 		},
-		async session({ session, token }) {
+	}),
+	],
+			callbacks: {
+				async jwt({ token, user }) {
+				if (user) {
+					return {
+						...token,
+						username: user.username,
+						role: user.role,
+					};
+				}
+				return token;
+			},
+			async session({ session, token }) {
 			return {
 				...session,
 				user: {

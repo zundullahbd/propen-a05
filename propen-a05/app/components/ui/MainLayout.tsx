@@ -16,11 +16,6 @@ const links = [
 		image: '/home.svg',
 	},
 	{
-		href: '/dashboard',
-		name: 'Dashboard',
-		image: '/dashboard.svg',
-	},
-	{
 		href: '/tickets',
 		name: 'Complaint Management',
 		image: '/complaint management.svg',
@@ -55,11 +50,6 @@ const links = [
 		name: 'FAQ & Article',
 		image: '/knowledge base.svg',
 	},
-	// {
-	// 	href: '/knowledgebase',
-	// 	name: 'Knowledge Base',
-	// 	image: '/knowledge base.svg',
-	// },
 ];
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {

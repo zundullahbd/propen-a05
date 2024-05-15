@@ -7,22 +7,21 @@ export const PATCH = async (request: Request, {params}: {params: {id: string}}) 
     const body: Article = await request.json();
     const article = await prisma.article.update({
         where:{
-            id: Number(params.id)
+            id: params.id
         },
         data:{
             title: body.title,
             text: body.text,
+           
         }
     });
     return NextResponse.json(article, {status: 200});
 }
 
-
-
 export const DELETE = async (request: Request, {params}: {params: {id: string}}) =>{
     const article = await prisma.article.delete({
         where:{
-            id: Number(params.id)
+            id: params.id
         }
     });
     return NextResponse.json(article, {status: 200});

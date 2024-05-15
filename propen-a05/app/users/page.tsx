@@ -25,7 +25,7 @@ const getUsers = async () => {
 const User = async () => {
   const session = await getServerSession(authOptions);
   const [users] = await Promise.all([getUsers()]);
-  const tableHeaders = ["No", "ID", "Username", "Email", "Role", "Actions"]
+  const tableHeaders = ["No", "Username", "Email", "Role", "Actions"]
     
 
   return (
@@ -38,7 +38,6 @@ const User = async () => {
           {users.map((user, index) => (
             <tr key={index} className='text-center'>
               <td className="py-[18px]">{index + 1}</td>
-              <td>{user.id}</td>
               <td className="px-4">{user.username}</td>
               <td className="truncate max-w-40 px-4">{user.email}</td>
               <td className="px-4">{user.role}</td>

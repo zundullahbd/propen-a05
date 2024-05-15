@@ -1,4 +1,3 @@
-// SignInForm.tsx
 'use client'
 import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
@@ -7,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { signIn, useSession } from 'next-auth/react';
-import { toast } from 'sonner';
+import toast from 'react-hot-toast';
 import Image from 'next/image';
 
 
@@ -17,7 +16,6 @@ const FormSchema = z.object({
 });
 
 const SignInForm = () => {
-  const errorMessage = useSession();
   const { data: session } = useSession();
   if (session?.user) {
     window.location.href = '/home';
@@ -41,11 +39,10 @@ const SignInForm = () => {
     if (!signInData?.error) {
       if (signInData?.ok){
         window.location.href = '/home';
+        toast.success('Sign in successfully!');
       }
     } else {
-      toast.success('Welcome Back!', {
-				description: 'You have successfully signed in.',
-			});
+      toast.error('Invalid email or password!');
     }
   };
 
@@ -59,7 +56,6 @@ const SignInForm = () => {
 					height={80}
 					className='absolute top-0 right-0 m-4'
 				/>
-        {/* <Image src="/logo best price.jpg" alt="Login" width={100} height={50} /> */}
         <h1 className="text-xl font-bold text-gray-800">Welcome to BestCare!</h1>
 		    <h4 className="text-sm text-gray-700">Sign in to access our features</h4>
         <FormField control={form.control} name='email' render={({ field }) => (
@@ -77,7 +73,7 @@ const SignInForm = () => {
             <FormControl>
               <Input type='password' placeholder='password' {...field} style={{ width: '385px' }}/>
             </FormControl>
-            <FormMessage />
+            <FormMessage className="text-gray-400 p-1" />
           </FormItem>
         )} />
           <Button type='submit' className="w-full bg-indigo-700 hover:bg-indigo-800 btn btn-primary">Sign in</Button>

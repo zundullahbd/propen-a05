@@ -1,48 +1,69 @@
 "use client";
-import { useState, SyntheticEvent } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import User from "./page";
 import toast from "react-hot-toast";
-import Image from "next/image";
-import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
-
+import { Pencil } from "lucide-react";
 
 type User = {
-  id: number;
+  id: string;
   username: string;
   email: string;
   role: string;
   password: string;
 };
 
-const UpdateUser = async ({ user }: { user: User }) => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("");
-  const [password, setPassword] = useState("");
+const UpdateUser = ({ user }: { user: User }) => {
+  const [username, setUsername] = useState(user.username);
+  const [email, setEmail] = useState(user.email);
+  const [role, setRole] = useState(user.role);
+  const [password, setPassword] = useState(user.password);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
-  const handleUpdate = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    await axios.patch(`/api/users/${user.id}`, {
-      username: username,
-      email: email,
-      role: role,
-      password: password
-    });
-    setIsLoading(false);
-    router.refresh();
-    setIsOpen(false);
-  };
-
   const handleModal = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!username ||!email ||!password ||!role) {
+      toast.error("All fields are required!");
+      return;
+    }
+    setIsLoading(true);
+    try {
+      await axios.patch(`/api/users/${user.id}`, {
+        username,
+        email,
+        role,
+        password,
+      });
+      window.location.reload();
+      toast.success("User updated successfully!");
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update user!");
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await axios.get(`/api/users/${user.id}`);
+      const updatedUser = response.data;
+      setUsername(updatedUser.username);
+      setEmail(updatedUser.email);
+      setRole(updatedUser.role);
+      setPassword(updatedUser.password);
+    };
+    if (user.id) {
+      fetchUser();
+    }
+  }, [user.id]);
 
   return (
     <div className="flex flex-row justify-center space-x-5">
@@ -52,43 +73,41 @@ const UpdateUser = async ({ user }: { user: User }) => {
         <Pencil size={16} />
       </button>
       <div className={isOpen ? "modal modal-open" : "modal"}>
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Update Data User {user.username}</h3>
-          <form onSubmit={handleUpdate}>
-            <div className="form-control w-full">
-              <label className="label font-bold text-sm">New Username</label>
+        <div className="modal-box bg-gray-700">
+          <h3 className="font-bold text-lg text-center text-white">Edit User</h3>
+          <form onSubmit={handleSubmit}>
+            <div className="form-control w-full text-white">
+              <label className="label font-bold">Username</label>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="input input-bordered text-gray-200"
+                className="input input-bordered text-white"
                 placeholder="Username"
               />
             </div>
-            <div className="form-control w-full">
-              <label className="label text-sm font-bold">New Email</label>
+            <div className="form-control w-full text-white">
+              <label className="label font-bold">Email</label>
               <input
-                type='email'
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="input input-bordered text-gray-200"
+                className="input input-bordered"
                 placeholder="Email"
-              >
-              </input>
+              />
             </div>
-            <div className="form-control w-full">
-              <label className="label text-sm font-bold">New Password</label>
+            <div className="form-control w-full text-white">
+              <label className="label font-bold">Password</label>
               <input
-                type='password'
+                type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="input input-bordered text-gray-200"
+                className="input input-bordered"
                 placeholder="Password"
-              >
-              </input>
-              </div>
-            <div className="form-control w-full">
-              <label className="label text-sm font-bold">New Role</label>
+              />
+            </div>
+            <div className="form-control w-full text-white">
+              <label className="label font-bold">Role</label>
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
@@ -98,9 +117,9 @@ const UpdateUser = async ({ user }: { user: User }) => {
                   Select Role
                 </option>
                 <option value="Admin">Admin</option>
-                <option value="Exec">Executive</option>
+                <option value="Executive">Executive</option>
                 <option value="Sales">Sales</option>
-                <option value="CS">Customer Service</option>
+                <option value="CustomerService">Customer Service</option>
               </select>
             </div>
             <div className="modal-action">
@@ -108,44 +127,13 @@ const UpdateUser = async ({ user }: { user: User }) => {
                 Close
               </button>
               {!isLoading ? (
-                <button type="submit" className="btn btn-primary text-white">
+                <button type="submit" className="btn btn-primary">
                   Save
                 </button>
               ) : (
-                toast.custom((t) => (
-                  <div
-                    className={`${t.visible ? 'animate-enter' : 'animate-leave'
-                      } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-green-600 ring-opacity-100`}
-                  >
-                    <div className="flex-1 w-0 p-4">
-                      <div className="flex items-start">
-                        <div className="flex-shrink-0 pt-0.5">
-                          <Image
-                            className="h-10 w-10 rounded-full"
-                            src="correct.png"
-                            alt=""
-                          />
-                        </div>
-                        <div className="ml-3 flex-1">
-                          <p className="text-sm font-medium text-slate-600">
-                            Success!
-                          </p>
-                          <p className="mt-1 text-sm text-slate-600">
-                            Berhasil Mengedit User!
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex border-l">
-                      <button
-                        onClick={() => toast.dismiss(t.id)}
-                        className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </div>
-                ))
+                <div className="items-center justify-center">
+                  <span className="loading loading-spinner loading-sm"></span>
+                </div>
               )}
             </div>
           </form>

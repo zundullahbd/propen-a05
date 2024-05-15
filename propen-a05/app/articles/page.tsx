@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { PrismaClient } from "@prisma/client";
 import AddArticle from "./addArticle";
 import ViewArticle from "./viewArticle";
@@ -49,7 +48,6 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
 
     const page = Number.parseInt(searchParams.page, 10) || 1
     const sort = searchParams.sort === 'asc' ? 'asc' : 'desc'
-    const serialized = JSON.stringify({ page, sort })
 
     const limit = 6;
     const offset = (page - 1) * limit;
@@ -60,9 +58,7 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
         orderBy: { title: sort },
     });
 
-    const totalArticles = await db.article.count();
-    const totalPages = Math.ceil(totalArticles / limit);
-    const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+    const [allArticles] = await Promise.all([getArticles()]);
     const header = ["#", "Title", "Content", "Actions"];
 
     return (
@@ -95,14 +91,14 @@ const Page: React.FC<PageProps> = async ({ searchParams }) => {
             <br>
             </br>
 
-            <Table header={header} className='w-full items-center justify-between'>
-                {articles.map((article: { id: any; title: any; text: any }, index: number) => (
-                    <tr key={index} className='text-center items-center justify-between'>
+            <Table header={header} className='w-full flex flex-col items-center text-center'>
+                {allArticles.map((article, index) => (
+                    <tr key={index} className='items-center justify-center'>
                         <td className="py-[18px]">{index + 1}</td>
                         <td>{article.title}</td>
                         <td className="text-ellipsis max-w-xs">{article.text}</td>
                         <td className="flex flex-wrap items-stretch justify-center p-2">
-                            <div className="flex gap-x-2"> {/* Add this div with flex and gap */}
+                            <div className="flex gap-x-2">
                                 <ViewArticle article={article} />
                             </div>
                         </td>

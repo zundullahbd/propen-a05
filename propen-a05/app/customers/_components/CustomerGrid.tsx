@@ -24,7 +24,7 @@ export const CustomerGrid: React.FC<CustomerGridProps> = async ({ page, sort }) 
     const totalCustomers = await db.customer.count();
     const totalPages = Math.ceil(totalCustomers / limit);
     const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
-    const header = ["#", "Outlet", "Number", "Name", "Code", "Reference Number", "Date", "Created Time", "Due", "Amount", "Payment", "Fulfillment", "Actions"]
+    const header = ["#", "Outlet", "Number", "Name", "Code", "Reference Number", "Date", "Created Time", "Amount", "Payment", "Fulfillment", "Actions"]
 
     return (
         <div>
@@ -40,7 +40,6 @@ export const CustomerGrid: React.FC<CustomerGridProps> = async ({ page, sort }) 
                         <td>{customer.referenceNumber}</td>
                         <td>{customer.date}</td>
                         <td>{customer.createdTime}</td>
-                        <td>{customer.due}</td>
                         <td>{customer.amount}</td>
                         <td>{customer.payment}</td>
                         <td>{customer.fulfillment}</td>
