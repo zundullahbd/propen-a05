@@ -9,7 +9,7 @@ import type { Ticket } from '@prisma/client';
 import schema from '@/schemas/ticketSchema';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
-import { z } from 'zod';
+import { custom, z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 const UpdateTicket = ({ ticket }: { ticket: Ticket }) => {
@@ -21,8 +21,8 @@ const UpdateTicket = ({ ticket }: { ticket: Ticket }) => {
 	} = useForm<z.infer<typeof schema>>({
 		defaultValues: {
 			title: ticket.title,
-			customerId: Number(ticket.customerId),
-			salesId: Number(ticket.salesId),
+			customerId: ticket.customerId,
+			salesId: ticket.salesId,
 			category: ticket.category,
 			description: ticket.description,
 			status: ticket.status,
@@ -91,6 +91,7 @@ const UpdateTicket = ({ ticket }: { ticket: Ticket }) => {
 								{...register('salesId')}
 								className='input input-bordered'
 								placeholder='Order ID'
+								disabled
 							/>
 							<p className='text-red-500 text-sm mt-1'>{errors.salesId?.message}</p>
 						</div>

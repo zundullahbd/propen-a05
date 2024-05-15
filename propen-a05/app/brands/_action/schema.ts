@@ -5,8 +5,8 @@ async function storeImage(file: File) {
 	const data = await file.arrayBuffer();
 	const filename = `${Date.now()}-${file.name}`;
 
-	if (!fs.existsSync('public/uploads')) fs.mkdirSync('public/uploads', { recursive: true });
-	fs.writeFileSync(`public/uploads/${filename}`, Buffer.from(data));
+	if (!fs.existsSync('@/public/uploads')) fs.mkdirSync('@/public/uploads', { recursive: true });
+	fs.writeFileSync(`@/public/uploads/${filename}`, Buffer.from(data));
 	return filename;
 }
 
