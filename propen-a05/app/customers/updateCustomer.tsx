@@ -6,7 +6,7 @@ import axios from "axios";
 import PrimaryButton from "@/app/components/ui/PrimaryButton";
 
 type Customer = {
-    id: number;
+    id: string;
     outlet: string;
     number: string;
     name: string;

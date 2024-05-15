@@ -1,10 +1,4 @@
 'use server';
-
-// import * as csv from 'csv';
-
-import * as fs from 'fs';
-
-import { Customer } from '@prisma/client';
 import { db } from '@/lib/prisma';
 import { parse } from 'csv-parse/sync';
 import { redirect } from 'next/navigation';
@@ -57,7 +51,7 @@ export async function createCustomer(prevState: FormState, formData: FormData): 
 
 export async function editCustomer(prevState: FormState, formData: FormData): Promise<FormState> {
 	try {
-		const id = formData.get('id') as string;
+		const id = String(formData.get('id'));
 
 		const data = await schema.parseAsync({
 			outlet: formData.get('outlet'),
@@ -97,7 +91,7 @@ export async function editCustomer(prevState: FormState, formData: FormData): Pr
 
 export async function deleteCustomer(prevState: FormState, formData: FormData): Promise<FormState> {
 	try {
-		const id = formData.get('id') as string;
+		const id = String(formData.get('id'));
 		console.log(id);
 
 		await db.customer.delete({

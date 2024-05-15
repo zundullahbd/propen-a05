@@ -48,7 +48,7 @@ export async function createProduct(prevState: FormState, formData: FormData): P
 
 export async function updateProduct(prevState: FormState, formData: FormData): Promise<FormState> {
 	try {
-		const id = Number.parseInt(formData.get('id') as string, 10);
+		const id = String(formData.get('id'));
 		const data = await schema.parseAsync({
 			title: formData.get('title'),
 			price: Number(formData.get('price')),
@@ -79,7 +79,7 @@ export async function updateProduct(prevState: FormState, formData: FormData): P
 
 export async function deleteProduct(prevState: FormState, formData: FormData): Promise<FormState> {
 	try {
-		const id = Number.parseInt(formData.get('id') as string, 10);
+		const id = String(formData.get('id'));
 		console.log(id);
 
 		await db.product.delete({
