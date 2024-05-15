@@ -5,7 +5,7 @@ import axios from "axios";
 
 type Article = {
     title: string;
-    id: number;
+    id: string;
     text: string;
 };
 

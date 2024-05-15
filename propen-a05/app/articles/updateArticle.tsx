@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 type Article = {
-    id: number;
+    id: string;
     title: string;
     text: string;
 };

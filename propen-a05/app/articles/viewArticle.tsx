@@ -8,7 +8,7 @@ import DeleteArticle from "./deleteArticle";
 
 type Article = {
     title: string;
-    id: number;
+    id: string;
     text: string;
 };
 
@@ -18,7 +18,7 @@ const ViewArticle = ({ article }: { article: Article }) => {
 
     const router = useRouter();
 
-    const handleView = async (articleId: number) => {
+    const handleView = async (articleId: string) => {
         setIsLoading(true);
         await axios.get(`/api/articles/${articleId}`);
         setIsLoading(false);
