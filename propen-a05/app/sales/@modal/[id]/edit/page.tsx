@@ -13,7 +13,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 	const { id } = params;
 	const sales = await db.sales.findUnique({
 		where: {
-			id: Number.parseInt(id, 10),
+			id: id,
 		},
 	});
 
