@@ -5,8 +5,8 @@ import Typography from '@mui/material/Typography';
 import { db } from '@/lib/prisma';
 
 const Dashboard = async () => {
-  const { ahtData, customerSatisfaction, userReviews } = await getAHTData();
-  const averageAHT = Math.round(ahtData.reduce((acc, current) => acc + current.AHT, 0) / ahtData.length);
+  const {customerSatisfaction, userReviews } = await getAHTData();
+  // const averageAHT = Math.round(ahtData.reduce((acc, current) => acc + current.AHT, 0) / ahtData.length);
 
   return (
     <div className='grid lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-8'>
@@ -20,13 +20,13 @@ const Dashboard = async () => {
               <p className='font-medium'>Monitor and analyze customer service performance.</p>
             </div>
             <div className='flex justify-center items-start'>
-              <LineChart width={300} height={200} data={ahtData}>
+              {/* <LineChart width={300} height={200} data={ahtData}>
                 <Line type="monotone" dataKey="AHT" stroke="#8884d8" />
                 <XAxis dataKey="name" />
                 <YAxis />
                 <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                 <Tooltip />
-              </LineChart>
+              </LineChart> */}
             </div>
           </div>
         </div>
@@ -37,12 +37,12 @@ const Dashboard = async () => {
             {Math.round(Number(customerSatisfaction))}
           </Typography>
         </div>
-        <div className='bg-white rounded-xl border border-gray-200 px-8 pt-2 pb-4 flex-none flex items-center justify-center'>
+        {/* <div className='bg-white rounded-xl border border-gray-200 px-8 pt-2 pb-4 flex-none flex items-center justify-center'>
           <Typography variant="h4" align="center">
             <span className='text-indigo-800 font-semibold'>AHT: </span>
             {averageAHT}
           </Typography>
-        </div>
+        </div> */}
       </div>
 
       <div className='col-span-full bg-white rounded-xl border border-gray-200 px-8 pt-4 pb-6'>
@@ -91,54 +91,53 @@ const getAHTData = async () => {
     take: 3,
   });
 
-  const ahtByMonth = {};
+  // const ahtByMonth = {};
 
-  ahtData.forEach((ticket) => {
-    const createdMonth = ticket.createdAt.toISOString().slice(0, 7);
-    const closedMonth = ticket.updatedAt.toISOString().slice(0, 7);
+  // ahtData.forEach((ticket) => {
+  //   const createdMonth = ticket.createdAt.toISOString().slice(0, 7);
+  //   const closedMonth = ticket.updatedAt.toISOString().slice(0, 7);
 
-    if (!ahtByMonth[createdMonth]) {
-      ahtByMonth[createdMonth] = [];
-    }
+  //   if (!ahtByMonth[createdMonth]) {
+  //     ahtByMonth[createdMonth] = [];
+  //   }
 
-    if (!ahtByMonth[closedMonth]) {
-      ahtByMonth[closedMonth] = [];
-    }
+  //   if (!ahtByMonth[closedMonth]) {
+  //     ahtByMonth[closedMonth] = [];
+  //   }
 
-    ahtByMonth[createdMonth].push(ticket);
-    ahtByMonth[closedMonth].push(ticket);
-  });
+  //   ahtByMonth[createdMonth].push(ticket);
+  //   ahtByMonth[closedMonth].push(ticket);
+  // });
 
-  const formattedData = Object.entries(ahtByMonth).map(([month, tickets]) => {
-    const openedTickets = tickets.filter((ticket) => ticket.status === 'SUBMITTED');
-    const closedTickets = tickets.filter((ticket) => ticket.status === 'CLOSED');
+  // const formattedData = Object.entries(ahtByMonth).map(([month, tickets]) => {
+  //   const openedTickets = tickets.filter((ticket) => ticket.status === 'SUBMITTED');
+  //   const closedTickets = tickets.filter((ticket) => ticket.status === 'CLOSED');
 
-    const totalOpenTime = openedTickets.reduce((acc: number, ticket: { createdAt: string | number | Date; }) => {
-      const createdAt = new Date(ticket.createdAt);
-      return acc + createdAt.getTime();
-    }, 0);
+  //   const totalOpenTime = openedTickets.reduce((acc: number, ticket: { createdAt: string | number | Date; }) => {
+  //     const createdAt = new Date(ticket.createdAt);
+  //     return acc + createdAt.getTime();
+  //   }, 0);
 
-    const totalClosedTime = closedTickets.reduce((acc: number, ticket: { updatedAt: string | number | Date; }) => {
-      const updatedAt = new Date(ticket.updatedAt);
-      return acc + updatedAt.getTime();
-    }, 0);
+  //   const totalClosedTime = closedTickets.reduce((acc: number, ticket: { updatedAt: string | number | Date; }) => {
+  //     const updatedAt = new Date(ticket.updatedAt);
+  //     return acc + updatedAt.getTime();
+  //   }, 0);
 
-    const totalOpenTickets = openedTickets.length;
-    const totalClosedTickets = closedTickets.length;
+  //   const totalOpenTickets = openedTickets.length;
+  //   const totalClosedTickets = closedTickets.length;
 
-    const averageOpenTime = totalOpenTickets > 0? totalOpenTime / totalOpenTickets : 0;
-    const averageClosedTime = totalClosedTickets > 0? totalClosedTime / totalClosedTickets : 0;
+  //   const averageOpenTime = totalOpenTickets > 0? totalOpenTime / totalOpenTickets : 0;
+  //   const averageClosedTime = totalClosedTickets > 0? totalClosedTime / totalClosedTickets : 0;
 
-    const aht = Math.round((averageClosedTime - averageOpenTime) / (1000 * 60 * 60 * 24));
+  //   const aht = Math.round((averageClosedTime - averageOpenTime) / (1000 * 60 * 60 * 24));
 
-    return {
-      name: month,
-      AHT: aht,
-    };
-  });
+  //   return {
+  //     name: month,
+  //     AHT: aht,
+  //   };
+  // });
 
   return {
-    ahtData: formattedData,
     customerSatisfaction: customerSatisfaction._avg.stars,
     userReviews,
   };
