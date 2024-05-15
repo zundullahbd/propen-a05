@@ -6,7 +6,7 @@ import { db } from '@/lib/prisma';
 
 interface PageProps {
 	params: {
-		id: number;
+		id: string;
 	};
 }
 

@@ -57,7 +57,7 @@ export async function createSales(prevState: FormState, formData: FormData): Pro
 
 export async function updateSales(prevState: FormState, formData: FormData): Promise<FormState> {
 	try {
-		const id = Number.parseInt(formData.get('id') as string, 10);
+		const id = String(formData.get('id'));
 		const data = await schema.parseAsync({
 			outlet: formData.get('outlet'),
 			number: formData.get('number'),
@@ -96,7 +96,7 @@ export async function updateSales(prevState: FormState, formData: FormData): Pro
 
 export async function deleteSales(prevState: FormState, formData: FormData): Promise<FormState> {
 	try {
-		const id = Number.parseInt(formData.get('id') as string, 10);
+		const id = String(formData.get('id'));
 		console.log(id);
 
 		await db.sales.delete({
@@ -144,6 +144,7 @@ export async function importSales(prevState: FormState, formData: FormData): Pro
 			code: z.string(),
 			referenceNumber: z.string(),
 			date: z.string(),
+			productId: z.string().min(1),
 			createdTime: z.string(),
 			due: z.string(),
             amount: z.number(),
@@ -172,6 +173,7 @@ export async function importSales(prevState: FormState, formData: FormData): Pro
                 date: sales.date,
                 createdTime: sales.createdTime,
                 due: sales.due,
+				productId: sales.productId,
                 amount: Number(sales.amount),
                 payment: sales.payment,
                 fulfillment: sales.fulfillment,

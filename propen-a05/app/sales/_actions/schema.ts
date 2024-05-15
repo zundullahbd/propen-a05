@@ -16,6 +16,7 @@ const MAX_SIZE = 5 * 1024 * 1024;
 export const schema = z.object({
 			outlet: z.string().min(3).max(255),
 			number: z.string().min(1),
+			productId: z.string().min(1),
 			name: z.string(),
 			code: z.string(),
 			referenceNumber: z.string(),
